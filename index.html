@@ -473,6 +473,43 @@ header #header-slep-img { max-width:150px; width:auto; }
 .pv-ft small { color:#64748b; font-size:.76rem; line-height:1.5; max-width:480px; }
 .pv-ok { padding:12px 26px; border-radius:13px; font-weight:800; color:#fff; background:linear-gradient(135deg,#0F4C9A,#2B86DD); cursor:pointer; box-shadow:0 14px 22px -14px rgba(15,76,154,.9); }
 @media (max-width:640px) { .pv-bd { grid-template-columns:1fr; padding:14px 12px 4px; } .pv-hd { padding:22px 18px 18px; } .pv-hd h2 { font-size:1.2rem; } .pv-ft { padding:12px 14px 16px; } }
+
+/* ===== PRO6 · alcance de reportes, usuarios, carga desde Word ===== */
+.sc-bar { display:flex; flex-wrap:wrap; align-items:center; gap:10px 14px; margin:2px 0 12px; padding:10px 14px; border-radius:14px; background:#eef6ff; border:1px solid #cfe2f8; position:relative; z-index:1; }
+.sc-t { font-weight:900; color:#0A2A55; font-size:.82rem; } .sc-t i { color:#0F69C4; margin-right:6px; }
+.sc-seg { display:inline-flex; background:#fff; border:1px solid #cfe2f8; border-radius:11px; overflow:hidden; }
+.sc-seg button { padding:7px 14px; font-size:.78rem; font-weight:800; color:#475569; cursor:pointer; } .sc-seg button + button { border-left:1px solid #e2e8f0; }
+.sc-seg button.on { background:linear-gradient(135deg,#0F4C9A,#2B86DD); color:#fff; }
+.sc-sel { border:1px solid #cbd5e1; border-radius:10px; padding:6px 10px; font-size:.8rem; font-weight:700; color:#0F4C9A; background:#fff; max-width:240px; }
+.sc-note { font-size:.72rem; color:#64748b; }
+
+/* usuarios: sin barra horizontal, acciones siempre visibles */
+.us-bar { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:10px; }
+.us-q { flex:1; min-width:170px; display:flex; align-items:center; gap:8px; border:1px solid #cbd5e1; border-radius:11px; padding:7px 11px; background:#fff; } .us-q i { color:#94a3b8; } .us-q input { flex:1; outline:none; font-size:.82rem; background:transparent; }
+.us-count { font-size:.72rem; font-weight:700; color:#64748b; white-space:nowrap; }
+.us-btn { padding:7px 12px; border-radius:10px; background:#f1f5f9; color:#334155; font-weight:800; font-size:.74rem; cursor:pointer; white-space:nowrap; } .us-btn:hover { background:#e2e8f0; }
+.us-wrap { overflow-x:hidden !important; }
+.us-wrap.us-compact { max-height:340px; overflow-y:auto; border:1px solid #eef2f7; border-radius:12px; }
+.us-wrap.us-folded { display:none; }
+.us-wrap table { width:100%; table-layout:fixed; min-width:0 !important; }
+.us-wrap thead th { position:sticky; top:0; z-index:1; padding-left:10px !important; padding-right:8px !important; }
+.us-wrap th:nth-child(1) { width:27%; } .us-wrap th:nth-child(2) { width:27%; } .us-wrap th:nth-child(3) { width:19%; } .us-wrap th:nth-child(4) { width:27%; }
+.us-wrap td { padding:9px 8px 9px 10px !important; overflow-wrap:anywhere; word-break:break-word; vertical-align:middle; font-size:.82rem; }
+.us-wrap td:nth-child(3) { overflow-wrap:normal; word-break:normal; hyphens:none; }
+.us-wrap td:last-child { display:table-cell !important; }
+.us-wrap td:last-child button { display:inline-block; margin:2px 6px 2px 0; padding:5px 11px; border-radius:9px; font-size:.72rem !important; text-decoration:none !important; }
+.us-wrap td:last-child button:first-child { background:#e8f1fd; }
+.us-wrap td:last-child button + button { background:#fef0ef; }
+@media (max-width:700px) { .us-wrap th:nth-child(2), .us-wrap td:nth-child(2) { display:none; } .us-wrap th:nth-child(1) { width:42%; } .us-wrap th:nth-child(3) { width:22%; } .us-wrap th:nth-child(4) { width:36%; } }
+
+/* tarjeta destacada: cargar fichas desde Word */
+.wi-card { display:flex; flex-wrap:wrap; align-items:center; gap:16px; margin:0 0 22px; padding:18px 22px; border-radius:22px; color:#fff; background:linear-gradient(120deg,#312E81,#4F46E5 55%,#7C3AED); box-shadow:0 26px 44px -28px rgba(79,70,229,.9); position:relative; overflow:hidden; }
+.wi-card::after { content:'\f1c2'; font-family:'Font Awesome 5 Free','Font Awesome 6 Free'; font-weight:900; position:absolute; right:150px; bottom:-26px; font-size:7rem; opacity:.09; transform:rotate(-8deg); pointer-events:none; }
+.wi-ic { flex:none; width:56px; height:56px; border-radius:17px; background:rgba(255,255,255,.18); display:flex; align-items:center; justify-content:center; font-size:1.6rem; }
+.wi-tx { flex:1; min-width:220px; } .wi-tx b { display:block; font-size:1.15rem; font-weight:900; letter-spacing:-.01em; } .wi-tx span { display:block; margin-top:3px; font-size:.84rem; opacity:.92; line-height:1.5; }
+.wi-go { position:relative; z-index:1; padding:13px 22px; border-radius:14px; background:#fff; color:#312E81; font-weight:900; font-size:.9rem; cursor:pointer; box-shadow:0 14px 24px -14px rgba(0,0,0,.6); transition:transform .15s; } .wi-go:hover { transform:translateY(-2px); }
+#wi-drop.over { background:#e5edff; border-color:#4F46E5; }
+.wi-b { display:inline-block; padding:3px 9px; border-radius:999px; font-size:.68rem; font-weight:800; } .wi-b.ok { background:#e8f7ef; color:#067647; } .wi-b.warn { background:#fff4e5; color:#B54708; } .wi-b.dup { background:#fef3f2; color:#B42318; }
 </style>
 </head>
 <body class="text-slate-800 flex flex-col h-screen overflow-hidden">
@@ -3047,9 +3084,10 @@ const newPlan = { type, context, year: parseInt(year) || new Date().getFullYear(
 
             const allAccs = accompaniments.filter(a => new Date(a.date).getFullYear() == year);
 
-            const relAccs = (currentUser.role === 'coordinator')
+            const relAccs0 = (currentUser.role === 'coordinator')
                 ? allAccs.filter(a => users.find(u => u.id === a.teacherId)?.department === currentUser.department)
                 : allAccs;
+            const relAccs = window.__scopeFilter ? window.__scopeFilter(relAccs0) : relAccs0;
 
             if (relAccs.length === 0) {
                 contentDiv.innerHTML = `<p style="color: #ef4444;">No hay acompañamientos registrados para el año ${year}${currentUser.role === 'coordinator' ? ` en el departamento de ${currentUser.department}` : ''}.</p>`;
@@ -3063,7 +3101,7 @@ const newPlan = { type, context, year: parseInt(year) || new Date().getFullYear(
 
             const inputs = relAccs.map(a => `- [${a.cycle}] Focos: ${a.focus}. Fortalezas: ${a.strengths}. Mejoras: ${a.improvements}.`).join('\n').substring(0, 15000);
 
-            const prompt = `Actúa como Jefe de UTP. Realiza un Diagnóstico Institucional Pedagógico para el año ${year} basado en ${relAccs.length} acompañamientos.
+            const prompt = `Actúa como Jefe de UTP. Realiza un Diagnóstico Institucional Pedagógico${window.__scopeText && window.__scopeText() ? " (" + window.__scopeText() + ")" : ""} para el año ${year} basado en ${relAccs.length} acompañamientos.
             Datos: ${inputs}
 
             Genera un reporte exclusivamente en etiquetas HTML (sin markdown ni asteriscos). DEBES INTEGRAR y referenciar (usando el lenguaje):
@@ -4947,19 +4985,20 @@ window.applyLogo(logoUrl);
                     const el = $('global-report-content-2');
                     if (!el || el.textContent.includes('Selecciona el ciclo') || el.querySelector('.loader') || !el.textContent.trim()) return window.showConfirm('Primero genera el diagnóstico.', () => {});
                     const year = $('analysis-year-select').value || globalSelectedYear;
-                    const blocks = [banner('📊', 'Diagnóstico Institucional de Gestión Pedagógica', 'Ciclo lectivo ' + year + (currentUser.role === 'coordinator' ? ' · Departamento de ' + currentUser.department : ''))];
+                    const blocks = [banner('📊', 'Diagnóstico Institucional de Gestión Pedagógica', 'Ciclo lectivo ' + year + (window.__scopeText && window.__scopeText() ? ' · ' + window.__scopeText() : '') + (currentUser.role === 'coordinator' ? ' · Departamento de ' + currentUser.department : ''))];
                     const ch = chartImgs(); if (ch) blocks.push(ch);
                     toBlocks(window.sanitizeAI(el.innerHTML)).forEach((b) => blocks.push(b));
                     if ($('include-details-check') && $('include-details-check').checked) {
                         const uMap = new Map(users.map((u) => [u.id, u]));
                         let rel = accompaniments.filter((a) => a.date && String(a.date).slice(0, 4) === String(year));
                         if (currentUser.role === 'coordinator') rel = rel.filter((a) => { const t = uMap.get(a.teacherId); return t && t.department === currentUser.department; });
+                        if (window.__scopeFilter) rel = window.__scopeFilter(rel);
                         rel.sort((a, b) => surnameKey((uMap.get(a.teacherId) || {}).name).localeCompare(surnameKey((uMap.get(b.teacherId) || {}).name), 'es') || String(a.date || '').localeCompare(String(b.date || '')));
                         blocks.push({ newPage: true, keepNext: true, html: `<div style="font-size:18px;font-weight:900;color:#0A2A55;border-bottom:3px solid #0F69C4;padding-bottom:6px">Anexo · Registro de acompañamientos ${esc(year)}</div>` });
                         blocks.push({ html: `<table style="width:100%;border-collapse:collapse;font-size:11.5px"><thead><tr style="background:#0A2A55;color:#fff"><th style="padding:7px;text-align:left">Fecha</th><th style="padding:7px;text-align:left">Docente</th><th style="padding:7px;text-align:left">Responsable</th><th style="padding:7px;text-align:left">Focos observados</th></tr></thead><tbody>${rel.map((a, i) => { const t = uMap.get(a.teacherId) || {}; return `<tr style="background:${i % 2 ? '#f6f9fd' : '#fff'}"><td style="padding:6px 7px;border-bottom:1px solid #e5edf6;white-space:nowrap">${fmtDate(a.date)}</td><td style="padding:6px 7px;border-bottom:1px solid #e5edf6;font-weight:700">${esc(niceName(t.name))}</td><td style="padding:6px 7px;border-bottom:1px solid #e5edf6">${esc(niceName(a.responsable))}</td><td style="padding:6px 7px;border-bottom:1px solid #e5edf6;font-size:10.5px">${esc(String(a.focus || '—').split('; ').join(' · '))}</td></tr>`; }).join('')}</tbody></table>` });
                     }
                     blocks.push(signBlock());
-                    await buildPdf({ title: 'DIAGNÓSTICO INSTITUCIONAL DE GESTIÓN PEDAGÓGICA', subtitle: 'Ciclo lectivo ' + year, blocks, fileName: 'Diagnostico_Institucional_' + year + '.pdf' });
+                    await buildPdf({ title: 'DIAGNÓSTICO INSTITUCIONAL DE GESTIÓN PEDAGÓGICA', subtitle: 'Ciclo lectivo ' + year + (window.__scopeText && window.__scopeText() ? ' · ' + window.__scopeText() : ''), blocks, fileName: 'Diagnostico_Institucional_' + (window.__scopeSlug ? window.__scopeSlug() : '') + year + '.pdf' });
                 } catch (e) { failPdf(e); }
             };
 
@@ -5016,7 +5055,7 @@ window.applyLogo(logoUrl);
             function fichaBlocks(a, t, n) {
                 const field = (l, v) => `<div style="flex:1;min-width:150px"><div style="font-size:9.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#64748b">${l}</div><div style="font-weight:700">${esc(v || '—')}</div></div>`;
                 const out = [];
-                out.push({ newPage: true, keepNext: true, html: `<div style="border-radius:16px;background:linear-gradient(120deg,#0A2A55,#0F4C9A 60%,#12A0C9);color:#fff;padding:14px 18px"><div style="font-size:11px;letter-spacing:2px;font-weight:700;opacity:.85">FICHA DE ACOMPAÑAMIENTO AL AULA · VISITA N° ${n}</div><div style="font-size:21px;font-weight:900;margin-top:3px">${esc(niceName(t.name))}</div><div style="font-size:12px;opacity:.92">${esc(t.department || 'General')}</div></div>` });
+                out.push({ newPage: true, keepNext: true, html: `<div style="border-radius:16px;background:linear-gradient(120deg,#0A2A55,#0F4C9A 60%,#12A0C9);color:#fff;padding:14px 18px"><div style="font-size:11px;letter-spacing:2px;font-weight:700;opacity:.85">FICHA DE ACOMPAÑAMIENTO AL AULA · VISITA N° ${n}</div><div style="font-size:21px;font-weight:900;margin-top:3px">${esc(niceName(t.name))}</div><div style="font-size:12px;opacity:.92">${esc(t.department || 'General')}${t.role === 'coordinator' ? ' · Coordinación de departamento' : ''}</div></div>` });
                 if (a.status === 'licencia') { out.push({ html: `<div style="border-left:6px solid #F79009;background:#fff8e6;border-radius:12px;padding:12px 16px;color:#7a4b00"><b>Visita no realizada por licencia médica.</b> Fecha: ${fmtDate(a.date)}.</div>` }); return out; }
                 out.push({ html: `<div data-keep="1" style="border:1px solid #e1ecf8;border-radius:14px;padding:12px 16px;display:flex;flex-wrap:wrap;gap:12px 18px;background:#fff">${field('Fecha de observación', fmtDate(a.date) + (a.time ? ' · ' + a.time : ''))}${field('Retroalimentación', fmtDate(a.feedbackDate))}${field('Curso', a.course)}${field('Asignatura', a.subject)}${field('Ciclo', a.cycle)}${field('Responsable(s)', niceName(a.responsable) + (a.responsableExtra ? ' y ' + niceName(a.responsableExtra) : ''))}</div>` });
                 const foc = String(a.focus || '').split('; ').filter(Boolean);
@@ -5039,19 +5078,21 @@ window.applyLogo(logoUrl);
                     const uMap = new Map(users.map((u) => [u.id, u]));
                     let list = accompaniments.filter((a) => uMap.has(a.teacherId));
                     if (o.year !== 'all') list = list.filter((a) => String(a.date || '').slice(0, 4) === String(o.year));
-                    if (o.teacherId !== 'all') list = list.filter((a) => a.teacherId === o.teacherId);
+                    if (o.teacherId === 'coord') list = list.filter((a) => (uMap.get(a.teacherId) || {}).role === 'coordinator');
+                    else if (o.teacherId !== 'all') list = list.filter((a) => a.teacherId === o.teacherId);
                     if (o.dept && o.dept !== 'all') list = list.filter((a) => (uMap.get(a.teacherId) || {}).department === o.dept);
                     if (currentUser.role === 'coordinator') list = list.filter((a) => a.teacherId === currentUser.id || (uMap.get(a.teacherId) || {}).department === currentUser.department);
                     else if (currentUser.role === 'teacher') list = list.filter((a) => a.teacherId === currentUser.id);
                     if (!list.length) return window.showConfirm('No hay acompañamientos para los filtros elegidos.', () => {});
                     list.sort((a, b) => surnameKey(uMap.get(a.teacherId).name).localeCompare(surnameKey(uMap.get(b.teacherId).name), 'es') || String(a.date || '').localeCompare(String(b.date || '')));
                     const byT = new Map(); list.forEach((a) => byT.set(a.teacherId, (byT.get(a.teacherId) || 0) + 1));
-                    const per = (o.year === 'all' ? 'Todos los años' : 'Ciclo lectivo ' + o.year) + (o.dept && o.dept !== 'all' ? ' · Departamento de ' + o.dept : '');
-                    const one = o.teacherId !== 'all' ? niceName(uMap.get(o.teacherId).name) : null;
-                    const blocks = [coverBlock(one ? 'Historial de Acompañamientos' : 'Acompañamientos al Aula Realizados', one ? one : per, [`<b>${list.length}</b> acompañamientos · <b>${byT.size}</b> docente${byT.size === 1 ? '' : 's'}`, one ? per : 'Ordenados por apellido paterno del funcionario y fecha', 'Emitido el ' + today() + ' por ' + esc(niceName(currentUser.name))])];
+                    const per = (o.year === 'all' ? 'Todos los años' : 'Ciclo lectivo ' + o.year) + (o.dept && o.dept !== 'all' ? ' · Departamento de ' + o.dept : '') + (o.teacherId === 'coord' ? ' · Coordinadores de departamento' : '');
+                    const one = (o.teacherId !== 'all' && o.teacherId !== 'coord') ? niceName(uMap.get(o.teacherId).name) : null;
+                    const nCoord = [...byT.keys()].filter((id) => (uMap.get(id) || {}).role === 'coordinator').length;
+                    const blocks = [coverBlock(one ? 'Historial de Acompañamientos' : 'Acompañamientos al Aula Realizados', one ? one : per, [`<b>${list.length}</b> acompañamientos · <b>${byT.size}</b> docente${byT.size === 1 ? '' : 's'}` + (nCoord ? ` (incluye <b>${nCoord}</b> coordinador${nCoord === 1 ? '' : 'es'} de departamento)` : ''), one ? per : 'Ordenados por apellido paterno del funcionario y fecha', 'Emitido el ' + today() + ' por ' + esc(niceName(currentUser.name))])];
                     if (byT.size > 1) {
                         blocks.push({ newPage: true, keepNext: true, anchor: '__index', html: `<div style="font-size:19px;font-weight:900;color:#0A2A55;border-bottom:3px solid #0F69C4;padding-bottom:6px">Índice de docentes <span style="font-size:12px;font-weight:700;color:#64748b">· toca un nombre para ir a su sección</span></div>` });
-                        blocks.push({ html: `<table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr style="background:#0A2A55;color:#fff"><th style="padding:7px 8px;text-align:left;width:34px">N°</th><th style="padding:7px 8px;text-align:left">Docente</th><th style="padding:7px 8px;text-align:left">Departamento</th><th style="padding:7px 8px;text-align:right">Fichas</th><th style="padding:7px 8px;text-align:right;width:54px">Pág.</th></tr></thead><tbody>${[...byT.entries()].map(([id, c], i) => { const t = uMap.get(id); return `<tr data-goto="${esc(id)}" style="background:${i % 2 ? '#f6f9fd' : '#fff'}"><td style="padding:6px 8px;border-bottom:1px solid #e5edf6;color:#94a3b8">${i + 1}</td><td style="padding:6px 8px;border-bottom:1px solid #e5edf6;font-weight:800;color:#0F69C4;text-decoration:underline">${esc(niceName(t.name))}</td><td style="padding:6px 8px;border-bottom:1px solid #e5edf6;color:#64748b">${esc(t.department || '—')}</td><td style="padding:6px 8px;border-bottom:1px solid #e5edf6;text-align:right;font-weight:800">${c}</td><td style="padding:6px 8px;border-bottom:1px solid #e5edf6;text-align:right;font-weight:900;color:#0A2A55"><span data-pg="${esc(id)}">000</span></td></tr>`; }).join('')}</tbody></table>` });
+                        blocks.push({ html: `<table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr style="background:#0A2A55;color:#fff"><th style="padding:7px 8px;text-align:left;width:34px">N°</th><th style="padding:7px 8px;text-align:left">Docente</th><th style="padding:7px 8px;text-align:left">Departamento</th><th style="padding:7px 8px;text-align:right">Fichas</th><th style="padding:7px 8px;text-align:right;width:54px">Pág.</th></tr></thead><tbody>${[...byT.entries()].map(([id, c], i) => { const t = uMap.get(id); return `<tr data-goto="${esc(id)}" style="background:${i % 2 ? '#f6f9fd' : '#fff'}"><td style="padding:6px 8px;border-bottom:1px solid #e5edf6;color:#94a3b8">${i + 1}</td><td style="padding:6px 8px;border-bottom:1px solid #e5edf6;font-weight:800;color:#0F69C4;text-decoration:underline">${esc(niceName(t.name))}</td><td style="padding:6px 8px;border-bottom:1px solid #e5edf6;color:#64748b">${esc(t.department || '—')}${t.role === 'coordinator' ? ' <b style="color:#5b3fd0;font-size:10px">· COORDINACIÓN</b>' : ''}</td><td style="padding:6px 8px;border-bottom:1px solid #e5edf6;text-align:right;font-weight:800">${c}</td><td style="padding:6px 8px;border-bottom:1px solid #e5edf6;text-align:right;font-weight:900;color:#0A2A55"><span data-pg="${esc(id)}">000</span></td></tr>`; }).join('')}</tbody></table>` });
                     }
                     const counter = new Map();
                     const seenT = new Set();
@@ -5089,7 +5130,8 @@ window.applyLogo(logoUrl);
                     $('fp-dept').value = depts.includes(cd) ? cd : 'all';
                     if ($('fp-dept').value !== 'all') staff = staff.filter((u) => u.department === $('fp-dept').value);
                     const ct = $('fp-teacher').value;
-                    $('fp-teacher').innerHTML = '<option value="all">Todos los docentes</option>' + staff.sort(bySurname).map((u) => `<option value="${u.id}">${esc(niceName(u.name))}</option>`).join('');
+                    const nC = staff.filter((u) => u.role === 'coordinator').length;
+                    $('fp-teacher').innerHTML = '<option value="all">Todos (docentes y coordinadores)</option>' + (nC ? '<option value="coord">★ Solo coordinadores de departamento (' + nC + ')</option>' : '') + staff.sort(bySurname).map((u) => `<option value="${u.id}">${esc(niceName(u.name))}${u.role === 'coordinator' ? ' · Coordinador/a' : ''}</option>`).join('');
                     if (ct) $('fp-teacher').value = ct;
                 }
                 // lista de docentes del análisis individual ordenada por apellido
@@ -5814,12 +5856,14 @@ window.applyLogo(logoUrl);
             window.schedMailPanel = () => {
                 const { ov } = modal('sched-mail', `<div class="sm-ic" style="background:#eff6ff;color:#0F69C4"><i class="fas fa-envelope-circle-check"></i></div>
                     <div class="sm-ti">Correos de recordatorio · 08:00</div>
-                    <p class="sm-tx">Cada día de acompañamiento, alrededor de las <b>08:00</b>:<br>• Cada acompañante recibe <b>un solo correo</b> con todas sus visitas del día (horario, curso y docente).<br>• Cada docente (y su docente PIE) recibe un correo con la <b>hora</b> de su acompañamiento y <b>quién lo acompaña</b>.<br>Los correos llevan la insignia del colegio.</p>
-                    <div class="sm-ft col"><button type="button" class="sm-btn" id="sm-test"><i class="fas fa-paper-plane"></i> Enviarme un correo de prueba</button>
+                    <p class="sm-tx">Alrededor de las <b>08:00</b> de cada día hábil se envían dos avisos:<br>• <b>El día anterior</b> (el viernes, si la visita es el lunes): para que el docente se prepare y el acompañante revise los focos.<br>• <b>El mismo día</b>: cada acompañante recibe <b>un solo correo</b> con todas sus visitas; cada docente (y su docente PIE), la <b>hora</b> y <b>quién lo acompaña</b>.<br>Ambos correos incluyen los <b>focos que se observarán</b> y llevan la insignia del colegio.</p>
+                    <div class="sm-ft col"><button type="button" class="sm-btn" id="sm-test"><i class="fas fa-paper-plane"></i> Enviarme correos de prueba (4)</button>
+                    <button type="button" class="sm-btn ghost" id="sm-prev"><i class="fas fa-calendar-day"></i> Enviar ahora el aviso del próximo día</button>
                     <button type="button" class="sm-btn ghost" id="sm-now"><i class="fas fa-bolt"></i> Enviar ahora los recordatorios de hoy</button></div>
                     <p class="sm-note">El envío automático se activa una sola vez ejecutando <b>instalarDisparador</b> en Apps Script (ver LEEME). La prueba llega a tu correo registrado con datos de ejemplo.</p>`);
                 const run = async (btn, action, payload, okMsg) => { const t = btn.innerHTML; btn.disabled = true; btn.textContent = 'Enviando…'; try { const r = await window.AppDB.call(action, payload || {}); info(okMsg(r)); } catch (er) { info('No se pudo enviar: ' + er.message); } finally { btn.disabled = false; btn.innerHTML = t; } };
                 $('sm-test').onclick = (e) => run(e.currentTarget, 'agendaMailTest', {}, (r) => 'Correos de prueba enviados a ' + r.sentTo + '. Revisa también la carpeta de spam.');
+                $('sm-prev').onclick = (e) => { const b = e.currentTarget; window.showConfirm('¿Enviar ahora el aviso previo de los acompañamientos del próximo día hábil a todos los docentes y acompañantes?', () => run(b, 'agendaMailNow', { modo: 'antes' }, (r) => r.entries ? `Enviados ${r.sent} avisos (${r.entries} acompañamientos el ${r.date}).` + (r.noEmail && r.noEmail.length ? ' Sin correo válido: ' + r.noEmail.map(nm).join(', ') + '.' : '') : 'El próximo día hábil no hay acompañamientos agendados.')); };
                 $('sm-now').onclick = (e) => { const b = e.currentTarget; window.showConfirm('¿Enviar ahora los correos de los acompañamientos de HOY a todos los docentes y acompañantes?', () => run(b, 'agendaMailNow', {}, (r) => r.entries ? `Enviados ${r.sent} correos (${r.entries} acompañamientos hoy).` + (r.noEmail && r.noEmail.length ? ' Sin correo válido: ' + r.noEmail.map(nm).join(', ') + '.' : '') : 'Hoy no hay acompañamientos agendados.')); };
             };
         })();
@@ -5876,6 +5920,243 @@ window.__invite = async (id, quiet) => {
     }
     window.openPrivacy = open;
     document.addEventListener('click', (e) => { if (e.target.closest('[data-priv]')) { e.preventDefault(); open(); } });
+})();
+
+/* ===== PRO6 · alcance de reportes, panel de usuarios, carga de fichas desde Word ===== */
+(function () {
+    const $ = (id) => document.getElementById(id);
+    const K = window.__kit || {};
+    const esc = K.esc || ((s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])));
+    const nice = K.niceName || ((s) => String(s || ''));
+    const info = (m) => window.showConfirm(m, () => {});
+    const store = { get: (k) => { try { return localStorage.getItem(k); } catch (_) { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch (_) {} } };
+    function modal(id, inner, wide) {
+        const old = $(id); if (old) old.remove();
+        const ov = document.createElement('div'); ov.id = id;
+        ov.style.cssText = 'position:fixed;inset:0;z-index:90;display:flex;align-items:flex-start;justify-content:center;padding:18px 12px;background:rgba(10,42,85,.5);backdrop-filter:blur(3px);overflow:auto';
+        ov.innerHTML = `<div class="sm-dlg${wide ? ' wide' : ''}"><button type="button" class="sm-x" aria-label="Cerrar"><i class="fas fa-xmark"></i></button>${inner}</div>`;
+        document.body.appendChild(ov);
+        const close = () => ov.remove();
+        ov.querySelector('.sm-x').onclick = close;
+        ov.addEventListener('mousedown', (e) => { if (e.target === ov) close(); });
+        return { ov, close };
+    }
+
+    /* ---------- 1) Reportes institucionales: General / por ciclo / por departamento ---------- */
+    const SC = window.__scope = { type: 'all', val: '' };
+    window.__scopeFilter = (list) => {
+        if (SC.type === 'all') return list;
+        const uMap = new Map(users.map((u) => [u.id, u]));
+        return list.filter((a) => SC.type === 'cycle' ? a.cycle === SC.val : (uMap.get(a.teacherId) || {}).department === SC.val);
+    };
+    window.__scopeText = () => SC.type === 'cycle' ? SC.val : SC.type === 'dept' ? 'Departamento de ' + SC.val : '';
+    window.__scopeSlug = () => SC.type === 'all' ? '' : SC.val.replace(/\s+/g, '_') + '_';
+    function scopeValues(type) {
+        if (type === 'cycle') return CICLOS_LIST.slice();
+        let d = [...new Set(users.map((u) => u.department).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es'));
+        if (currentUser && currentUser.role === 'coordinator') d = d.filter((x) => x === currentUser.department);
+        return d;
+    }
+    function paintScope() {
+        const box = $('global-report-content-2'); if (!box) return;
+        let bar = $('scope-bar');
+        if (!bar) {
+            box.insertAdjacentHTML('beforebegin', `<div id="scope-bar" class="sc-bar"><div class="sc-t"><i class="fas fa-layer-group"></i> Alcance del reporte</div>
+                <div class="sc-seg" role="tablist"><button type="button" data-t="all">General</button><button type="button" data-t="cycle">Por ciclo</button><button type="button" data-t="dept">Por departamento</button></div>
+                <select id="sc-val" class="sc-sel hidden"></select><span id="sc-note" class="sc-note"></span></div>`);
+            bar = $('scope-bar');
+            bar.querySelector('.sc-seg').addEventListener('click', (e) => {
+                const b = e.target.closest('[data-t]'); if (!b) return;
+                SC.type = b.dataset.t; const vals = scopeValues(SC.type); SC.val = vals[0] || ''; if (SC.type !== 'all' && !vals.length) { SC.type = 'all'; }
+                changed();
+            });
+            $('sc-val').addEventListener('change', (e) => { SC.val = e.target.value; changed(); });
+        }
+        bar.querySelectorAll('[data-t]').forEach((b) => b.classList.toggle('on', b.dataset.t === SC.type));
+        const sel = $('sc-val');
+        if (SC.type === 'all') { sel.classList.add('hidden'); $('sc-note').textContent = 'Considera todos los acompañamientos del ciclo lectivo.'; }
+        else { sel.classList.remove('hidden'); const vals = scopeValues(SC.type); sel.innerHTML = vals.map((v) => `<option value="${esc(v)}">${esc(v)}</option>`).join(''); sel.value = SC.val; $('sc-note').textContent = SC.type === 'cycle' ? 'Solo acompañamientos de ese ciclo.' : 'Solo docentes y coordinadores de ese departamento.'; }
+    }
+    function changed() {
+        paintScope();
+        const c = $('global-report-content-2'), d = $('btn-download-report');
+        if (c) c.innerHTML = `<p class="italic text-slate-400">Alcance: <b>${esc(window.__scopeText() || 'General (toda la institución)')}</b>. Pulsa «Generar Diagnóstico» para crear este reporte.</p>`;
+        if (d) d.classList.add('hidden');
+    }
+
+    /* ---------- 2) Configuración: panel de usuarios compacto, sin barra horizontal ---------- */
+    function userPanel() {
+        const body = $('user-management-table-body'); if (!body) return;
+        const card = body.closest('.bg-white'); if (!card) return;
+        let wrap = card.querySelector('.overflow-x-auto');
+        if (wrap && !wrap.classList.contains('us-wrap')) {
+            wrap.classList.add('us-wrap');
+            wrap.insertAdjacentHTML('beforebegin', `<div class="us-bar"><div class="us-q"><i class="fas fa-magnifying-glass"></i><input id="us-q" type="search" placeholder="Buscar por nombre o correo…" autocomplete="off"></div>
+                <span id="us-count" class="us-count"></span>
+                <button type="button" id="us-all" class="us-btn"><i class="fas fa-up-right-and-down-left-from-center"></i> <span>Ver todos</span></button>
+                <button type="button" id="us-fold" class="us-btn" title="Ocultar o mostrar la lista"><i class="fas fa-chevron-up"></i></button></div>`);
+            const apply = () => {
+                const folded = store.get('us_fold') === '1', all = store.get('us_all') === '1';
+                wrap.classList.toggle('us-folded', folded); wrap.classList.toggle('us-compact', !all);
+                $('us-fold').querySelector('i').className = 'fas ' + (folded ? 'fa-chevron-down' : 'fa-chevron-up');
+                $('us-all').querySelector('span').textContent = all ? 'Reducir' : 'Ver todos';
+                $('us-all').querySelector('i').className = 'fas ' + (all ? 'fa-down-left-and-up-right-to-center' : 'fa-up-right-and-down-left-from-center');
+            };
+            $('us-all').onclick = () => { store.set('us_all', store.get('us_all') === '1' ? '0' : '1'); store.set('us_fold', '0'); apply(); };
+            $('us-fold').onclick = () => { store.set('us_fold', store.get('us_fold') === '1' ? '0' : '1'); apply(); };
+            $('us-q').oninput = filterUsers;
+            apply();
+        }
+        filterUsers();
+    }
+    function filterUsers() {
+        const q = (($('us-q') || {}).value || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+        const rows = [...document.querySelectorAll('#user-management-table-body tr')]; let n = 0;
+        rows.forEach((tr) => { const t = tr.textContent.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); const ok = !q || t.includes(q); tr.style.display = ok ? '' : 'none'; if (ok) n++; });
+        const c = $('us-count'); if (c) c.textContent = (q ? n + ' de ' : '') + rows.length + ' usuarios';
+    }
+
+    /* ---------- 3) Cargar fichas desde Word (.docx) ---------- */
+    function loadJSZip() {
+        if (window.JSZip) return Promise.resolve();
+        return new Promise((res, rej) => { const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'; s.onload = res; s.onerror = () => rej(new Error('No se pudo cargar el lector de Word (revisa tu conexión).')); document.head.appendChild(s); });
+    }
+    const NS = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
+    function nodeText(n) {
+        let t = '';
+        n.childNodes.forEach((c) => { if (c.nodeType !== 1) return; const ln = c.localName; if (ln === 't') t += c.textContent; else if (ln === 'tab') t += ' '; else if (ln === 'br') t += ' '; else t += nodeText(c); });
+        return t;
+    }
+    async function docLines(buf) {
+        await loadJSZip();
+        const z = await JSZip.loadAsync(buf);
+        const f = z.file('word/document.xml'); if (!f) throw new Error('No es un documento Word válido.');
+        const xml = new DOMParser().parseFromString(await f.async('string'), 'application/xml');
+        return [...xml.getElementsByTagNameNS(NS, 'p')].map((p) => nodeText(p).replace(/\s+/g, ' ').trim()).filter(Boolean);
+    }
+    const iso = (s) => {
+        s = String(s || '').trim(); let m;
+        if ((m = /(\d{4})-(\d{1,2})-(\d{1,2})/.exec(s))) return m[1] + '-' + m[2].padStart(2, '0') + '-' + m[3].padStart(2, '0');
+        if ((m = /(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})/.exec(s))) return m[3] + '-' + m[2].padStart(2, '0') + '-' + m[1].padStart(2, '0');
+        return '';
+    };
+    const cycleOf = (s) => { const t = String(s || '').toLowerCase(); if (/parv/.test(t)) return 'Parvularia'; if (/primer/.test(t)) return 'Primer ciclo'; if (/segundo/.test(t)) return 'Segundo Ciclo'; if (/media/.test(t)) return 'Enseñanza Media'; return ''; };
+    const clean = (s) => { s = String(s || '').trim(); return /^(n\/a|ninguna\.?|no definida\.?|-+)$/i.test(s) ? '' : s; };
+    function parseFicha(L) {
+        const find = (re, from) => { for (let i = from || 0; i < L.length; i++) if (re.test(L[i])) return i; return -1; };
+        const val = (re) => { const i = find(re); if (i < 0) return ''; const r = L[i].replace(re, '').replace(/^[\s:]+/, '').trim(); return r || (L[i + 1] || ''); };
+        const p = { name: '', dept: '', resp1: '', resp2: '', date: '', fdate: '', course: '', cycle: '', focus: '', q: {}, other: '', next: '' };
+        const dt = val(/^DOCENTE ACOMPA[ÑN]ADO\s*:?/i); const m1 = /^(.*?)\s*\(([^()]*)\)\s*$/.exec(dt); p.name = (m1 ? m1[1] : dt).trim(); p.dept = m1 ? m1[2].trim() : '';
+        const rs = val(/^RESPONSABLE\(S\)\s*:?/i); const rp = rs.split(/\s+y\s+/i); p.resp1 = (rp[0] || '').trim(); p.resp2 = (rp[1] || '').trim();
+        p.date = iso(val(/^FECHA DE OBSERVACI[ÓO]N\s*:?/i)); p.fdate = iso(val(/^FECHA DE RETROALIMENTACI[ÓO]N\s*:?/i));
+        const cc = val(/^CURSO Y CICLO\s*:?/i); const m2 = /^(.*?)\s*\(([^()]*)\)\s*$/.exec(cc); p.course = clean(m2 ? m2[1] : cc); p.cycle = cycleOf(m2 ? m2[2] : cc);
+        const fi = find(/^FOCOS OBSERVADOS\s*:?/i); const si = find(/^I\.\s*AN[ÁA]LISIS/i);
+        if (fi >= 0) { const first = L[fi].replace(/^FOCOS OBSERVADOS\s*:?/i, '').trim(); const rest = L.slice(fi + 1, si > fi ? si : fi + 1); p.focus = [first].concat(rest).filter(Boolean).join('; '); }
+        // preguntas 1..7
+        const idx = []; let from = si >= 0 ? si : 0;
+        for (let n = 1; n <= 7; n++) { const i = find(new RegExp('^' + n + '\\.\\s'), from); idx[n] = i; if (i >= 0) from = i + 1; }
+        for (let n = 1; n <= 6; n++) {
+            if (idx[n] < 0) continue; let end = L.length; for (let k = n + 1; k <= 7; k++) if (idx[k] >= 0) { end = idx[k]; break; }
+            p.q[n] = L.slice(idx[n] + 1, end).filter((l) => !/^II\.\s*COMPROMISOS/i.test(l)).join('\n').trim();
+        }
+        const tail = idx[7] >= 0 ? L.slice(idx[7] + 1) : [];
+        const on = tail.find((l) => /^Otras notas\s*:/i.test(l)); p.other = on ? clean(on.replace(/^Otras notas\s*:/i, '')) : '';
+        const nx = tail.find((l) => /^Fecha propuesta/i.test(l)); p.next = nx ? iso(nx) : '';
+        return p;
+    }
+    window.__parseDocx = async (buf) => parseFicha(await docLines(buf));
+
+    const normT = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-zñ0-9\s]/g, ' ').split(/\s+/).filter((t) => t.length > 1);
+    function matchUser(name) {
+        const a = normT(name); if (!a.length) return '';
+        let best = '', bs = 0;
+        users.forEach((u) => {
+            if (!u.name) return; const b = normT(u.name); let s = 0;
+            a.forEach((t) => { if (b.some((x) => x === t || (t.length >= 3 && x.startsWith(t)) || (x.length >= 3 && t.startsWith(x)))) s++; });
+            const sc = s + (u.role === 'teacher' || u.role === 'coordinator' ? 0.1 : 0);
+            if (s >= Math.min(2, a.length) && sc > bs) { bs = sc; best = u.id; }
+        });
+        return best;
+    }
+    function accDoc(it) {
+        const p = it.p, t = users.find((u) => u.id === it.tId) || {};
+        const ag = (window.__agenda || []).find((e) => e.teacherId === it.tId && e.date === p.date);
+        return {
+            teacherId: it.tId, date: p.date, feedbackDate: p.fdate, time: ag ? ag.start || '' : '', responsable: p.resp1.toUpperCase(), responsableExtra: p.resp2.toUpperCase(),
+            status: 'realizado', course: p.course, subject: t.department || p.dept || '', cycle: p.cycle, focus: p.focus, observationRaw: '',
+            strengths: p.q[1] || '', improvements: p.q[2] || '', mbeSkills: p.q[3] || '', studentGoals: p.q[4] || '', supportNeeded: p.q[5] || '', authenticAssessment: p.q[6] || '',
+            otherNotes: p.other, nextDate: p.next, teacherFeedbackCompleted: false, importedFromWord: true, createdAt: serverTimestamp(), updatedAt: serverTimestamp()
+        };
+    }
+    window.openWordImport = () => {
+        const { ov, close } = modal('wi-modal', `<div class="sm-ic" style="background:#eef2ff;color:#4F46E5"><i class="fas fa-file-word"></i></div>
+            <div class="sm-ti">Cargar acompañamientos desde Word</div>
+            <p class="sm-tx">Sube una o varias fichas en formato <b>.docx</b> (el modelo oficial de la plataforma). Se leen todos los datos, se reconoce al docente y las fichas quedan guardadas automáticamente.</p>
+            <label class="sm-file" id="wi-drop"><i class="fas fa-cloud-arrow-up"></i><span>Elige los archivos Word (puedes seleccionar varios) o arrástralos aquí</span><input type="file" id="wi-file" accept=".docx" multiple hidden></label>
+            <div id="wi-res"></div>`, true);
+        const items = [];
+        const sorted = () => users.filter((u) => u.name).slice().sort((a, b) => a.name.localeCompare(b.name, 'es'));
+        const dup = (it) => !!it.tId && it.p && accompaniments.some((a) => a.teacherId === it.tId && a.date === it.p.date);
+        function render() {
+            const ok = items.filter((i) => i.p && !i.err);
+            const ready = ok.filter((i) => i.use && i.tId && i.p.date);
+            $('wi-res').innerHTML = `<div class="si-sum">${items.length} archivo${items.length === 1 ? '' : 's'} · <span class="good">${ready.length} listo${ready.length === 1 ? '' : 's'} para importar</span> · <span class="bad">${items.filter((i) => i.err || !i.tId || !(i.p && i.p.date)).length} con revisión pendiente</span></div>
+                <div class="si-wrap"><table class="si-t"><thead><tr><th></th><th>Archivo</th><th>Docente en el sistema</th><th>Fecha</th><th>Curso · Ciclo</th><th>Responsable</th><th>Estado</th></tr></thead><tbody>${items.map((it, i) => {
+                    if (it.err) return `<tr><td></td><td>${esc(it.file)}</td><td colspan="5" style="color:#B42318;font-weight:700">${esc(it.err)}</td></tr>`;
+                    const d = dup(it);
+                    const st = !it.tId ? '<span class="wi-b warn">Elige al docente</span>' : !it.p.date ? '<span class="wi-b warn">Sin fecha</span>' : d && !it.force ? '<span class="wi-b dup">Ya existe una ficha ese día</span>' : '<span class="wi-b ok">Lista</span>';
+                    return `<tr><td><input type="checkbox" data-u="${i}" ${it.use ? 'checked' : ''}></td><td>${esc(it.file)}<small>${esc(it.p.name)}${it.p.dept ? ' · ' + esc(it.p.dept) : ''}</small></td>
+                        <td><select data-t="${i}" class="${it.tId ? '' : 'miss'}"><option value="">— elegir —</option>${sorted().map((u) => `<option value="${u.id}" ${u.id === it.tId ? 'selected' : ''}>${esc(nice(u.name))}</option>`).join('')}</select></td>
+                        <td>${esc(it.p.date || '—')}</td><td>${esc(it.p.course || '—')}<small>${esc(it.p.cycle || '')}</small></td><td>${esc(nice([it.p.resp1, it.p.resp2].filter(Boolean).join(' y ')) || '—')}</td><td>${st}${d && !it.force ? `<small><label><input type="checkbox" data-f="${i}"> importar de todos modos</label></small>` : ''}</td></tr>`;
+                }).join('')}</tbody></table></div>
+                <div class="sm-ft"><button type="button" class="sm-btn ghost" id="wi-cancel">Cancelar</button><button type="button" class="sm-btn" id="wi-save" ${ready.length ? '' : 'disabled'}><i class="fas fa-circle-check"></i> Importar ${ready.length} ficha${ready.length === 1 ? '' : 's'}</button></div>`;
+            $('wi-cancel').onclick = close;
+            $('wi-save').onclick = save;
+        }
+        ov.addEventListener('change', (e) => {
+            const t = e.target, g = (a) => t.dataset[a]; if (t.id === 'wi-file') return;
+            if (g('t') !== undefined) { const it = items[+g('t')]; it.tId = t.value; it.use = !!it.tId; render(); }
+            else if (g('u') !== undefined) { items[+g('u')].use = t.checked; render(); }
+            else if (g('f') !== undefined) { const it = items[+g('f')]; it.force = t.checked; it.use = t.checked; render(); }
+        });
+        async function read(files) {
+            const arr = [...files].filter((f) => /\.docx$/i.test(f.name)); if (!arr.length) return info('Elige archivos Word con extensión .docx.');
+            $('wi-res').innerHTML = '<p class="sm-note">Leyendo ' + arr.length + ' archivo(s)…</p>';
+            for (const f of arr) {
+                const it = { file: f.name, use: true };
+                try { it.p = parseFicha(await docLines(await f.arrayBuffer())); if (!it.p.name && !it.p.date) throw new Error('No parece una ficha de acompañamiento.'); it.tId = matchUser(it.p.name); it.use = !!it.tId; }
+                catch (e) { it.err = e.message || 'No se pudo leer el archivo.'; }
+                items.push(it);
+            }
+            items.forEach((it) => { if (it.p && it.tId && dup(it)) it.use = false; });
+            render();
+        }
+        async function save() {
+            const todo = items.filter((i) => i.p && !i.err && i.use && i.tId && i.p.date); const b = $('wi-save'); b.disabled = true; let n = 0;
+            try {
+                for (const it of todo) { b.textContent = 'Guardando ' + (n + 1) + ' de ' + todo.length + '…'; await addDoc(collection(db, `artifacts/${appId}/public/data/accompaniments`), accDoc(it)); n++; }
+                close(); info(n + ' ficha' + (n === 1 ? '' : 's') + ' importada' + (n === 1 ? '' : 's') + ' correctamente. Ya aparecen en el historial de cada docente y en los reportes.');
+            } catch (e) { b.disabled = false; info('Se importaron ' + n + ' fichas y luego ocurrió un error: ' + e.message); }
+        }
+        $('wi-file').onchange = (e) => read(e.target.files);
+        const drop = $('wi-drop');
+        ['dragover', 'dragenter'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add('over'); }));
+        ['dragleave', 'drop'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove('over'); }));
+        drop.addEventListener('drop', (e) => { if (e.dataTransfer && e.dataTransfer.files.length) read(e.dataTransfer.files); });
+    };
+    function wordCard() {
+        const sv = $('settings-view'); if (!sv || $('wi-card')) return;
+        const h = sv.querySelector('h2'); if (!h) return;
+        h.insertAdjacentHTML('afterend', `<div id="wi-card" class="wi-card"><div class="wi-ic"><i class="fas fa-file-word"></i></div>
+            <div class="wi-tx"><b>Cargar acompañamientos desde Word</b><span>Sube una o varias fichas (.docx) y la plataforma las lee y las guarda por ti, asignándolas a cada docente.</span></div>
+            <button type="button" class="wi-go" onclick="window.openWordImport()"><i class="fas fa-cloud-arrow-up"></i> Cargar fichas</button></div>`);
+    }
+
+    /* ---------- enganches ---------- */
+    const _cv = window.changeView;
+    window.changeView = function (id) { const r = _cv.apply(this, arguments); try { if (id === 'stats-view') setTimeout(paintScope, 60); if (id === 'settings-view') setTimeout(() => { wordCard(); userPanel(); }, 60); } catch (_) {} return r; };
+    const _rs = window.renderSettings;
+    if (_rs) window.renderSettings = function () { const r = _rs.apply(this, arguments); try { wordCard(); userPanel(); } catch (_) {} return r; };
 })();
 </script>
 </body>
