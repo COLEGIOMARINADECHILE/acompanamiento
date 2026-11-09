@@ -510,6 +510,15 @@ header #header-slep-img { max-width:150px; width:auto; }
 .wi-go { position:relative; z-index:1; padding:13px 22px; border-radius:14px; background:#fff; color:#312E81; font-weight:900; font-size:.9rem; cursor:pointer; box-shadow:0 14px 24px -14px rgba(0,0,0,.6); transition:transform .15s; } .wi-go:hover { transform:translateY(-2px); }
 #wi-drop.over { background:#e5edff; border-color:#4F46E5; }
 .wi-b { display:inline-block; padding:3px 9px; border-radius:999px; font-size:.68rem; font-weight:800; } .wi-b.ok { background:#e8f7ef; color:#067647; } .wi-b.warn { background:#fff4e5; color:#B54708; } .wi-b.dup { background:#fef3f2; color:#B42318; }
+
+/* ===== PRO7 · orden de listas ===== */
+.so-seg { display:inline-flex; align-items:center; background:#fff; border:1px solid #cfe2f8; border-radius:12px; overflow:hidden; box-shadow:0 8px 16px -14px rgba(15,76,154,.6); }
+.so-seg .so-l { padding:7px 11px; font-size:.72rem; font-weight:800; color:#0A2A55; background:#eef6ff; white-space:nowrap; } .so-seg .so-l i { color:#0F69C4; margin-right:5px; }
+.so-seg button { padding:7px 13px; font-size:.78rem; font-weight:800; color:#475569; cursor:pointer; border-left:1px solid #e2e8f0; }
+.so-seg button.on { background:linear-gradient(135deg,#0F4C9A,#2B86DD); color:#fff; }
+.so-seg.so-mini .so-l { display:none; } .so-seg.so-mini button { padding:6px 10px; font-size:.72rem; }
+.so-wrap { display:inline-flex; } #so-stats { margin:8px 0 2px; }
+.wi-date { border:1px solid #cbd5e1; border-radius:8px; padding:4px 6px; font-size:.76rem; background:#fff; } .wi-date.miss { border-color:#F79009; background:#fffaeb; }
 </style>
 </head>
 <body class="text-slate-800 flex flex-col h-screen overflow-hidden">
@@ -3099,48 +3108,50 @@ const newPlan = { type, context, year: parseInt(year) || new Date().getFullYear(
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando...';
             contentDiv.innerHTML = '<div class="loader mx-auto"></div><p class="text-center text-sm text-gray-500 mt-2">Analizando datos institucionales...</p>';
 
-            const inputs = relAccs.map(a => `- [${a.cycle}] Focos: ${a.focus}. Fortalezas: ${a.strengths}. Mejoras: ${a.improvements}.`).join('\n').substring(0, 15000);
+            const evo = window.__diagInputs(relAccs);
+            window.__lastDiagMap = evo.map;
+            const scopeTxt = (window.__scopeText && window.__scopeText()) ? ' (' + window.__scopeText() + ')' : '';
+            const inputs = evo.text;
 
-            const prompt = `Actúa como Jefe de UTP. Realiza un Diagnóstico Institucional Pedagógico${window.__scopeText && window.__scopeText() ? " (" + window.__scopeText() + ")" : ""} para el año ${year} basado en ${relAccs.length} acompañamientos.
-            Datos: ${inputs}
+            const prompt = `Actúa como Jefe de UTP y analista de mejora escolar. Redacta un Diagnóstico Institucional Pedagógico${scopeTxt} para el año ${year}, en profundidad, basado en ${evo.visits} acompañamientos al aula de ${evo.teachers} docentes (${evo.multi} de ellos con dos o más visitas, lo que permite estudiar su evolución).
 
-            Genera un reporte exclusivamente en etiquetas HTML (sin markdown ni asteriscos). DEBES INTEGRAR y referenciar (usando el lenguaje):
-            - **Marco para la Buena Enseñanza (MBE)** actualizado.
-            - **Teoría de Aprendizaje Profundo (Fasce H., +Comunidad)**: Haz referencia explícita a la diferencia entre aprendizaje profundo (análisis crítico, integración de ideas nuevas con conocimiento previo, retención a largo plazo) y superficial (memorización de hechos aislados, olvido rápido), y la importancia de las 6C (Carácter, Ciudadanía, Colaboración, Comunicación, Creatividad, Pensamiento Crítico).
-            - **Liderazgo Pedagógico y Mejora Continua (Cuaderno Mineduc/Líderes Educativos)**: Haz referencia a la necesidad del diálogo profesional, el rol del facilitador y la visión compartida de aprendizaje para el escalamiento de la mejora (Ulloa y Cabrera, 2017).
+            DATOS (cada docente aparece con un código DOC-xx; sus visitas V1, V2... están en orden cronológico):
+            ${inputs}
 
-            La salida debe ser muy atractiva visualmente y ordenada, usando <strong> y etiquetas div con estilos en línea (NO Tailwind, solo estilos de HTML puro) para simular tarjetas y colores, destacando cada sección:
+            REGLAS CRÍTICAS:
+            1. CERO INVENCIÓN: usa únicamente los datos entregados. Si algo no tiene evidencia, escribe "No se cuenta con evidencia suficiente". Cita brevemente fragmentos o hechos de los datos (entre comillas) para respaldar cada afirmación importante.
+            2. Identifica a los docentes SOLO con su código DOC-xx, tal como aparece (nunca inventes nombres).
+            3. Sobre el aprendizaje de los estudiantes habla de indicios y plausibilidad, no de causalidad demostrada: usa las "Metas con los estudiantes" y la "Evaluación auténtica observada" como evidencia y señala siempre las limitaciones.
+            4. Cada sección debe ser sustantiva: entre 2 y 3 párrafos o bien 5 a 8 viñetas con detalle y ejemplos concretos tomados de los datos. Evita frases genéricas.
+            5. INTEGRA y referencia (usando el lenguaje): Marco para la Buena Enseñanza (MBE) actualizado; Teoría de Aprendizaje Profundo (Fasce H., +Comunidad), distinguiendo aprendizaje profundo (análisis crítico, integración con conocimiento previo, retención) de superficial (memorización), y las 6C (Carácter, Ciudadanía, Colaboración, Comunicación, Creatividad, Pensamiento Crítico); y Liderazgo Pedagógico y Mejora Continua (Ulloa y Cabrera, 2017: diálogo profesional, rol del facilitador, visión compartida).
+            6. Responde SOLO con HTML (sin markdown, sin asteriscos, sin bloques de código), usando estilos en línea (no Tailwind), con esta estructura de tarjetas y estos títulos:
 
-            <div style="background-color: #e0f2fe; border-left: 4px solid #005A9C; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                <h3 style="color: #005A9C; margin-top: 0; font-weight: bold;">1. FORTALEZAS TRANSVERSALES CONSOLIDADAS</h3>
-                <p>Análisis de las fortalezas... Referencia al MBE y al Aprendizaje Profundo.</p>
-                <ul style="list-style-type: none; padding-left: 0;">
-                    <li><strong><span style="color: #16a34a;">&bull; Aspecto A:</span></strong> Detalle...</li>
-                    <li><strong><span style="color: #16a34a;">&bull; Aspecto B:</span></strong> Detalle...</li>
-                </ul>
-            </div>
+            <div style="background-color:#eef5fd;border:1px solid #cfe0f5;border-radius:10px;padding:14px;margin-bottom:18px"><h3 style="color:#0A2A55;margin:0 0 6px;font-weight:bold">★ Resumen ejecutivo</h3><p>[5 a 7 líneas: panorama del ciclo, 3 hallazgos centrales, tendencia general de evolución y la decisión prioritaria]</p></div>
 
-            <div style="background-color: #fff7ed; border-left: 4px solid #f97316; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                <h3 style="color: #f97316; margin-top: 0; font-weight: bold;">2. NUDOS CRÍTICOS Y BRECHAS CLAVE</h3>
-                <p>Análisis de las debilidades... Referencia a la Evaluación Auténtica y al riesgo de enseñanza superficial.</p>
-                <ul style="list-style-type: none; padding-left: 0;">
-                    <li><strong><span style="color: #f97316;">&bull; Brecha 1:</span></strong> Detalle...</li>
-                </ul>
-            </div>
+            <div style="background-color:#e0f2fe;border-left:4px solid #005A9C;padding:15px;border-radius:8px;margin-bottom:20px"><h3 style="color:#005A9C;margin-top:0;font-weight:bold">1. FORTALEZAS TRANSVERSALES CONSOLIDADAS</h3>[párrafos y/o <ul style="list-style-type:none;padding-left:0"> con <li><strong><span style="color:#16a34a">&bull; Fortaleza:</span></strong> descripción con evidencia, descriptor MBE y su vínculo con el aprendizaje profundo</li>]</div>
 
-            <div style="background-color: #f0fdf4; border-left: 4px solid #059669; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                <h3 style="color: #059669; margin-top: 0; font-weight: bold;">3. RECOMENDACIONES ESTRATÉGICAS</h3>
-                <p>Acciones formativas concretas... Referencia al Liderazgo Pedagógico y la mejora continua.</p>
-            </div>
+            <div style="background-color:#fff7ed;border-left:4px solid #f97316;padding:15px;border-radius:8px;margin-bottom:20px"><h3 style="color:#f97316;margin-top:0;font-weight:bold">2. NUDOS CRÍTICOS Y BRECHAS CLAVE</h3>[brechas ordenadas por frecuencia e impacto, indicando en cuántos docentes se repiten, riesgo de enseñanza superficial y relación con la evaluación auténtica]</div>
 
-            Asegúrate de que el contenido sea continuo y sin artefactos de Markdown.`;
+            <div style="background-color:#f5f3ff;border-left:4px solid #7A5AF8;padding:15px;border-radius:8px;margin-bottom:20px"><h3 style="color:#5b3fd0;margin-top:0;font-weight:bold">3. EVOLUCIÓN Y PROGRESO ENTRE ACOMPAÑAMIENTOS</h3>
+              [a) Un párrafo con la lectura global de la evolución (qué mejoró, qué se mantiene, qué empeoró).]
+              [b) Una tabla <table style="width:100%;border-collapse:collapse;font-size:13px"> con encabezado de fondo #5b3fd0 y texto blanco, SOLO con los docentes de dos o más visitas, con columnas: Docente (código DOC-xx) | Visitas | Tendencia | Evidencia del cambio (qué brecha de la V1 se atendió en la V2 o V3, o cuál persiste). La Tendencia debe ser exactamente una de: "Mejora sostenida", "Mejora parcial", "Sin cambios visibles", "Retroceso", "Datos insuficientes"; píntala como etiqueta: <span style="background:#e8f7ef;color:#067647;padding:2px 8px;border-radius:999px;font-weight:bold">…</span> (verde mejora sostenida, #fff4e5/#B54708 mejora parcial, #f1f5f9/#475569 sin cambios o datos insuficientes, #fef3f2/#B42318 retroceso).]
+              [c) Un párrafo sobre qué prácticas o apoyos UTP parecen haber facilitado la mejora y cuáles no dieron resultado.]
+              [d) Si ningún docente tiene dos o más visitas, explícalo y describe cómo medir la evolución desde la segunda visita.]</div>
+
+            <div style="background-color:#ecfeff;border-left:4px solid #0891b2;padding:15px;border-radius:8px;margin-bottom:20px"><h3 style="color:#0e7490;margin-top:0;font-weight:bold">4. EFECTO EN EL APRENDIZAJE DE LOS ESTUDIANTES</h3>[relaciona la evolución de las prácticas docentes con las metas con los estudiantes y la evaluación auténtica observadas: qué indicios hay de más participación, autonomía, pensamiento crítico o aprendizaje profundo; qué aprendizajes siguen en riesgo; y las limitaciones de esta lectura (solo se dispone de registros de acompañamiento, no de resultados de los estudiantes). Propón qué evidencia de aprendizaje convendría recoger (por ejemplo, productos de los estudiantes, evaluaciones formativas, indicadores de participación).]</div>
+
+            <div style="background-color:#f0fdf4;border-left:4px solid #059669;padding:15px;border-radius:8px;margin-bottom:20px"><h3 style="color:#059669;margin-top:0;font-weight:bold">5. RECOMENDACIONES ESTRATÉGICAS</h3>[acciones formativas y de gestión concretas a corto (30 días), mediano (un semestre) y largo plazo, con responsable sugerido (UTP, coordinadores de departamento, pares) y el liderazgo pedagógico y la mejora continua como marco]</div>
+
+            <div style="background-color:#f3f6fb;border-left:4px solid #0A2A55;padding:15px;border-radius:8px"><h3 style="color:#0A2A55;margin-top:0;font-weight:bold">6. SEGUIMIENTO: QUÉ MIRAR EN LA PRÓXIMA VISITA</h3>[5 a 7 indicadores observables y verificables, con la frecuencia sugerida de acompañamiento para los docentes que más lo necesitan]</div>
+
+            Asegúrate de que el contenido sea continuo, riguroso, sin artefactos de Markdown y sin repetir los datos de entrada como lista.`;
 
             try {
                 const html = await callGemini(prompt, false);
 
                 const cleanedHtml = html.replace(/```(html)?\s*|```/g, '').trim();
 
-                contentDiv.innerHTML = window.kpiBarHtml(relAccs, year) + window.sanitizeAI(cleanedHtml);
+                contentDiv.innerHTML = window.kpiBarHtml(relAccs, year) + window.__evoTable(relAccs) + window.sanitizeAI(window.__restoreCodes(cleanedHtml, window.__lastDiagMap));
                 downloadBtn.classList.remove('hidden');
             } catch (e) {
                 console.error(e);
@@ -4096,7 +4107,7 @@ window.applyLogo(logoUrl);
 
             resultDiv.innerHTML = '<div class="flex items-center justify-center h-40"><div class="loader w-8 h-8 border-4"></div><span class="ml-3 text-slate-500 font-bold">La IA está preparando el reporte de acompañamiento...</span></div>';
 
-            const dataSummary = accs.map(a => `Fecha: ${a.date}. Responsable: ${a.responsable}. Focos: ${a.focus}. Fortalezas: ${a.strengths}. Mejoras: ${a.improvements}. Habilidades MBE: ${a.mbeSkills}.`).join('\n').substring(0, 15000);
+            const dataSummary = window.__teacherInputs(accs);
 
             const personalGreeting = getGenderedWord(teacher, 'Estimado colega', 'Estimada colega');
 
@@ -4104,29 +4115,36 @@ window.applyLogo(logoUrl);
             const isParvularia = teacher.department && teacher.department.toLowerCase().includes('parvularia');
             const mbeVersion = isParvularia ? 'Marco para la Buena Enseñanza de Educación Parvularia (2019)' : 'Marco para la Buena Enseñanza (MBE 2021)';
 
-            const prompt = `Actúa como especialista en evaluación docente de alto nivel en Chile. Redacta un informe profesional, claro y respetuoso para ${personalGreeting} ${teacher.name} (${teacher.department}) a partir de su historial de acompañamientos del año ${year}.
-            Datos de observación: ${dataSummary}.
+            const prompt = `Actúa como especialista en evaluación docente de alto nivel en Chile. Redacta un Reporte de Acompañamiento profesional, claro, riguroso y respetuoso para ${personalGreeting} ${teacher.name} (${teacher.department}) a partir de su historial de acompañamientos del año ${year}. El reporte debe ser detallado y útil para la reflexión pedagógica: describe, analiza e interpreta lo observado, no solo lo enumera.
+            Datos de observación (visitas en orden cronológico):
+            ${dataSummary}
 
             REGLAS CRÍTICAS (OBLIGATORIO):
-            1. CERO INVENCIÓN: usa ÚNICA Y EXCLUSIVAMENTE los "Datos de observación". Si no hay evidencia para algo, escribe "No se cuenta con evidencia suficiente".
+            1. CERO INVENCIÓN: usa ÚNICA Y EXCLUSIVAMENTE los datos de observación. Si no hay evidencia para algo, escribe "No se cuenta con evidencia suficiente". Respalda las afirmaciones importantes con hechos o fragmentos breves de los datos (entre comillas) e indica la visita (V1, V2...) de la que provienen.
             2. Referente: ${mbeVersion}. Cita Dominio, Criterio y, cuando corresponda, Descriptor en las fortalezas y en las oportunidades de mejora.
             3. Tono profesional, constructivo y centrado en el aprendizaje de los estudiantes; evita juicios personales.
-            4. En las secciones 3 y 4 asigna un título/rol explícito (ej. "Mentor en Evaluación Formativa", "Requiere apoyo en DUA") antes de explicarlo.
-            5. Responde SOLO con HTML (sin markdown ni bloques de código) usando EXACTAMENTE estilos en línea (no clases) y esta estructura. Reemplaza lo que está entre [corchetes] por texto concreto (máximo 5 líneas por sección; usa <ul><li> cuando haya varias ideas):
+            4. En las secciones 5 y 6 asigna un título/rol explícito (ej. "Mentor en Evaluación Formativa", "Requiere apoyo en DUA") antes de explicarlo.
+            5. EVOLUCIÓN: compara las visitas entre sí. Indica qué mejoró, qué se mantiene, qué empeoró y si las brechas de una visita fueron atendidas en la siguiente. Si hay una sola visita, plantéala como línea base y explica qué observar en la próxima. No afirmes mejoras que los datos no muestren.
+            6. APRENDIZAJE DE LOS ESTUDIANTES: relaciona las prácticas observadas con las metas con los estudiantes y la evaluación auténtica; habla de indicios y plausibilidad, no de causalidad demostrada, y menciona las limitaciones de la evidencia.
+            7. Cada sección debe tener entre 5 y 8 líneas de análisis o 4 a 6 viñetas (<ul><li>) con detalle y ejemplos concretos. Evita frases genéricas.
+            8. Responde SOLO con HTML (sin markdown ni bloques de código) usando EXACTAMENTE estilos en línea (no clases) y esta estructura. Reemplaza lo que está entre [corchetes] por texto concreto:
 
             <div style="font-family:Arial,Helvetica,sans-serif;color:#1e293b">
               <div style="background:#eef5fd;border:1px solid #cfe0f5;border-radius:12px;padding:11px 16px;margin-bottom:12px"><span style="font-size:11px;font-weight:bold;letter-spacing:1px;color:#0F69C4">REFERENTE DE EVALUACIÓN</span><div style="font-weight:bold;color:#0A2A55;margin-top:2px">${mbeVersion}</div></div>
-              <div style="border-left:6px solid #0F4C9A;background:#f5f9ff;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#0A2A55;font-size:15px">★ Resumen ejecutivo</div><div style="margin-top:6px;line-height:1.6">[2 a 3 líneas con la síntesis del acompañamiento observado]</div></div>
-              <div style="border-left:6px solid #12B76A;background:#f3fbf6;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#067647;font-size:15px">✔ 1. Consolidado de fortalezas</div><div style="margin-top:6px;line-height:1.6">[fortalezas citando Dominio/Criterio del referente]</div></div>
-              <div style="border-left:6px solid #F79009;background:#fff8ec;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#B54708;font-size:15px">▲ 2. Oportunidades de mejora prioritarias</div><div style="margin-top:6px;line-height:1.6">[mejoras citando Dominio/Criterio del referente]</div></div>
-              <div style="border-left:6px solid #7A5AF8;background:#f6f4ff;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#5b3fd0;font-size:15px">🤝 3. Potencial como mentor/a</div><div style="font-weight:bold;margin-top:6px">Rol propuesto: [título del rol]</div><div style="margin-top:4px;line-height:1.6">[por qué, basado en sus fortalezas observadas]</div></div>
-              <div style="border-left:6px solid #12A0C9;background:#f0fafd;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#0b7a99;font-size:15px">🎓 4. Sugerencia de mentoría</div><div style="font-weight:bold;margin-top:6px">Apoyo requerido: [título del apoyo]</div><div style="margin-top:4px;line-height:1.6">[qué apoyo de pares o UTP necesita según sus brechas]</div></div>
-              <div style="border-left:6px solid #0A2A55;background:#f3f6fb;border-radius:12px;padding:12px 16px"><div style="font-weight:bold;color:#0A2A55;font-size:15px">🛣 5. Ruta de formación sugerida</div><div style="margin-top:6px;line-height:1.6">[3 a 4 acciones formativas concretas, en lista numerada <ol><li>…]</div></div>
+              <div style="border-left:6px solid #0F4C9A;background:#f5f9ff;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#0A2A55;font-size:15px">★ Resumen ejecutivo</div><div style="margin-top:6px;line-height:1.6">[5 a 7 líneas: panorama del acompañamiento observado, los tres hallazgos más importantes, la evolución entre visitas y la prioridad de mejora]</div></div>
+              <div style="border-left:6px solid #12B76A;background:#f3fbf6;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#067647;font-size:15px">✔ 1. Consolidado de fortalezas</div><div style="margin-top:6px;line-height:1.6">[fortalezas con evidencia observada y su efecto en los estudiantes, citando Dominio/Criterio/Descriptor del referente]</div></div>
+              <div style="border-left:6px solid #F79009;background:#fff8ec;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#B54708;font-size:15px">▲ 2. Oportunidades de mejora prioritarias</div><div style="margin-top:6px;line-height:1.6">[mejoras con evidencia, qué efecto tienen hoy en el aprendizaje y qué cambio concreto se propone, citando Dominio/Criterio/Descriptor del referente]</div></div>
+              <div style="border-left:6px solid #7A5AF8;background:#f6f4ff;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#5b3fd0;font-size:15px">📈 3. Evolución entre acompañamientos</div><div style="margin-top:6px;line-height:1.6">[análisis visita a visita: qué mejoró, qué se mantiene, qué empeoró, qué brechas se atendieron; cierra con una valoración global: "Mejora sostenida", "Mejora parcial", "Sin cambios visibles", "Retroceso" o "Línea base (una visita)"]</div></div>
+              <div style="border-left:6px solid #0891b2;background:#ecfeff;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#0e7490;font-size:15px">🎓 4. Efecto en el aprendizaje de los estudiantes</div><div style="margin-top:6px;line-height:1.6">[relación entre las prácticas y las metas con los estudiantes/evaluación auténtica: indicios de participación, autonomía, pensamiento crítico o aprendizaje profundo; riesgos para el aprendizaje; limitaciones de la evidencia]</div></div>
+              <div style="border-left:6px solid #7A5AF8;background:#f6f4ff;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#5b3fd0;font-size:15px">🤝 5. Potencial como mentor/a</div><div style="font-weight:bold;margin-top:6px">Rol propuesto: [título del rol]</div><div style="margin-top:4px;line-height:1.6">[por qué, basado en sus fortalezas observadas y cómo podría compartirlas]</div></div>
+              <div style="border-left:6px solid #12A0C9;background:#f0fafd;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#0b7a99;font-size:15px">🎓 6. Sugerencia de mentoría y apoyo UTP</div><div style="font-weight:bold;margin-top:6px">Apoyo requerido: [título del apoyo]</div><div style="margin-top:4px;line-height:1.6">[qué apoyo de pares o UTP necesita según sus brechas y los apoyos que él o ella solicitó]</div></div>
+              <div style="border-left:6px solid #0A2A55;background:#f3f6fb;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#0A2A55;font-size:15px">🛣 7. Ruta de formación sugerida</div><div style="margin-top:6px;line-height:1.6">[4 a 5 acciones formativas concretas, en lista numerada <ol><li>…, cada una con plazo sugerido y evidencia de logro]</div></div>
+              <div style="border-left:6px solid #E5383B;background:#fff5f5;border-radius:12px;padding:12px 16px"><div style="font-weight:bold;color:#B42318;font-size:15px">🎯 8. Compromisos y seguimiento</div><div style="margin-top:6px;line-height:1.6">[3 a 5 indicadores observables para la próxima visita, la fecha o frecuencia sugerida de acompañamiento y cómo se verificará el avance]</div></div>
             </div>`;
 
 
             try {
-                const analysisHtml = window.kpiTeacherHtml(accs, teacher, year) + window.sanitizeAI((await callGemini(prompt, false)).replace(/```html/g, '').replace(/```/g, ''));
+                const analysisHtml = window.kpiTeacherHtml(accs, teacher, year) + window.__teacherTimeline(accs) + window.sanitizeAI((await callGemini(prompt, false)).replace(/```html/g, '').replace(/```/g, ''));
 
                 const existingAnalysis = teacherAnalyses.find(ta => ta.teacherId === teacherId && ta.year == year);
                 const analysisData = { teacherId, year: parseInt(year), analysisHtml, updatedAt: serverTimestamp() };
@@ -6091,12 +6109,15 @@ window.__invite = async (id, quiet) => {
     window.openWordImport = () => {
         const { ov, close } = modal('wi-modal', `<div class="sm-ic" style="background:#eef2ff;color:#4F46E5"><i class="fas fa-file-word"></i></div>
             <div class="sm-ti">Cargar acompañamientos desde Word</div>
-            <p class="sm-tx">Sube una o varias fichas en formato <b>.docx</b> (el modelo oficial de la plataforma). Se leen todos los datos, se reconoce al docente y las fichas quedan guardadas automáticamente.</p>
+            <p class="sm-tx">Sube una o varias fichas en formato <b>.docx</b> (el modelo oficial de la plataforma). Se leen todos los datos, se reconoce al docente y las fichas quedan guardadas automáticamente. La lista se <b>ordena por la fecha</b> de cada acompañamiento y puedes <b>corregir cualquier fecha</b> antes de importar.</p>
             <label class="sm-file" id="wi-drop"><i class="fas fa-cloud-arrow-up"></i><span>Elige los archivos Word (puedes seleccionar varios) o arrástralos aquí</span><input type="file" id="wi-file" accept=".docx" multiple hidden></label>
             <div id="wi-res"></div>`, true);
         const items = [];
         const sorted = () => users.filter((u) => u.name).slice().sort((a, b) => a.name.localeCompare(b.name, 'es'));
-        const dup = (it) => !!it.tId && it.p && accompaniments.some((a) => a.teacherId === it.tId && a.date === it.p.date);
+        const dup = (it) => !!it.tId && it.p && !!it.p.date && accompaniments.some((a) => a.teacherId === it.tId && a.date === it.p.date);
+        const DN = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'], MN = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+        const dayTxt = (s) => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || ''); if (!m) return 'sin fecha'; const d = new Date(+m[1], +m[2] - 1, +m[3]); return DN[d.getDay()] + ' ' + d.getDate() + ' ' + MN[d.getMonth()]; };
+        const orderItems = () => items.sort((a, b) => { const da = a.p && a.p.date || '9999', db2 = b.p && b.p.date || '9999'; return da.localeCompare(db2) || String(a.file).localeCompare(String(b.file), 'es'); });
         function render() {
             const ok = items.filter((i) => i.p && !i.err);
             const ready = ok.filter((i) => i.use && i.tId && i.p.date);
@@ -6107,15 +6128,16 @@ window.__invite = async (id, quiet) => {
                     const st = !it.tId ? '<span class="wi-b warn">Elige al docente</span>' : !it.p.date ? '<span class="wi-b warn">Sin fecha</span>' : d && !it.force ? '<span class="wi-b dup">Ya existe una ficha ese día</span>' : '<span class="wi-b ok">Lista</span>';
                     return `<tr><td><input type="checkbox" data-u="${i}" ${it.use ? 'checked' : ''}></td><td>${esc(it.file)}<small>${esc(it.p.name)}${it.p.dept ? ' · ' + esc(it.p.dept) : ''}</small></td>
                         <td><select data-t="${i}" class="${it.tId ? '' : 'miss'}"><option value="">— elegir —</option>${sorted().map((u) => `<option value="${u.id}" ${u.id === it.tId ? 'selected' : ''}>${esc(nice(u.name))}</option>`).join('')}</select></td>
-                        <td>${esc(it.p.date || '—')}</td><td>${esc(it.p.course || '—')}<small>${esc(it.p.cycle || '')}</small></td><td>${esc(nice([it.p.resp1, it.p.resp2].filter(Boolean).join(' y ')) || '—')}</td><td>${st}${d && !it.force ? `<small><label><input type="checkbox" data-f="${i}"> importar de todos modos</label></small>` : ''}</td></tr>`;
+                        <td><input type="date" class="wi-date ${it.p.date ? '' : 'miss'}" data-d="${i}" value="${esc(it.p.date || '')}"><small>${esc(dayTxt(it.p.date))}</small></td><td>${esc(it.p.course || '—')}<small>${esc(it.p.cycle || '')}</small></td><td>${esc(nice([it.p.resp1, it.p.resp2].filter(Boolean).join(' y ')) || '—')}</td><td>${st}${d && !it.force ? `<small><label><input type="checkbox" data-f="${i}"> importar de todos modos</label></small>` : ''}</td></tr>`;
                 }).join('')}</tbody></table></div>
                 <div class="sm-ft"><button type="button" class="sm-btn ghost" id="wi-cancel">Cancelar</button><button type="button" class="sm-btn" id="wi-save" ${ready.length ? '' : 'disabled'}><i class="fas fa-circle-check"></i> Importar ${ready.length} ficha${ready.length === 1 ? '' : 's'}</button></div>`;
             $('wi-cancel').onclick = close;
             $('wi-save').onclick = save;
         }
         ov.addEventListener('change', (e) => {
-            const t = e.target, g = (a) => t.dataset[a]; if (t.id === 'wi-file') return;
+            const t = e.target, g = (a) => t.dataset[a]; if (t.id === 'wi-file' || !t.dataset) return;
             if (g('t') !== undefined) { const it = items[+g('t')]; it.tId = t.value; it.use = !!it.tId; render(); }
+            else if (g('d') !== undefined) { const it = items[+g('d')]; it.p.date = t.value; it.force = false; it.use = !!(it.tId && it.p.date) && !dup(it); orderItems(); render(); }
             else if (g('u') !== undefined) { items[+g('u')].use = t.checked; render(); }
             else if (g('f') !== undefined) { const it = items[+g('f')]; it.force = t.checked; it.use = t.checked; render(); }
         });
@@ -6129,6 +6151,7 @@ window.__invite = async (id, quiet) => {
                 items.push(it);
             }
             items.forEach((it) => { if (it.p && it.tId && dup(it)) it.use = false; });
+            orderItems();
             render();
         }
         async function save() {
@@ -6157,6 +6180,171 @@ window.__invite = async (id, quiet) => {
     window.changeView = function (id) { const r = _cv.apply(this, arguments); try { if (id === 'stats-view') setTimeout(paintScope, 60); if (id === 'settings-view') setTimeout(() => { wordCard(); userPanel(); }, 60); } catch (_) {} return r; };
     const _rs = window.renderSettings;
     if (_rs) window.renderSettings = function () { const r = _rs.apply(this, arguments); try { wordCard(); userPanel(); } catch (_) {} return r; };
+})();
+
+/* ===== PRO7 · listas de docentes ordenables por apellido o por nombre ===== */
+(function () {
+    const $ = (id) => document.getElementById(id);
+    const store = { get: (k) => { try { return localStorage.getItem(k); } catch (_) { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch (_) {} } };
+    const plain = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+    const mode = () => (store.get('sort_mode') === 'nombre' ? 'nombre' : 'apellido');
+    // Convención de la plataforma: "Nombre(s) ApellidoPaterno ApellidoMaterno"
+    function parts(n) {
+        const t = String(n || '').trim().split(/\s+/).filter(Boolean);
+        if (t.length >= 3) return { given: t.slice(0, t.length - 2), sur: t.slice(t.length - 2) };
+        if (t.length === 2) return { given: [t[0]], sur: [t[1]] };
+        return { given: t, sur: [] };
+    }
+    const keyOf = (n, m) => { const p = parts(String(n).split(' · ')[0]); return plain(m === 'nombre' ? p.given.concat(p.sur).join(' ') : p.sur.concat(p.given).join(' ')); };
+    const cmp = (a, b, m) => keyOf(a, m || mode()).localeCompare(keyOf(b, m || mode()), 'es');
+    window.__sortKey = keyOf; window.__sortMode = mode;
+    const titleCase = (s) => String(s || '').toLowerCase().replace(/(^|[\s'-])([a-záéíóúñü])/g, (m, a, b) => a + b.toUpperCase()).replace(/\b(De|Del|La|Las|Los|Y)\b/g, (w) => w.toLowerCase());
+    // "Apellido Apellido, Nombre" en modo apellido; "Nombre Apellido Apellido" en modo nombre
+    const shown = (n) => { const p = parts(n); if (!p.sur.length) return titleCase(n); return mode() === 'apellido' ? titleCase(p.sur.join(' ')) + ', ' + titleCase(p.given.join(' ')) : titleCase(p.given.concat(p.sur).join(' ')); };
+
+    /* --- control (botones) --- */
+    function control(extra) {
+        const m = mode();
+        return `<div class="so-seg ${extra || ''}" role="group" aria-label="Ordenar la lista"><span class="so-l"><i class="fas fa-arrow-down-a-z"></i> Ordenar por</span><button type="button" data-so="apellido" class="${m === 'apellido' ? 'on' : ''}">Apellido</button><button type="button" data-so="nombre" class="${m === 'nombre' ? 'on' : ''}">Nombre</button></div>`;
+    }
+    function paintControls() { document.querySelectorAll('.so-seg [data-so]').forEach((b) => b.classList.toggle('on', b.dataset.so === mode())); }
+    document.addEventListener('click', (e) => {
+        const b = e.target.closest('[data-so]'); if (!b) return;
+        store.set('sort_mode', b.dataset.so); paintControls(); applyAll();
+    });
+
+    /* --- Directorio docente --- */
+    function sortDirectory() {
+        const root = $('teacher-list'); if (!root) return;
+        const blocks = [...root.children];
+        blocks.forEach((blk) => {
+            const grid = blk.querySelector('.grid'); if (!grid) return;
+            const cards = [...grid.children];
+            cards.forEach((c) => { const nm = c.querySelector('.font-bold.text-sm'); if (!nm) return; if (!c.dataset.raw) c.dataset.raw = nm.textContent; nm.textContent = shown(c.dataset.raw); });
+            cards.sort((a, b) => cmp(a.dataset.raw || a.textContent, b.dataset.raw || b.textContent)).forEach((c) => grid.appendChild(c));
+        });
+        blocks.sort((a, b) => plain(a.firstElementChild ? a.firstElementChild.textContent : '').localeCompare(plain(b.firstElementChild ? b.firstElementChild.textContent : ''), 'es')).forEach((b) => root.appendChild(b));
+    }
+    function directoryBar() {
+        const v = $('teachers-view'); if (!v || $('so-dir')) return;
+        const box = v.querySelector('.relative'); if (!box) return;
+        box.insertAdjacentHTML('beforebegin', '<div id="so-dir" class="so-wrap">' + control() + '</div>');
+        box.parentElement.classList.add('flex-wrap', 'gap-3');
+    }
+
+    /* --- usuarios (Configuración) --- */
+    function sortUsersTable() {
+        const body = $('user-management-table-body'); if (!body) return;
+        [...body.querySelectorAll('tr')].sort((a, b) => cmp(a.cells[0] ? a.cells[0].textContent : '', b.cells[0] ? b.cells[0].textContent : '')).forEach((tr) => body.appendChild(tr));
+    }
+    function usersBar() {
+        const bar = document.querySelector('.us-bar'); if (!bar || bar.querySelector('.so-seg')) return;
+        bar.insertAdjacentHTML('afterbegin', control('so-mini'));
+    }
+
+    /* --- listas desplegables (reportes y PDF) --- */
+    function sortSelect(sel) {
+        if (!sel || sel.__busy) return; sel.__busy = true;
+        try {
+            const opts = [...sel.options]; const keep = opts.filter((o) => !o.value || o.value === 'all' || o.value === 'coord'); const rest = opts.filter((o) => !keep.includes(o));
+            const cur = sel.value; rest.sort((a, b) => cmp(a.textContent, b.textContent));
+            const ordered = keep.concat(rest);
+            if (ordered.some((o, i) => o !== opts[i])) { ordered.forEach((o) => sel.appendChild(o)); sel.value = cur; }
+        } finally { sel.__busy = false; }
+    }
+    function sortSelects() { sortSelect($('analysis-teacher-select')); sortSelect($('fp-teacher')); }
+    const mo = new MutationObserver((muts) => { if (muts.some((m) => m.target && m.target.__busy)) return; sortSelects(); });
+    function watchSelects() { ['analysis-teacher-select', 'fp-teacher'].forEach((id) => { const s = $(id); if (s && !s.__watched) { s.__watched = true; mo.observe(s, { childList: true }); } }); sortSelects(); }
+    function statsBar() {
+        const h = $('analysis-teacher-select'); if (!h || $('so-stats')) return;
+        const lab = h.previousElementSibling; if (lab) lab.insertAdjacentHTML('afterend', '<div id="so-stats" class="so-wrap">' + control('so-mini') + '</div>');
+    }
+
+    function applyAll() { try { sortDirectory(); sortUsersTable(); sortSelects(); } catch (_) {} }
+
+    /* --- enganches --- */
+    const _rtl = window.renderTeacherList;
+    if (_rtl) window.renderTeacherList = function () { const r = _rtl.apply(this, arguments); try { directoryBar(); sortDirectory(); } catch (_) {} return r; };
+    const _rs = window.renderSettings;
+    if (_rs) window.renderSettings = function () { const r = _rs.apply(this, arguments); setTimeout(() => { try { usersBar(); sortUsersTable(); } catch (_) {} }, 90); return r; };
+    const _cv = window.changeView;
+    window.changeView = function (id) { const r = _cv.apply(this, arguments); try { if (id === 'stats-view') setTimeout(() => { statsBar(); watchSelects(); }, 120); } catch (_) {} return r; };
+})();
+
+/* ===== PRO8 · evolución entre acompañamientos y datos más ricos para los informes ===== */
+(function () {
+    const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const nice = (s) => (window.niceName ? window.niceName(s) : String(s || ''));
+    const cut = (s, n) => { s = String(s || '').replace(/\s+/g, ' ').trim(); return s.length > n ? s.slice(0, Math.max(1, n - 1)) + '…' : s; };
+    const FIELDS = ['date', 'time', 'responsable', 'course', 'cycle', 'focus', 'strengths', 'improvements', 'mbeSkills', 'studentGoals', 'supportNeeded', 'authenticAssessment'];
+    const fill = (a) => Math.round(100 * FIELDS.filter((f) => a[f] && String(a[f]).trim() !== '').length / FIELDS.length);
+    const done = (list) => list.filter((a) => a.status !== 'licencia' && a.date).slice().sort((a, b) => String(a.date).localeCompare(String(b.date)));
+    const dayDiff = (a, b) => Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 86400000);
+    const MN = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+    const fd = (s) => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s || ''); return m ? (+m[3]) + ' ' + MN[+m[2] - 1] + ' ' + m[1] : '—'; };
+    const nFocos = (a) => String(a.focus || '').split('; ').filter(Boolean).length;
+
+    /* Línea de una visita para la IA (campos recortados para que quepan muchas) */
+    function line(a, i, prev, n) {
+        const gap = prev ? ` · ${dayDiff(prev.date, a.date)} días después de la visita anterior` : '';
+        return `  V${i + 1} (${a.date}${a.course ? ' · ' + a.course : ''}${a.cycle ? ' · ' + a.cycle : ''}${gap})\n` +
+            `    Focos observados: ${cut(a.focus, 260) || 'sin dato'}\n    Fortalezas: ${cut(a.strengths, n) || 'sin dato'}\n    Brechas/mejoras: ${cut(a.improvements, n) || 'sin dato'}\n` +
+            `    Habilidades MBE a desarrollar: ${cut(a.mbeSkills, Math.round(n * .7)) || 'sin dato'}\n    Metas con los estudiantes: ${cut(a.studentGoals, n) || 'sin dato'}\n` +
+            `    Apoyo UTP solicitado: ${cut(a.supportNeeded, Math.round(n * .7)) || 'sin dato'}\n    Evaluación auténtica observada: ${cut(a.authenticAssessment, n) || 'sin dato'}\n    Otras notas: ${cut(a.otherNotes, 160) || 'ninguna'}`;
+    }
+
+    /* Informe individual: todas las visitas del docente, en orden cronológico */
+    window.__teacherInputs = (accs) => {
+        const l = done(accs); const n = Math.max(220, Math.min(900, Math.floor(26000 / Math.max(1, l.length) / 6)));
+        const head = `Total de visitas realizadas en el ciclo: ${l.length}.` + (l.length > 1 ? ` Primera visita: ${l[0].date}. Última visita: ${l[l.length - 1].date}.` : '');
+        return head + '\n' + l.map((a, i) => line(a, i, l[i - 1], n)).join('\n');
+    };
+
+    /* Diagnóstico institucional: docentes con códigos DOC-xx (la IA no recibe nombres) */
+    window.__diagInputs = (rel) => {
+        const byT = new Map(); done(rel).forEach((a) => { if (!byT.has(a.teacherId)) byT.set(a.teacherId, []); byT.get(a.teacherId).push(a); });
+        const ids = [...byT.keys()].sort((a, b) => byT.get(b).length - byT.get(a).length);
+        const total = ids.reduce((s, id) => s + byT.get(id).length, 0);
+        const n = Math.max(110, Math.min(420, Math.floor(30000 / Math.max(1, total) / 6)));
+        const map = {}; let multi = 0;
+        const txt = ids.map((id, i) => {
+            const code = 'DOC-' + String(i + 1).padStart(2, '0'); const u = users.find((x) => x.id === id) || {}; map[code] = u.name || code;
+            const l = byT.get(id); if (l.length > 1) multi++;
+            return `${code} · Departamento: ${u.department || 'S/D'} · ${l.length} visita${l.length === 1 ? '' : 's'}\n` + l.map((a, k) => line(a, k, l[k - 1], n)).join('\n');
+        }).join('\n\n');
+        return { text: txt, map, teachers: ids.length, multi, visits: total };
+    };
+    window.__restoreCodes = (html, map) => String(html || '').replace(/DOC-(\d{2,3})/g, (m) => (map && map[m] ? nice(map[m]) : m));
+
+    /* Tabla de evolución del proceso (hechos, sin interpretación) */
+    window.__evoTable = (rel) => {
+        const byT = new Map(); done(rel).forEach((a) => { if (!byT.has(a.teacherId)) byT.set(a.teacherId, []); byT.get(a.teacherId).push(a); });
+        const rows = [...byT.entries()].filter(([, l]) => l.length >= 2).map(([id, l]) => {
+            const u = users.find((x) => x.id === id) || {}; const gaps = []; for (let i = 1; i < l.length; i++) gaps.push(dayDiff(l[i - 1].date, l[i].date));
+            const foc = new Set(); l.forEach((a) => String(a.focus || '').split('; ').filter(Boolean).forEach((f) => foc.add(f)));
+            const f1 = fill(l[0]), f2 = fill(l[l.length - 1]);
+            return { name: u.name || '—', dept: u.department || '', n: l.length, d1: l[0].date, d2: l[l.length - 1].date, avg: Math.round(gaps.reduce((s, x) => s + x, 0) / gaps.length), foc: foc.size, f1, f2 };
+        }).sort((a, b) => b.n - a.n || String(a.name).localeCompare(String(b.name), 'es'));
+        const all = byT.size, multi = rows.length;
+        const intro = `<div style="font-size:12px;color:#475569;margin-bottom:8px">De <b>${all}</b> docente${all === 1 ? '' : 's'} acompañado${all === 1 ? '' : 's'}, <b>${multi}</b> (${all ? Math.round(100 * multi / all) : 0}%) tiene${multi === 1 ? '' : 'n'} dos o más visitas, lo que permite observar su evolución.</div>`;
+        const th = (t, al) => `<th style="padding:7px;text-align:${al || 'left'}">${t}</th>`;
+        const td = (t, extra) => `<td style="padding:6px 7px;border-bottom:1px solid #e5edf6;${extra || ''}">${t}</td>`;
+        const body = rows.length ? `<table style="width:100%;border-collapse:collapse;font-size:11.5px"><thead><tr style="background:#0A2A55;color:#fff">${th('Docente')}${th('Visitas', 'center')}${th('Primera → última visita')}${th('Días entre visitas', 'center')}${th('Focos distintos', 'center')}${th('Registro completo (1.ª → última)', 'center')}</tr></thead><tbody>${rows.map((r, i) => {
+            const d = r.f2 - r.f1; const col = d > 0 ? '#067647' : d < 0 ? '#B42318' : '#64748b';
+            return `<tr style="background:${i % 2 ? '#f6f9fd' : '#fff'}">${td('<b>' + esc(nice(r.name)) + '</b>' + (r.dept ? '<br><span style="color:#64748b;font-size:10.5px">' + esc(r.dept) + '</span>' : ''))}${td(r.n, 'text-align:center;font-weight:800')}${td(fd(r.d1) + ' → ' + fd(r.d2), 'white-space:nowrap')}${td(r.avg, 'text-align:center')}${td(r.foc, 'text-align:center')}${td(r.f1 + '% → ' + r.f2 + '% <b style="color:' + col + '">(' + (d > 0 ? '+' : '') + d + ')</b>', 'text-align:center;white-space:nowrap')}</tr>`;
+        }).join('')}</tbody></table>` : '<div style="font-size:12px;color:#B54708;background:#fff8ec;border:1px dashed #f0c36d;border-radius:10px;padding:10px 14px">Aún no hay docentes con dos o más acompañamientos en este ciclo: la evolución se podrá analizar desde la segunda visita.</div>';
+        return `<div data-keep="1" style="text-align:left;border:1px solid #cfe2f8;background:#f7fbff;border-radius:14px;padding:14px 16px;margin:14px 0"><div style="font-weight:bold;color:#0A2A55;font-size:15px;margin-bottom:6px">📈 Evolución del proceso de acompañamiento</div>${intro}${body}<div style="font-size:10.5px;color:#64748b;margin-top:8px">«Registro completo» indica qué proporción de los campos de la ficha quedó completa: refleja la profundidad del seguimiento, no el desempeño del docente. La interpretación de la mejora está en el análisis siguiente.</div></div>`;
+    };
+
+    /* Línea de tiempo del docente (informe individual) */
+    window.__teacherTimeline = (accs) => {
+        const l = done(accs); if (!l.length) return '';
+        const items = l.map((a, i) => {
+            const gap = i ? ` · <span style="color:#64748b">${dayDiff(l[i - 1].date, a.date)} días después de la anterior</span>` : ' · <span style="color:#0F69C4;font-weight:bold">línea base</span>';
+            return `<div style="display:flex;gap:12px;margin-top:10px"><div style="flex:none;display:flex;flex-direction:column;align-items:center"><div style="width:14px;height:14px;border-radius:50%;background:#0F69C4;border:3px solid #cfe2f8"></div>${i < l.length - 1 ? '<div style="width:2px;flex:1;background:#cfe2f8;min-height:22px"></div>' : ''}</div><div style="font-size:12.5px;line-height:1.5"><b style="color:#0A2A55">Visita ${i + 1} · ${fd(a.date)}</b>${gap}<br>${esc(a.course || 'Curso sin registrar')}${a.cycle ? ' · ' + esc(a.cycle) : ''} · ${nFocos(a)} foco${nFocos(a) === 1 ? '' : 's'} · registro completo ${fill(a)}%</div></div>`;
+        }).join('');
+        return `<div data-keep="1" style="text-align:left;border:1px solid #cfe2f8;background:#f7fbff;border-radius:14px;padding:14px 16px;margin:14px 0"><div style="font-weight:bold;color:#0A2A55;font-size:15px">📈 Línea de tiempo de los acompañamientos</div>${items}</div>`;
+    };
 })();
 </script>
 </body>
