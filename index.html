@@ -445,6 +445,34 @@ header #header-slep-img { max-width:150px; width:auto; }
 .ag-prep b { flex-basis:100%; font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; }
 .ag-prep span::before { content:'\2713\00a0'; font-weight:900; }
 @media (max-width:520px) { .ag-time { font-size:1.6rem; } .ag-cal { width:78px; } }
+
+/* PRO5b · aviso de privacidad (Ley 21.719) */
+.pv-chip { display:flex; align-items:center; gap:10px; width:100%; margin-top:14px; padding:10px 14px; border-radius:14px; background:#f0f7ff; border:1px solid #cfe2f8; color:#0A2A55; text-align:left; cursor:pointer; transition:transform .15s, box-shadow .15s; }
+.pv-chip:hover { transform:translateY(-1px); box-shadow:0 12px 22px -16px rgba(15,76,154,.7); }
+.pv-chip > i:first-child { flex:none; width:34px; height:34px; border-radius:11px; background:linear-gradient(135deg,#0F4C9A,#2B86DD); color:#fff; display:flex; align-items:center; justify-content:center; }
+.pv-chip span { flex:1; font-size:.74rem; line-height:1.35; color:#475569; } .pv-chip span b { display:block; font-size:.8rem; color:#0A2A55; }
+.pv-chip u { text-decoration:none; color:#0F69C4; font-weight:800; }
+.pv-chip.dark { background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.25); color:#fff; }
+.pv-chip.dark span, .pv-chip.dark span b, .pv-chip.dark u { color:#fff; } .pv-chip.dark > i:first-child { background:rgba(255,255,255,.2); }
+.pv-ov { position:fixed; inset:0; z-index:120; display:flex; align-items:flex-start; justify-content:center; padding:16px 12px; background:rgba(10,42,85,.55); backdrop-filter:blur(3px); overflow:auto; }
+.pv-dlg { position:relative; width:100%; max-width:760px; margin:auto; background:#fff; border-radius:24px; overflow:hidden; box-shadow:0 40px 80px -28px rgba(0,0,0,.65); animation:proPop .18s ease-out; }
+.pv-hd { position:relative; padding:26px 26px 22px; color:#fff; background:linear-gradient(135deg,#0A2A55,#0F69C4 75%,#2B86DD); }
+.pv-hd::after { content:''; position:absolute; left:0; right:0; bottom:0; height:4px; background:#E5383B; }
+.pv-hd .pv-ic { width:52px; height:52px; border-radius:16px; background:rgba(255,255,255,.18); display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin-bottom:10px; }
+.pv-hd h2 { font-size:1.4rem; font-weight:900; letter-spacing:-.01em; line-height:1.2; }
+.pv-hd p { margin-top:6px; font-size:.88rem; opacity:.92; line-height:1.5; max-width:560px; }
+.pv-x { position:absolute; top:12px; right:12px; width:36px; height:36px; border-radius:11px; background:rgba(255,255,255,.18); color:#fff; cursor:pointer; } .pv-x:hover { background:rgba(255,255,255,.3); }
+.pv-bd { padding:18px 20px 8px; display:grid; grid-template-columns:1fr 1fr; gap:12px; background:#f8fbff; }
+.pv-it { display:flex; gap:12px; background:#fff; border:1px solid #e1ebf7; border-radius:16px; padding:14px; }
+.pv-it.full { grid-column:1/-1; }
+.pv-n { flex:none; position:relative; width:42px; height:42px; border-radius:13px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.05rem; }
+.pv-n em { position:absolute; top:-7px; left:-7px; width:20px; height:20px; border-radius:50%; background:#0A2A55; color:#fff; font-style:normal; font-size:.65rem; font-weight:900; display:flex; align-items:center; justify-content:center; border:2px solid #fff; }
+.pv-it h3 { font-weight:900; color:#0A2A55; font-size:.95rem; line-height:1.25; margin-bottom:3px; }
+.pv-it p { color:#475569; font-size:.83rem; line-height:1.55; } .pv-it p b { color:#0f172a; }
+.pv-ft { padding:14px 20px 20px; background:#f8fbff; display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between; }
+.pv-ft small { color:#64748b; font-size:.76rem; line-height:1.5; max-width:480px; }
+.pv-ok { padding:12px 26px; border-radius:13px; font-weight:800; color:#fff; background:linear-gradient(135deg,#0F4C9A,#2B86DD); cursor:pointer; box-shadow:0 14px 22px -14px rgba(15,76,154,.9); }
+@media (max-width:640px) { .pv-bd { grid-template-columns:1fr; padding:14px 12px 4px; } .pv-hd { padding:22px 18px 18px; } .pv-hd h2 { font-size:1.2rem; } .pv-ft { padding:12px 14px 16px; } }
 </style>
 </head>
 <body class="text-slate-800 flex flex-col h-screen overflow-hidden">
@@ -517,7 +545,7 @@ header #header-slep-img { max-width:150px; width:auto; }
                         <li><i class="fas fa-chart-line"></i> Reportes y metas institucionales</li>
                         <li><i class="fas fa-wand-magic-sparkles"></i> Asistente pedagógico con IA</li>
                     </ul>
-                    <div class="lg-foot">Servicio Local de Educación Pública · Andalién Sur</div><span class="lg-bar"></span>
+                    <button type="button" class="pv-chip dark" data-priv><i class="fas fa-shield-halved"></i><span><b>Plataforma regida por la Ley N° 21.719</b>Protección de datos personales · <u>Conoce cómo cuidamos tus datos</u></span><i class="fas fa-chevron-right"></i></button><div class="lg-foot">Servicio Local de Educación Pública · Andalién Sur</div><span class="lg-bar"></span>
                 </section>
                 <section class="lg-form">
                     <div class="lg-card">
@@ -558,9 +586,10 @@ header #header-slep-img { max-width:150px; width:auto; }
                             <p id="login-error" class="text-red-500 text-sm text-center font-medium min-h-[1.25rem]"></p>
                             <div class="lg-links">
                                 <button type="button" class="lg-link" onclick="window.recoverPassword()"><i class="fas fa-envelope mr-1"></i> ¿Olvidaste tu contraseña?</button>
-                                <button type="button" class="lg-link soft" onclick="window.masterLogin()">Acceso de emergencia</button>
+                                
                             </div>
                         </form>
+                        <button type="button" class="pv-chip" data-priv><i class="fas fa-shield-halved"></i><span><b>Plataforma regida por la Ley N° 21.719</b>Protección de datos personales · <u>Conoce cómo cuidamos tus datos</u></span><i class="fas fa-chevron-right"></i></button>
                     </div>
                 </section>
             </div>
@@ -1386,18 +1415,6 @@ window.APP_CONFIG = { WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbzQjc
             }
         };
 
-        window.masterLogin = async () => {
-            const pw = prompt("Clave Maestra:");
-            let okMaster = false;
-            try { if (pw) { const mr = await window.AppDB.call('masterCheck', { key: pw }); okMaster = mr.ok_master === true; if (okMaster) { window.AppDB.setToken(mr.token); await window.AppDB.refresh(); } } } catch (e) { console.error(e); }
-            if (okMaster) { window.__masterKey = pw;
-                currentUser = { id: 'master-admin', name: 'Administrador General', email: 'admin@colegio.cl', role: 'admin', department: 'General' };
-                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
-                initApp();
-            } else {
-                alert("Clave incorrecta");
-            }
-        };
 
         document.getElementById('login-form').onsubmit = async (e) => {
             e.preventDefault();
@@ -2138,7 +2155,7 @@ function cleanText(text) {
             if (newPw) {
                 userData.password = newPw; userData.mustChangePassword = (userId !== currentUser.id); // el usuario deberá cambiarla al entrar
             } else if (!userId) {
-                userData.password = '123456'; userData.mustChangePassword = true; userData.emailConfirmed = false; // clave inicial: se pide cambiarla
+                userData.mustChangePassword = true; userData.emailConfirmed = false; window.__inviteNew = true; // sin clave: el servidor crea una provisoria y la envia por correo
             }
 
             try {
@@ -2146,7 +2163,8 @@ function cleanText(text) {
                 if (userId) {
                     await updateDoc(doc(colRef, userId), userData);
                 } else {
-                    await addDoc(collection(db, `artifacts/${appId}/public/data/users`), userData);
+                    const nref = await addDoc(collection(db, `artifacts/${appId}/public/data/users`), userData);
+                    if (window.__inviteNew) { window.__inviteNew = false; await window.__invite(nref.id); }
                 }
                 document.getElementById('user-modal').classList.add('hidden'); window.proToast('Usuario guardado correctamente' + (userData.emailConfirmed ? ' · correo actualizado ✔' : '')); } catch(e) { console.error("Error saving user:", e);
                 window.showConfirm("Error al guardar usuario: " + e.message, () => {});
@@ -3826,7 +3844,7 @@ window.applyLogo(logoUrl);
 
            const signersHtml = `<br><br><br><table style="width:100%; text-align:center; border:none;"><tr><td style="border:none; padding:20px; font-size:11pt; border-top: 1px dashed #999;"><b>${signerName}</b><br><span style="font-size:9pt; color:#444;">${signerRole}</span></td></tr></table>`;
 
-           const headerHTMLOutput = getWordHeader('ANÁLISIS DE DESEMPEÑO DOCENTE');
+           const headerHTMLOutput = getWordHeader('REPORTE ACOMPAÑAMIENTO');
            const b = new Blob(['﻿',`<html><head><meta charset='utf-8'></head><body>${headerHTMLOutput}<p style="text-align:center; font-size:12pt; margin-bottom:20px; color:#333;">Docente: <b>${t.name}</b> (${t.department})</p><div style="border: 1px solid #eee; padding: 15px; border-radius: 5px;">${c}</div>${signersHtml}<p style="text-align:right;font-size:10pt;color:#666;">Fecha de emisión: ${new Date().toLocaleDateString('es-CL')}</p></body></html>`], {type:'application/msword'});
            const l = document.createElement('a');
            l.href = URL.createObjectURL(b);
@@ -4031,14 +4049,14 @@ window.applyLogo(logoUrl);
                         <p class="text-lg font-bold text-red-700">¡ADVERTENCIA!</p>
                         <p class="text-sm text-red-600 text-center mt-2">
                             ${welcomeWord} ${teacher.name}, **NO CUENTA CON ACOMPAÑAMIENTOS VIGENTES PARA EL PERIODO ${year}**.
-                            No es posible generar un análisis de desempeño.
+                            No es posible generar el reporte de acompañamiento.
                         </p>
                     </div>
                 `;
                 return;
             }
 
-            resultDiv.innerHTML = '<div class="flex items-center justify-center h-40"><div class="loader w-8 h-8 border-4"></div><span class="ml-3 text-slate-500 font-bold">La IA está analizando el desempeño...</span></div>';
+            resultDiv.innerHTML = '<div class="flex items-center justify-center h-40"><div class="loader w-8 h-8 border-4"></div><span class="ml-3 text-slate-500 font-bold">La IA está preparando el reporte de acompañamiento...</span></div>';
 
             const dataSummary = accs.map(a => `Fecha: ${a.date}. Responsable: ${a.responsable}. Focos: ${a.focus}. Fortalezas: ${a.strengths}. Mejoras: ${a.improvements}. Habilidades MBE: ${a.mbeSkills}.`).join('\n').substring(0, 15000);
 
@@ -4060,7 +4078,7 @@ window.applyLogo(logoUrl);
 
             <div style="font-family:Arial,Helvetica,sans-serif;color:#1e293b">
               <div style="background:#eef5fd;border:1px solid #cfe0f5;border-radius:12px;padding:11px 16px;margin-bottom:12px"><span style="font-size:11px;font-weight:bold;letter-spacing:1px;color:#0F69C4">REFERENTE DE EVALUACIÓN</span><div style="font-weight:bold;color:#0A2A55;margin-top:2px">${mbeVersion}</div></div>
-              <div style="border-left:6px solid #0F4C9A;background:#f5f9ff;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#0A2A55;font-size:15px">★ Resumen ejecutivo</div><div style="margin-top:6px;line-height:1.6">[2 a 3 líneas con la síntesis del desempeño observado]</div></div>
+              <div style="border-left:6px solid #0F4C9A;background:#f5f9ff;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#0A2A55;font-size:15px">★ Resumen ejecutivo</div><div style="margin-top:6px;line-height:1.6">[2 a 3 líneas con la síntesis del acompañamiento observado]</div></div>
               <div style="border-left:6px solid #12B76A;background:#f3fbf6;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#067647;font-size:15px">✔ 1. Consolidado de fortalezas</div><div style="margin-top:6px;line-height:1.6">[fortalezas citando Dominio/Criterio del referente]</div></div>
               <div style="border-left:6px solid #F79009;background:#fff8ec;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#B54708;font-size:15px">▲ 2. Oportunidades de mejora prioritarias</div><div style="margin-top:6px;line-height:1.6">[mejoras citando Dominio/Criterio del referente]</div></div>
               <div style="border-left:6px solid #7A5AF8;background:#f6f4ff;border-radius:12px;padding:12px 16px;margin-bottom:12px"><div style="font-weight:bold;color:#5b3fd0;font-size:15px">🤝 3. Potencial como mentor/a</div><div style="font-weight:bold;margin-top:6px">Rol propuesto: [título del rol]</div><div style="margin-top:4px;line-height:1.6">[por qué, basado en sus fortalezas observadas]</div></div>
@@ -4163,7 +4181,7 @@ window.applyLogo(logoUrl);
                         <h3 style="color: #1e293b; font-size: 14pt; margin-bottom: 5px; padding-bottom: 5px; border-bottom: 2px solid #005A9C;">
                             ${user.name} (${user.department || 'General'})
                         </h3>
-                        <h4 style="color: #005A9C; font-size: 12pt; margin: 10px 0;">ANÁLISIS DE DESEMPEÑO (CICLO ${selectedYear})</h4>
+                        <h4 style="color: #005A9C; font-size: 12pt; margin: 10px 0;">REPORTE ACOMPAÑAMIENTO (CICLO ${selectedYear})</h4>
                         ${analysisContent}
                     </div>
                 `;
@@ -4191,7 +4209,7 @@ window.applyLogo(logoUrl);
                 <p style="page-break-before: always;"></p>
 
                 <div style="width: 100%;">
-                    <h2 style="color:#005A9C; text-align:center;">ANEXO: ANÁLISIS INDIVIDUALES DE DESEMPEÑO</h2>
+                    <h2 style="color:#005A9C; text-align:center;">ANEXO: REPORTES DE ACOMPAÑAMIENTO INDIVIDUALES</h2>
                     ${individualAnalysisHtml}
                 </div>
             `;
@@ -4955,7 +4973,7 @@ window.applyLogo(logoUrl);
                     const blocks = [banner('👤', niceName(t.name), (t.department || 'General') + ' · Ciclo ' + year)];
                     toBlocks(window.sanitizeAI(box.innerHTML)).forEach((b) => blocks.push(b));
                     blocks.push(signBlock());
-                    await buildPdf({ title: 'ANÁLISIS DE DESEMPEÑO DOCENTE', subtitle: niceName(t.name) + ' · ' + year, blocks, fileName: 'Analisis_' + niceName(t.name).replace(/\s+/g, '_') + '_' + year + '.pdf' });
+                    await buildPdf({ title: 'REPORTE ACOMPAÑAMIENTO', subtitle: niceName(t.name) + ' · ' + year, blocks, fileName: 'Reporte_Acompanamiento_' + niceName(t.name).replace(/\s+/g, '_') + '_' + year + '.pdf' });
                 } catch (e) { failPdf(e); }
             };
 
@@ -4980,7 +4998,7 @@ window.applyLogo(logoUrl);
                         if (s.n === 0) return;     // los docentes sin visitas van juntos en una lista al final
                         blocks.push({ newPage: true, keepNext: true, anchor: u.id, html: `<div style="display:flex;align-items:center;gap:14px;border-radius:16px;background:linear-gradient(120deg,#0A2A55,#0F4C9A 60%,#12A0C9);color:#fff;padding:14px 18px"><div style="width:46px;height:46px;border-radius:14px;background:#fff;color:#0F4C9A;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px">${esc(initials(u.name))}</div><div><div style="font-size:19px;font-weight:900">${esc(niceName(u.name))}</div><div style="font-size:12px;opacity:.92">${esc(u.department || 'General')} · ${s.n} acompañamiento${s.n === 1 ? '' : 's'} en ${year} · llenado ${s.avg}%</div></div></div>` });
                         const st = teacherAnalyses.find((ta) => ta.teacherId === u.id && ta.year == year);
-                        if (s.n === 0) blocks.push({ html: `<div style="border:1.5px dashed #fca5a5;background:#fff5f5;border-radius:12px;padding:12px 16px;color:#b42318"><b>Sin acompañamientos registrados</b> en el ciclo ${year}: no corresponde generar análisis de desempeño.</div>` });
+                        if (s.n === 0) blocks.push({ html: `<div style="border:1.5px dashed #fca5a5;background:#fff5f5;border-radius:12px;padding:12px 16px;color:#b42318"><b>Sin acompañamientos registrados</b> en el ciclo ${year}: no corresponde generar el reporte de acompañamiento.</div>` });
                         else if (st && st.analysisHtml) toBlocks(window.sanitizeAI(st.analysisHtml)).forEach((b) => blocks.push(b));
                         else blocks.push({ html: `<div style="border:1.5px dashed #86efac;background:#f3fbf6;border-radius:12px;padding:12px 16px;color:#067647"><b>Análisis IA aún no generado.</b> Genéralo en Reportes › Análisis Docente Individual para incluirlo en el compendio. Acompañamientos del ciclo: ${s.n}.</div>` });
                     });
@@ -5729,7 +5747,7 @@ window.applyLogo(logoUrl);
                         const list = [...pend.values()].filter((p) => !p.done);
                         if (!list.length) { box.innerHTML = ''; return; }
                         const deps = (departments || []).map((d) => d.name).filter(Boolean).sort();
-                        box.innerHTML = `<div class="si-newbox"><div class="si-newh"><div><b><i class="fas fa-user-plus"></i> Funcionarios sin cuenta (${list.length})</b><span>No están en la plataforma. Crea su cuenta aquí (clave inicial 123456, deberán cambiarla al ingresar) o déjalos sin vincular.</span></div><button type="button" class="sm-btn" id="si-newall"><i class="fas fa-users-gear"></i> Crear todas</button></div>
+                        box.innerHTML = `<div class="si-newbox"><div class="si-newh"><div><b><i class="fas fa-user-plus"></i> Funcionarios sin cuenta (${list.length})</b><span>No están en la plataforma. Crea su cuenta aquí (se les envía una clave provisoria al correo y deberán cambiarla al ingresar) o déjalos sin vincular.</span></div><button type="button" class="sm-btn" id="si-newall"><i class="fas fa-users-gear"></i> Crear todas</button></div>
                             ${list.map((p) => `<div class="si-nrow" data-k="${esc(p.k)}"><div class="si-nname"><input class="si-in" data-f="name" value="${esc(nm(p.name))}" title="Nombre completo"><small>${p.kind === 'obs' ? 'Acompaña' : p.kind === 'pie' ? 'Docente PIE' : 'Docente a acompañar'} · ${p.n} ${p.n === 1 ? 'vez' : 'veces'} en el Excel</small></div>
                             <select class="si-in" data-f="role">${Object.keys(ROLES).map((r) => `<option value="${r}"${r === p.role ? ' selected' : ''}>${ROLES[r]}</option>`).join('')}</select>
                             <select class="si-in" data-f="dept"><option value="">Departamento…</option>${deps.map((d) => `<option${d === p.dept ? ' selected' : ''}>${esc(d)}</option>`).join('')}</select>
@@ -5743,8 +5761,9 @@ window.applyLogo(logoUrl);
                         if (!name) { info('Escribe el nombre completo de ' + p.name + '.'); return false; }
                         if (role !== 'admin' && !dept) { info('Selecciona el departamento de ' + name + '.'); return false; }
                         if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { info('El correo de ' + name + ' no es válido.'); return false; }
-                        const data = { name, role, department: role === 'admin' ? '' : dept, email, gender: '', alternativeRole: null, password: '123456', mustChangePassword: true, emailConfirmed: false };
+                        const data = { name, role, department: role === 'admin' ? '' : dept, email, gender: '', alternativeRole: null, mustChangePassword: true, emailConfirmed: false };
                         const ref = await addDoc(collection(db, `artifacts/${appId}/public/data/users`), data);
+                        const iv = await window.__invite(ref.id, true); if (iv && iv.sent === false) (window.__noMail = window.__noMail || []).push(name + ' → ' + iv.temp);
                         p.done = true; await new Promise((r) => setTimeout(r, 400));
                         items.forEach((it) => {
                             if (!it.tId && keyOf(it.teacherName) === k) it.tId = ref.id;
@@ -5761,6 +5780,7 @@ window.applyLogo(logoUrl);
                             else { let n = 0; for (const p of [...pend.values()].filter((x) => !x.done)) { if (await createOne(p.k)) n++; else break; } if (n) info(n + ' cuentas creadas.'); }
                         } catch (er) { info('No se pudo crear la cuenta: ' + er.message); }
                         btn.disabled = false; renderNew(); safeRender();
+                        if (window.__noMail && window.__noMail.length) { const l = window.__noMail.join(' · '); window.__noMail = []; info('Sin correo registrado (entrega la clave provisoria en persona; sirve solo para el primer ingreso): ' + l); }
                     });
                     collect(); renderNew(); safeRender();
                     $('si-tbl').addEventListener('change', (ev) => {
@@ -5803,6 +5823,60 @@ window.applyLogo(logoUrl);
                 $('sm-now').onclick = (e) => { const b = e.currentTarget; window.showConfirm('¿Enviar ahora los correos de los acompañamientos de HOY a todos los docentes y acompañantes?', () => run(b, 'agendaMailNow', {}, (r) => r.entries ? `Enviados ${r.sent} correos (${r.entries} acompañamientos hoy).` + (r.noEmail && r.noEmail.length ? ' Sin correo válido: ' + r.noEmail.map(nm).join(', ') + '.' : '') : 'Hoy no hay acompañamientos agendados.')); };
             };
         })();
+
+/* PRO5 · sin acceso de emergencia, clave provisoria por correo */
+window.__invite = async (id, quiet) => {
+    try {
+        const r = await window.AppDB.call('inviteUser', { userId: id });
+        if (quiet) return r;
+        if (r.sent) window.proToast('Clave provisoria enviada a ' + r.sentTo);
+        else window.showConfirm('Esta persona no tiene correo registrado. Entrégale esta clave provisoria en persona (sirve solo para el primer ingreso): ' + r.temp, () => {});
+        return r;
+    } catch (e) {
+        console.error(e);
+        if (!quiet) window.showConfirm('La cuenta se creó, pero no se pudo enviar la clave provisoria: ' + e.message, () => {});
+        return null;
+    }
+};
+
+/* PRO5b · aviso de privacidad (Ley 21.719) */
+(function () {
+    const ITEMS = [
+        ['fa-scale-balanced', '#0F4C9A', 'La ley que nos rige', 'La <b>Ley N° 21.719</b> regula la protección y el tratamiento de los datos personales y crea la Agencia de Protección de Datos Personales. Fue publicada el 13 de diciembre de 2024 y entra en vigencia el <b>1 de diciembre de 2026</b>.'],
+        ['fa-user-shield', '#0E9384', '¿Quién es el responsable?', 'La <b>Dirección del Colegio Marina de Chile</b> decide para qué y cómo se usan tus datos, y responde por su cuidado.'],
+        ['fa-address-card', '#7A5AF8', '¿Qué datos guardamos?', 'Tu <b>nombre</b>, <b>correo</b>, cargo y departamento, además de los <b>registros y fichas de acompañamiento</b> y la <b>agenda</b> de visitas. Nada más que lo necesario.'],
+        ['fa-bullseye', '#E5383B', '¿Para qué los usamos?', 'Solo para la <b>gestión pedagógica</b>: planificar visitas de aula, entregar retroalimentación y apoyar tu mejora profesional. No se usan para otros fines.'],
+        ['fa-eye', '#0F69C4', '¿Quién puede verlos?', 'Cada docente ve <b>sus propias fichas</b>. Los coordinadores ven solo las de <b>su departamento</b>. La Dirección y los administradores tienen la vista completa.'],
+        ['fa-lock', '#067647', '¿Cómo los protegemos?', 'Las contraseñas se guardan <b>cifradas</b>, cada persona entra con su propia sesión, los permisos dependen del perfil y no existe ninguna clave de emergencia. Las cuentas nuevas reciben una <b>clave provisoria</b> por correo y deben cambiarla.'],
+        ['fa-wand-magic-sparkles', '#B54708', 'Inteligencia artificial', 'Antes de usar el asistente, <b>los nombres y correos se reemplazan por marcas</b> (por ejemplo, PERSONA_1). La IA analiza el texto sin saber quién es cada persona, y los nombres se restituyen solo al mostrarte el resultado.'],
+        ['fa-hourglass-half', '#0F4C9A', '¿Por cuánto tiempo?', 'Los datos se conservan <b>24 meses</b>. Pasado ese plazo se <b>archivan solo por departamento y con un número</b>, sin nombres, para que no identifiquen a nadie.'],
+        ['fa-hand-holding-heart', '#0E9384', 'Tus derechos', 'Puedes <b>ver tus fichas</b> en la plataforma y <b>pedir que se corrija</b> lo que esté incorrecto. La ley también reconoce los derechos de acceso, rectificación, supresión, oposición, portabilidad y bloqueo; para ejercerlos, escribe o habla con la Dirección.'],
+        ['fa-triangle-exclamation', '#E5383B', 'Si algo sale mal', 'Si ocurriera una vulneración de seguridad que ponga en riesgo tus derechos, la ley exige <b>avisar a la Agencia</b> y, en ciertos casos, a las personas afectadas. La Dirección es quien responde de hacerlo.']
+    ];
+    function open() {
+        if (document.getElementById('pv-ov')) return;
+        const ov = document.createElement('div'); ov.id = 'pv-ov'; ov.className = 'pv-ov';
+        ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', 'Protección de tus datos personales');
+        ov.innerHTML = `<div class="pv-dlg">
+            <div class="pv-hd"><button type="button" class="pv-x" aria-label="Cerrar"><i class="fas fa-xmark"></i></button>
+                <div class="pv-ic"><i class="fas fa-shield-halved"></i></div>
+                <h2>Cuidamos tus datos personales</h2>
+                <p>Esta plataforma se rige por la <b>Ley N° 21.719</b>. Aquí te explicamos, paso a paso y en simple, qué hacemos con tu información y por qué.</p></div>
+            <div class="pv-bd">${ITEMS.map((it, i) => `<div class="pv-it${i === 0 || i === 9 ? ' full' : ''}"><div class="pv-n" style="background:${it[1]}"><i class="fas ${it[0]}"></i><em>${i + 1}</em></div><div><h3>${it[2]}</h3><p>${it[3]}</p></div></div>`).join('')}</div>
+            <div class="pv-ft"><small>¿Tienes dudas o quieres ejercer un derecho? Consulta a la <b>Dirección del establecimiento</b>.</small><button type="button" class="pv-ok">Entendido</button></div>
+        </div>`;
+        document.body.appendChild(ov);
+        const prev = document.body.style.overflow; document.body.style.overflow = 'hidden';
+        const close = () => { ov.remove(); document.body.style.overflow = prev; document.removeEventListener('keydown', onKey); };
+        const onKey = (e) => { if (e.key === 'Escape') close(); };
+        document.addEventListener('keydown', onKey);
+        ov.querySelector('.pv-x').onclick = close; ov.querySelector('.pv-ok').onclick = close;
+        ov.addEventListener('mousedown', (e) => { if (e.target === ov) close(); });
+        ov.querySelector('.pv-ok').focus();
+    }
+    window.openPrivacy = open;
+    document.addEventListener('click', (e) => { if (e.target.closest('[data-priv]')) { e.preventDefault(); open(); } });
+})();
 </script>
 </body>
 </html>
