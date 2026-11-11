@@ -646,6 +646,67 @@ img, canvas, video { max-width:100%; }
 .cr-brand { margin-top:10px; line-height:0; } .cr-brand img { width:270px; max-width:100%; height:auto; opacity:.82; display:block; }
 .cr-card { display:none; text-align:center; margin-top:16px; padding-top:14px; border-top:1px solid #e2e8f0; line-height:0; } .cr-card img { width:250px; max-width:78%; height:auto; opacity:.92; }
 @media (max-width:820px) { .cr-brand { display:none !important; } .cr-card { display:block; } }
+
+/* ===== PRO14 · la portada de acceso cabe completa en la pantalla (sin bajar) ===== */
+body.on-login { overflow:hidden; }
+body.on-login main#main-container { height:calc(100vh - var(--hdr,58px)); height:calc(100dvh - var(--hdr,58px)); padding:8px 10px !important; overflow:auto; }
+body.on-login #login-view { height:100%; align-items:center; }
+body.on-login .lg-shell { height:100%; max-height:740px; min-height:0 !important; }
+body.on-login .lg-brand { min-height:0; padding:clamp(18px,4vh,44px) clamp(20px,3vw,40px); gap:clamp(8px,1.8vh,18px); justify-content:center; }
+body.on-login .lg-logo-wrap { width:clamp(60px,10vh,92px); height:clamp(60px,10vh,92px); }
+body.on-login .lg-slep { height:clamp(42px,7vh,60px); }
+body.on-login .lg-brand h1 { font-size:clamp(1.5rem,4vh,2rem); }
+body.on-login .lg-feats { gap:clamp(6px,1.4vh,12px); margin-top:0; }
+body.on-login .lg-form { padding:clamp(12px,3vh,34px) clamp(14px,3vw,36px); min-height:0; }
+body.on-login .lg-card { display:flex; flex-direction:column; max-height:100%; min-height:0; }
+body.on-login .lg-card h2 { font-size:clamp(1.25rem,3.4vh,1.7rem); }
+body.on-login .lg-hint { margin:2px 0 clamp(8px,1.8vh,22px); font-size:clamp(.8rem,1.8vh,.92rem); }
+body.on-login #login-form { display:flex; flex-direction:column; gap:clamp(6px,1.3vh,14px); min-height:0; }
+body.on-login #login-form > * { margin:0 !important; }
+body.on-login #login-form > div:nth-child(2) { min-height:0; display:flex; flex-direction:column; }
+body.on-login .lg-picker { min-height:0; display:flex; flex-direction:column; }
+body.on-login .lg-list { max-height:clamp(64px,17vh,190px) !important; min-height:44px; overflow-y:auto; }
+body.on-login .lg-label { margin-bottom:4px; }
+body.on-login .lg-role { padding:clamp(7px,1.4vh,14px) 6px clamp(6px,1.2vh,12px); gap:clamp(3px,.8vh,6px); }
+body.on-login .lg-role i { width:clamp(30px,5vh,42px); height:clamp(30px,5vh,42px); font-size:clamp(14px,2.2vh,18px); }
+body.on-login .lg-field { padding:clamp(9px,1.6vh,13px) 14px; }
+body.on-login .lg-picker .lg-search { padding:clamp(7px,1.2vh,10px) 12px; }
+body.on-login .lg-submit { padding:clamp(10px,1.8vh,14px); }
+body.on-login #login-error { min-height:0 !important; margin:0; } body.on-login #login-error:empty { display:none; }
+body.on-login .pv-chip { margin-top:clamp(6px,1.4vh,14px); padding:clamp(7px,1.2vh,10px) 12px; }
+body.on-login .cr-card { margin-top:clamp(6px,1.2vh,16px); padding-top:clamp(6px,1.2vh,14px); }
+body.on-login .cr-card img { width:clamp(170px,24vh,250px); }
+@media (max-width:820px) {
+  body.on-login .lg-shell { height:auto; min-height:100% !important; max-height:none; grid-template-rows:auto minmax(0,1fr); }
+  body.on-login #login-form > div:nth-child(2), body.on-login .lg-picker { flex-shrink:0; }
+  body.on-login .lg-brand { display:grid !important; grid-template-columns:auto minmax(0,1fr); grid-template-areas:"logos title" "feats feats"; align-items:center; gap:8px 12px !important; padding:10px 14px !important; }
+  body.on-login .lg-logos { grid-area:logos; }
+  body.on-login .lg-brand h1 { grid-area:title; font-size:1.1rem !important; }
+  body.on-login .lg-logo-wrap { width:46px !important; height:46px !important; }
+  body.on-login .lg-slep { height:38px !important; max-width:104px !important; }
+  /* lo que ofrece la plataforma queda visible desde el inicio */
+  body.on-login .lg-feats { grid-area:feats; display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; margin:0; }
+  body.on-login .lg-feats li { flex-direction:column; text-align:center; gap:3px; font-size:10px; line-height:1.2; }
+  body.on-login .lg-feats i { width:26px; height:26px; font-size:.72rem; }
+  body.on-login .lg-form { padding:10px 14px 12px !important; align-items:flex-start; }
+  body.on-login .lg-card { max-width:none; }
+  body.on-login .lg-hint { display:none; }
+  body.on-login .lg-role small { display:none; }
+  /* en el celular la portada ya muestra el logo: se oculta la barra superior para ganar espacio */
+  body.on-login header { display:none !important; }
+  body.on-login main#main-container { height:100vh; height:100dvh; padding:6px 8px calc(6px + env(safe-area-inset-bottom)) !important; }
+  body.on-login #login-form { gap:clamp(4px,1vh,9px); }
+  body.on-login .lg-card h2 { font-size:1.2rem !important; }
+  body.on-login .lg-label { font-size:.62rem; margin-bottom:3px; }
+  body.on-login .lg-role { padding:6px 4px 6px; }
+  body.on-login .lg-list { max-height:clamp(60px,14vh,150px) !important; }
+  body.on-login .pv-chip { margin-top:6px; padding:6px 10px; gap:8px; } body.on-login .pv-chip > i:first-child { width:28px; height:28px; font-size:.8rem; } body.on-login .pv-chip span { font-size:.68rem; line-height:1.25; } body.on-login .pv-chip span b { font-size:.74rem; }
+  body.on-login .cr-card { margin-top:6px; padding-top:6px; } body.on-login .cr-card img { width:150px; max-width:60%; }
+  body.on-login .lg-links { margin-top:2px; }}
+@media (max-width:820px) and (min-height:760px) { body.on-login .lg-hint { display:block; } }
+@media (max-width:820px) and (max-height:700px) { body.on-login .lg-feats { display:none !important; } }
+@media (max-width:820px) and (max-height:820px) { body.on-login.role-picked .lg-feats { display:none !important; } body.on-login .lg-hint { display:none !important; } body.on-login .cr-card img { width:170px; } }
+@media (min-width:821px) and (max-height:720px) { body.on-login .lg-sub { display:none; } body.on-login .lg-hint { display:none; } }
 </style>
 </head>
 <body class="text-slate-800 flex flex-col h-screen overflow-hidden">
@@ -6926,6 +6987,23 @@ window.__invite = async (id, quiet) => {
     ['pageshow', 'visibilitychange', 'focus', 'resize', 'orientationchange'].forEach((ev) => window.addEventListener(ev, () => setTimeout(ensure, 60)));
     setInterval(ensure, 1500);
     ensure();
+})();
+
+/* ===== PRO14 · portada de acceso a pantalla completa ===== */
+(function () {
+    const body = document.body;
+    const setHdr = () => { const h = document.querySelector('header'); if (h && h.offsetHeight) document.documentElement.style.setProperty('--hdr', h.offsetHeight + 'px'); };
+    const sync = () => { const v = document.getElementById('login-view'); body.classList.toggle('on-login', !!(v && v.classList.contains('active-view'))); setHdr(); };
+    const v = document.getElementById('login-view');
+    if (v) new MutationObserver(sync).observe(v, { attributes: true, attributeFilter: ['class'] });
+    window.addEventListener('resize', setHdr);
+    window.addEventListener('orientationchange', () => setTimeout(setHdr, 250));
+    // al elegir el perfil se libera espacio para la lista de nombres (en pantallas bajas)
+    const rc = document.getElementById('role-cards');
+    const picked = () => body.classList.toggle('role-picked', !!document.querySelector('#role-cards .lg-role.on'));
+    if (rc) new MutationObserver(picked).observe(rc, { attributes: true, subtree: true, attributeFilter: ['class'] });
+    picked();
+    sync(); setTimeout(sync, 300); setTimeout(sync, 1200);
 })();
 </script>
 </body>
