@@ -538,6 +538,101 @@ header #header-slep-img { max-width:150px; width:auto; }
 .ar-no { background:#EDE9FE; color:#5b3fd0; padding:3px 10px; border-radius:999px; font-size:.76rem; letter-spacing:.02em; }
 .ar-body { padding:4px 14px 14px; display:flex; flex-direction:column; gap:8px; }
 .ar-f { border-left:5px solid; background:#fff; border-radius:10px; padding:8px 12px; font-size:.82rem; line-height:1.55; color:#334155; white-space:pre-wrap; } .ar-f b { display:block; font-size:.78rem; margin-bottom:2px; }
+
+/* ===== PRO10 · adaptación a celular ===== */
+html, body { max-width:100%; overflow-x:hidden; }
+img, canvas, video { max-width:100%; }
+.view { min-width:0; max-width:100%; }
+@media (max-width:760px) {
+  .view { overflow-wrap:anywhere; }
+  .view .flex > * { min-width:0; }
+  .view .flex.justify-between { flex-wrap:wrap; gap:10px 12px; }
+  .view .flex.justify-between > .text-right, #teacher-detail-view .text-right { text-align:left; flex:1 1 100%; width:100%; }
+  #teacher-detail-view button, #teacher-detail-view a { max-width:100%; white-space:normal; }
+  #teacher-detail-view .flex.justify-between button { width:100%; justify-content:center; }
+  .view h2 { font-size:1.4rem; line-height:1.25; }
+  .view input[type=text], .view input[type=search], .view input[type=date], .view input[type=time], .view select, .view textarea { max-width:100%; }
+  .view .w-64 { width:100% !important; }
+  .view .relative > input.w-64 { width:100% !important; }
+  .view .overflow-x-auto { overflow-x:visible; }
+  /* tablas anchas: cada fila se convierte en una tarjeta */
+  table.tbl-cards { width:100% !important; min-width:0 !important; display:block; }
+  table.tbl-cards thead { display:none; }
+  table.tbl-cards tbody { display:block; }
+  table.tbl-cards tr { display:block; margin:0 0 10px; padding:10px 12px; border:1px solid #e2e8f0 !important; border-radius:14px; background:#fff; box-shadow:0 10px 18px -16px rgba(10,42,85,.5); }
+  table.tbl-cards td { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:5px 0 !important; border:0 !important; text-align:right !important; font-size:.84rem; }
+  table.tbl-cards td::before { content:attr(data-label); flex:none; max-width:46%; font-size:.66rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:#64748b; text-align:left; }
+  table.tbl-cards td:first-child { display:block; text-align:left !important; font-weight:900; color:#0A2A55; font-size:.95rem; padding-bottom:6px !important; border-bottom:1px solid #eef2f7 !important; margin-bottom:4px; }
+  table.tbl-cards td:first-child::before { display:none; }
+  table.tbl-cards td > div { max-width:58%; }
+  /* ventanas y tarjetas */
+  .sm-dlg, .pv-dlg, .pro-dlg { max-width:100% !important; }
+  .sm-dlg.wide { padding:18px 12px; }
+  .si-wrap { max-width:100%; }
+}
+
+/* ===== PRO11 · pestañas de Configuración y Bitácora ===== */
+.cfg-head { display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:12px; margin-bottom:22px; }
+.cfg-head h2 { margin:0; }
+.cfg-tabs { display:inline-flex; background:#fff; border:1px solid #cfe2f8; border-radius:14px; overflow:hidden; box-shadow:0 10px 20px -16px rgba(15,76,154,.6); }
+.cfg-tabs button { padding:10px 18px; font-weight:800; font-size:.84rem; color:#475569; cursor:pointer; display:flex; gap:7px; align-items:center; } .cfg-tabs button + button { border-left:1px solid #e2e8f0; }
+.cfg-tabs button.on { background:linear-gradient(135deg,#0F4C9A,#2B86DD); color:#fff; }
+#settings-view[data-tab="log"] > :not(#cfg-head):not(#cfg-log) { display:none !important; }
+#settings-view:not([data-tab="log"]) > #cfg-log { display:none; }
+.lg-card2 { background:#fff; border:1px solid #e1e9f5; border-radius:20px; padding:18px 20px; box-shadow:0 22px 40px -34px rgba(10,42,85,.6); }
+.lg-head { display:flex; gap:12px; align-items:center; margin-bottom:14px; } .lg-head b { display:block; font-size:1.1rem; color:#0A2A55; font-weight:900; } .lg-head small { color:#64748b; font-size:.78rem; }
+.lg-ic { flex:none; width:46px; height:46px; border-radius:14px; background:#E0F2FE; color:#0369A1; display:flex; align-items:center; justify-content:center; font-size:1.2rem; }
+.lg-filters { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px 12px; margin-bottom:10px; }
+.lg-filters label { font-size:.66rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#64748b; display:block; }
+.lg-filters label.lg-wide { grid-column:1/-1; }
+.lg-filters select, .lg-filters input { display:block; width:100%; margin-top:4px; border:1px solid #cbd5e1; border-radius:10px; padding:8px 10px; font-size:.84rem; font-weight:600; color:#0f172a; background:#fff; text-transform:none; letter-spacing:0; }
+.lg-bar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:6px 0 10px; } .lg-count { flex:1; font-size:.82rem; font-weight:800; color:#0F4C9A; }
+.lg-wrap { border:1px solid #e5edf6; border-radius:14px; overflow:hidden; }
+.lg-t { width:100%; border-collapse:collapse; font-size:.82rem; }
+.lg-t th { background:#eef4fb; color:#0F4C9A; text-align:left; padding:9px 12px; font-size:.72rem; letter-spacing:.05em; text-transform:uppercase; }
+.lg-t td { padding:9px 12px; border-top:1px solid #eef2f7; vertical-align:top; overflow-wrap:anywhere; color:#334155; } .lg-t td b { color:#0A2A55; display:block; } .lg-t td small { color:#94a3b8; font-size:.7rem; display:block; }
+.lg-nw { white-space:nowrap; color:#475569; font-variant-numeric:tabular-nums; }
+.lg-chip { display:inline-block; padding:3px 10px; border-radius:999px; font-size:.72rem; font-weight:800; white-space:nowrap; }
+.lg-wait { text-align:center; color:#94a3b8; padding:22px !important; }
+.lg-more { text-align:center; margin-top:12px; }
+@media (max-width:760px) {
+  .lg-t, .lg-t tbody { display:block; } .lg-t thead { display:none; }
+  .lg-t tr { display:block; margin:0 0 10px; padding:10px 12px; border:1px solid #e2e8f0; border-radius:14px; }
+  .lg-t td { display:flex; justify-content:space-between; gap:12px; border:0; padding:4px 0; text-align:right; }
+  .lg-t td::before { content:attr(data-label); flex:none; font-size:.64rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:#64748b; text-align:left; }
+  .lg-t td[colspan] { display:block; text-align:center; } .lg-t td[colspan]::before { display:none; }
+  .lg-wrap { border:0; }
+}
+
+/* ===== PRO12 · Consultas ===== */
+.cq-head { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:12px; margin-bottom:14px; } .cq-sub { color:#64748b; font-size:.86rem; margin-top:4px; max-width:620px; }
+.cq-law { display:flex; gap:14px; align-items:flex-start; padding:14px 18px; border-radius:16px; background:linear-gradient(120deg,#EEF2FF,#E0F2FE); border:1px solid #cdd9fb; color:#1e3a8a; font-size:.82rem; line-height:1.55; margin-bottom:16px; } .cq-law i { flex:none; font-size:1.5rem; color:#4F46E5; margin-top:2px; } .cq-law b:first-child { display:block; font-size:.92rem; color:#312E81; margin-bottom:2px; }
+.cq-kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:16px; } .cq-k { border-radius:16px; padding:12px 16px; color:#fff; } .cq-k b { display:block; font-size:1.8rem; font-weight:900; line-height:1.1; } .cq-k span { font-size:.76rem; opacity:.95; }
+.cq-filters { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; } .cq-filters select, .cq-filters input { border:1px solid #cbd5e1; border-radius:11px; padding:8px 12px; font-size:.84rem; font-weight:600; background:#fff; min-width:160px; flex:1; max-width:300px; }
+.cq-list { display:flex; flex-direction:column; gap:10px; }
+.cq-card { background:#fff; border:1px solid #e1e9f5; border-radius:16px; padding:14px 18px; cursor:pointer; transition:transform .12s, box-shadow .12s; box-shadow:0 14px 26px -24px rgba(10,42,85,.6); } .cq-card:hover { transform:translateY(-1px); box-shadow:0 18px 30px -22px rgba(10,42,85,.7); } .cq-card.unread { border-color:#7aa7ff; box-shadow:0 0 0 3px rgba(43,134,221,.14); }
+.cq-top { display:flex; flex-wrap:wrap; gap:6px 8px; align-items:center; margin-bottom:6px; }
+.cq-no { background:#EEF2FF; color:#4338CA; padding:3px 10px; border-radius:999px; font-size:.74rem; font-weight:900; letter-spacing:.02em; }
+.cq-st { padding:3px 10px; border-radius:999px; font-size:.72rem; font-weight:800; }
+.cq-ty { background:#F5F3FF; color:#6D28D9; padding:3px 10px; border-radius:999px; font-size:.72rem; font-weight:800; } .cq-ty.gen { background:#F1F5F9; color:#475569; }
+.cq-new { background:#E5383B; color:#fff; padding:2px 9px; border-radius:999px; font-size:.66rem; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
+.cq-subj { font-weight:900; color:#0A2A55; font-size:1rem; line-height:1.3; }
+.cq-meta { display:flex; flex-wrap:wrap; gap:4px 16px; margin-top:6px; font-size:.78rem; color:#64748b; } .cq-meta i { margin-right:4px; color:#94a3b8; }
+.cq-due { font-weight:800; } .cq-due.late { color:#B42318; } .cq-due.soon { color:#B54708; } .cq-due.ok { color:#067647; } .cq-due.ok2 { color:#0F4C9A; }
+.cq-empty { text-align:center; padding:40px 16px; color:#94a3b8; } .cq-empty i { font-size:2.4rem; margin-bottom:8px; }
+.cq-badge { position:absolute; top:-3px; right:-3px; min-width:17px; height:17px; padding:0 4px; border-radius:999px; background:#E5383B; color:#fff; font-size:.62rem; font-weight:900; display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 2px #fff; }
+#navigation a[data-view], #mobile-nav button[data-view] { position:relative; }
+.cq-seg { display:flex; gap:8px; margin:6px 0 10px; } .cq-seg button { flex:1; padding:10px 12px; border-radius:12px; border:1.5px solid #cbd5e1; background:#fff; font-weight:800; font-size:.8rem; color:#475569; cursor:pointer; } .cq-seg button.on { border-color:#2B86DD; background:#EAF3FF; color:#0F4C9A; }
+.cq-l { display:block; margin:10px 0 4px; font-size:.7rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#64748b; }
+.cq-in { width:100%; border:1px solid #cbd5e1; border-radius:12px; padding:10px 12px; font-size:.9rem; background:#fff; font-family:inherit; }
+.cq-note { margin-top:6px; font-size:.78rem; color:#B54708; background:#fffaeb; border:1px solid #fde1a6; border-radius:10px; padding:8px 12px; }
+.cq-th-head { display:flex; flex-wrap:wrap; gap:6px 8px; align-items:center; padding-right:34px; }
+.cq-thread { display:flex; flex-direction:column; gap:10px; max-height:42vh; overflow:auto; padding:4px 2px 8px; }
+.cq-msg { border-radius:14px; padding:10px 14px; max-width:92%; background:#f1f6ff; border:1px solid #d9e6f8; } .cq-msg.admin { align-self:flex-end; background:#ecfbf3; border-color:#bfe8d2; } .cq-msg.sistema { align-self:center; background:#f8fafc; border-color:#e2e8f0; width:100%; max-width:100%; }
+.cq-mh { display:flex; justify-content:space-between; gap:10px; font-size:.74rem; color:#64748b; } .cq-mh b { color:#0A2A55; }
+.cq-kind { font-size:.68rem; font-weight:900; letter-spacing:.08em; text-transform:uppercase; margin-top:3px; }
+.cq-mt { white-space:pre-wrap; font-size:.88rem; color:#1e293b; line-height:1.55; margin-top:4px; }
+@media (max-width:640px) { .cq-seg { flex-direction:column; } .cq-msg { max-width:100%; } .cq-filters select, .cq-filters input { max-width:none; } }
 </style>
 </head>
 <body class="text-slate-800 flex flex-col h-screen overflow-hidden">
@@ -1060,7 +1155,7 @@ window.APP_CONFIG = { WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbzQjc
 (function () {
   'use strict';
   var COLS = ['departments', 'users', 'workPlans', 'accompaniments',
-              'planEvaluations', 'teacherAnalyses', 'signers', 'config', 'schedule', 'archive'];
+              'planEvaluations', 'teacherAnalyses', 'signers', 'config', 'schedule', 'archive', 'queries'];
   var POLL_MS = 15000;
   var cache = {}, versions = {}, listeners = {};
   var firstDone = false, syncing = false, writes = 0, started = false;
@@ -1508,7 +1603,7 @@ window.APP_CONFIG = { WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbzQjc
                     await Promise.all([
                         loadData('departments', d => departments = d), loadData('users', d => users = d), loadData('workPlans', d => plans = d),
                         loadData('accompaniments', d => accompaniments = d), loadData('planEvaluations', d => evaluations = d), loadData('teacherAnalyses', d => teacherAnalyses = d),
-                        loadData('signers', d => signers = d), loadData('schedule', d => { window.__agenda = d; }), loadData('archive', d => { window.__archive = d; }), loadData('config', d => {
+                        loadData('signers', d => signers = d), loadData('schedule', d => { window.__agenda = d; }), loadData('archive', d => { window.__archive = d; }), loadData('queries', d => { window.__queries = d; }), loadData('config', d => {
                             if(d.length) {
                                 config=d[0];
                                 annualGoal = config.annualGoal || 4;
@@ -1572,6 +1667,7 @@ window.APP_CONFIG = { WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbzQjc
                 {id:'teachers-view', t:'Docentes', i:'fa-users', r:['admin','coordinator']},
                 {id:'plans-view', t:'Planes', i:'fa-clipboard-list', r:['all']},
                 {id:'stats-view', t:'Reportes', i:'fa-chart-pie', r:['admin','coordinator']},
+                {id:'consultas-view', t:'Consultas', i:'fa-comments', r:['all']},
                 {id:'settings-view', t:'Config', i:'fa-cog', r:['admin']}
             ];
 
@@ -6536,6 +6632,265 @@ window.__invite = async (id, quiet) => {
     window.changeView = function (id) { const r = _cv.apply(this, arguments); try { if (id === 'settings-view') setTimeout(cards, 120); } catch (_) {} return r; };
     const _rs = window.renderSettings;
     if (_rs) window.renderSettings = function () { const r = _rs.apply(this, arguments); setTimeout(() => { try { cards(); } catch (_) {} }, 100); return r; };
+})();
+
+/* ===== PRO10 · adaptación a celular: tablas anchas como tarjetas ===== */
+(function () {
+    const VIEWS = ['stats-view', 'teacher-detail-view', 'settings-view', 'dashboard-view', 'plans-view', 'consultas-view'];
+    function cardify() {
+        VIEWS.forEach((id) => {
+            const v = document.getElementById(id); if (!v) return;
+            v.querySelectorAll('table').forEach((t) => {
+                if (t.closest('.us-wrap') || t.classList.contains('si-t') || t.closest('[data-keep]') || t.closest('.ai-body') || t.closest('#global-report-content-2') || t.closest('#teacher-analysis-result')) return;
+                const ths = [...t.querySelectorAll('thead th')].map((x) => x.textContent.trim());
+                if (ths.length < 3) return;
+                t.classList.add('tbl-cards');
+                t.querySelectorAll('tbody tr').forEach((tr) => [...tr.children].forEach((td, i) => { if (ths[i] && td.dataset.label !== ths[i]) td.dataset.label = ths[i]; }));
+            });
+        });
+    }
+    let tmr = null;
+    const later = () => { clearTimeout(tmr); tmr = setTimeout(() => { try { cardify(); } catch (_) {} }, 80); };
+    new MutationObserver(later).observe(document.body, { childList: true, subtree: true });
+    later();
+})();
+
+/* ===== PRO11 · Configuración con pestañas y Bitácora de cambios ===== */
+(function () {
+    const $ = (id) => document.getElementById(id);
+    const K = window.__kit || {};
+    const esc = K.esc || ((s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])));
+    const info = (m) => window.showConfirm(m, () => {});
+    const COLS = { users: 'Usuarios', accompaniments: 'Fichas de acompañamiento', workPlans: 'Planes de trabajo', planEvaluations: 'Evaluaciones de plan', teacherAnalyses: 'Análisis docentes', signers: 'Firmantes', config: 'Configuración', departments: 'Departamentos', schedule: 'Agenda', archive: 'Archivo histórico', queries: 'Consultas' };
+    const TONE = { 'Crear': ['#e8f7ef', '#067647'], 'Editar': ['#eaf2ff', '#0F4C9A'], 'Eliminar': ['#fef3f2', '#B42318'], 'Inicio de sesión': ['#f1f5f9', '#475569'], 'Acceso fallido': ['#fff4e5', '#B54708'], 'Importar': ['#f3e8ff', '#7A5AF8'], 'Archivar': ['#ede9fe', '#5b3fd0'], 'Consulta': ['#e0f2fe', '#0369A1'], 'Respuesta a consulta': ['#e0f2fe', '#0369A1'] };
+    const tone = (a) => TONE[a] || ['#f1f5f9', '#334155'];
+    const when = (iso) => { const d = new Date(iso); if (isNaN(d)) return '—'; const p = (n) => String(n).padStart(2, '0'); return p(d.getDate()) + '-' + p(d.getMonth() + 1) + '-' + d.getFullYear() + ' ' + p(d.getHours()) + ':' + p(d.getMinutes()); };
+
+    /* ---------- pestañas de Configuración ---------- */
+    function tabs() {
+        const v = $('settings-view'); if (!v || $('cfg-head')) return;
+        const h2 = v.querySelector('h2'); if (!h2) return;
+        const head = document.createElement('div'); head.id = 'cfg-head'; head.className = 'cfg-head';
+        h2.parentNode.insertBefore(head, h2); head.appendChild(h2); h2.classList.remove('mb-6');
+        head.insertAdjacentHTML('beforeend', '<div class="cfg-tabs" role="tablist"><button type="button" data-cfg="main" class="on"><i class="fas fa-sliders"></i> Ajustes</button><button type="button" data-cfg="log"><i class="fas fa-clipboard-list"></i> Bitácora</button></div>');
+        v.insertAdjacentHTML('beforeend', `<div id="cfg-log" class="cfg-log">
+            <div class="lg-card2"><div class="lg-head"><span class="lg-ic"><i class="fas fa-clipboard-list"></i></span><div><b>Bitácora de cambios</b><small>Quién hizo cada modificación y cuándo. Se conserva 24 meses.</small></div></div>
+            <div class="lg-filters">
+                <label>Acción<select id="lg-action"><option value="">Todas</option></select></label>
+                <label>Persona<input id="lg-user" list="lg-users" type="search" placeholder="Nombre de quien realizó el cambio" autocomplete="off"><datalist id="lg-users"></datalist></label>
+                <label>Módulo<select id="lg-col"><option value="">Todos</option>${Object.keys(COLS).map((c) => `<option value="${c}">${COLS[c]}</option>`).join('')}</select></label>
+                <label>Desde<input id="lg-from" type="date"></label>
+                <label>Hasta<input id="lg-to" type="date"></label>
+                <label class="lg-wide">Buscar en el detalle<input id="lg-q" type="search" placeholder="Ej.: nombre del docente, campo, N° de consulta" autocomplete="off"></label>
+            </div>
+            <div class="lg-bar"><span id="lg-count" class="lg-count"></span><button type="button" class="dv-btn ghost" id="lg-clear"><i class="fas fa-eraser"></i> Limpiar filtros</button><button type="button" class="dv-btn" id="lg-csv"><i class="fas fa-file-csv"></i> Descargar CSV</button></div>
+            <div class="lg-wrap"><table class="lg-t" id="lg-table"><thead><tr><th>Fecha y hora</th><th>Persona</th><th>Acción</th><th>Módulo</th><th>Detalle</th></tr></thead><tbody id="lg-body"></tbody></table></div>
+            <div class="lg-more"><button type="button" class="dv-btn ghost hidden" id="lg-more">Ver más movimientos</button></div></div></div>`);
+        head.querySelector('.cfg-tabs').addEventListener('click', (e) => { const b = e.target.closest('[data-cfg]'); if (b) show(b.dataset.cfg); });
+        ['lg-action', 'lg-col', 'lg-from', 'lg-to'].forEach((id) => $(id).addEventListener('change', () => load(true)));
+        ['lg-user', 'lg-q'].forEach((id) => $(id).addEventListener('input', debounce(() => load(true), 350)));
+        $('lg-clear').onclick = () => { ['lg-action', 'lg-user', 'lg-col', 'lg-from', 'lg-to', 'lg-q'].forEach((id) => { $(id).value = ''; }); load(true); };
+        $('lg-more').onclick = () => load(false);
+        $('lg-csv').onclick = csv;
+    }
+    function show(tab) {
+        const v = $('settings-view'); if (!v) return; v.dataset.tab = tab;
+        document.querySelectorAll('#cfg-head [data-cfg]').forEach((b) => b.classList.toggle('on', b.dataset.cfg === tab));
+        if (tab === 'log') load(true);
+        try { window.scrollTo({ top: 0 }); } catch (_) {}
+    }
+    const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+
+    /* ---------- carga y filtros ---------- */
+    let items = [], total = 0, filled = false, busy = false;
+    const params = (offset, limit) => ({ action: $('lg-action').value, user: $('lg-user').value.trim(), col: $('lg-col').value, from: $('lg-from').value, to: $('lg-to').value, q: $('lg-q').value.trim(), offset, limit });
+    async function load(reset) {
+        if (busy) return; busy = true;
+        const body = $('lg-body'); if (reset) { items = []; body.innerHTML = '<tr><td colspan="5" class="lg-wait">Cargando…</td></tr>'; }
+        try {
+            const r = await window.AppDB.call('auditList', params(items.length, 60));
+            total = r.total; items = items.concat(r.items);
+            if (!filled || r.actions.length) {
+                const a = $('lg-action'), cur = a.value; a.innerHTML = '<option value="">Todas</option>' + r.actions.map((x) => `<option>${esc(x)}</option>`).join(''); a.value = cur; filled = true;
+                $('lg-users').innerHTML = r.users.map((u) => `<option value="${esc(u)}">`).join('');
+            }
+            paint(r.all);
+        } catch (e) { body.innerHTML = `<tr><td colspan="5" class="lg-wait">No se pudo cargar la bitácora: ${esc(e.message)}${/Acción desconocida/.test(e.message) ? ' (actualiza Code.gs en Apps Script y crea una nueva versión).' : ''}</td></tr>`; }
+        busy = false;
+    }
+    function paint(all) {
+        $('lg-count').textContent = total + ' movimiento' + (total === 1 ? '' : 's') + (total !== all ? ' de ' + all : '');
+        $('lg-body').innerHTML = items.length ? items.map((x) => { const t = tone(x.action); return `<tr><td data-label="Fecha y hora" class="lg-nw">${when(x.at)}</td><td data-label="Persona"><b>${esc(x.userName || '—')}</b>${x.role ? `<small>${esc({ admin: 'Administración', coordinator: 'Coordinación', teacher: 'Docente' }[x.role] || x.role)}</small>` : ''}</td><td data-label="Acción"><span class="lg-chip" style="background:${t[0]};color:${t[1]}">${esc(x.action)}</span></td><td data-label="Módulo">${esc(COLS[x.col] || x.col || '—')}</td><td data-label="Detalle">${esc(x.detail || '')}</td></tr>`; }).join('') : '<tr><td colspan="5" class="lg-wait">No hay movimientos con esos filtros.</td></tr>';
+        $('lg-more').classList.toggle('hidden', items.length >= total);
+    }
+    async function csv() {
+        const b = $('lg-csv'); b.disabled = true;
+        try {
+            let rows = [], off = 0, tot = 1; while (off < tot && off < 5000) { const r = await window.AppDB.call('auditList', params(off, 200)); tot = r.total; rows = rows.concat(r.items); off += 200; if (!r.items.length) break; }
+            const q = (s) => '"' + String(s == null ? '' : s).replace(/"/g, '""') + '"';
+            const txt = '﻿' + ['Fecha y hora;Persona;Rol;Acción;Módulo;Detalle'].concat(rows.map((x) => [when(x.at), x.userName, x.role, x.action, COLS[x.col] || x.col, x.detail].map(q).join(';'))).join('\r\n');
+            const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], { type: 'text/csv;charset=utf-8' })); a.download = 'bitacora.csv'; document.body.appendChild(a); a.click(); a.remove();
+        } catch (e) { info('No se pudo descargar: ' + e.message); }
+        b.disabled = false;
+    }
+
+    /* ---------- enganches ---------- */
+    const _cv = window.changeView;
+    window.changeView = function (id) { const r = _cv.apply(this, arguments); try { if (id === 'settings-view') setTimeout(tabs, 90); } catch (_) {} return r; };
+    const _rs = window.renderSettings;
+    if (_rs) window.renderSettings = function () { const r = _rs.apply(this, arguments); setTimeout(tabs, 90); return r; };
+})();
+
+/* ===== PRO12 · Consultas: canal entre docentes/coordinadores y el equipo administrativo ===== */
+(function () {
+    const $ = (id) => document.getElementById(id);
+    const K = window.__kit || {};
+    const esc = K.esc || ((s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])));
+    const nice = K.niceName || ((s) => String(s || ''));
+    const info = (m) => window.showConfirm(m, () => {});
+    const RIGHTS = { acceso: 'Acceso a mis datos', rectificacion: 'Rectificación (corregir datos)', supresion: 'Supresión (eliminar datos)', oposicion: 'Oposición (no usar mis datos)', portabilidad: 'Portabilidad (recibir mis datos)', bloqueo: 'Bloqueo temporal' };
+    const ST = { pendiente: ['Pendiente', '#FFF4E5', '#B54708'], en_proceso: ['En proceso', '#E0F2FE', '#0369A1'], respondida: ['Respondida', '#E8F7EF', '#067647'], denegada: ['Rechazada', '#FEF3F2', '#B42318'], cerrada: ['Cerrada', '#F1F5F9', '#475569'] };
+    const isAdmin = () => currentUser && currentUser.role === 'admin';
+    const list = () => (window.__queries || []).slice();
+    const today = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+    const dayDiff = (a, b) => Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 86400000);
+    const fdate = (iso) => { const d = new Date(iso); if (isNaN(d)) return '—'; const p = (n) => String(n).padStart(2, '0'); return p(d.getDate()) + '-' + p(d.getMonth() + 1) + '-' + d.getFullYear(); };
+    const fdt = (iso) => { const d = new Date(iso); if (isNaN(d)) return '—'; const p = (n) => String(n).padStart(2, '0'); return fdate(iso) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes()); };
+    const fday = (ds) => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(ds || ''); return m ? m[3] + '-' + m[2] + '-' + m[1] : '—'; };
+    const closed = (q) => ['respondida', 'denegada', 'cerrada'].includes(q.status);
+    function modal(id, inner, wide) {
+        const old = $(id); if (old) old.remove();
+        const ov = document.createElement('div'); ov.id = id;
+        ov.style.cssText = 'position:fixed;inset:0;z-index:95;display:flex;align-items:flex-start;justify-content:center;padding:18px 12px;background:rgba(10,42,85,.5);backdrop-filter:blur(3px);overflow:auto';
+        ov.innerHTML = `<div class="sm-dlg${wide ? ' wide' : ''}"><button type="button" class="sm-x" aria-label="Cerrar"><i class="fas fa-xmark"></i></button>${inner}</div>`;
+        document.body.appendChild(ov);
+        const close = () => ov.remove(); ov.querySelector('.sm-x').onclick = close; ov.addEventListener('mousedown', (e) => { if (e.target === ov) close(); });
+        return { ov, close };
+    }
+    function ensureView() {
+        if ($('consultas-view')) return;
+        const host = ($('settings-view') || $('stats-view') || document.body).parentElement || document.body;
+        host.insertAdjacentHTML('beforeend', '<div id="consultas-view" class="view max-w-7xl mx-auto"></div>');
+    }
+
+    /* ---------- plazo legal ---------- */
+    function dueInfo(q) {
+        if (q.type !== 'derecho') return null;
+        if (closed(q)) return { txt: (q.status === 'denegada' ? 'Rechazada el ' : 'Respondida el ') + fdate(q.answeredAt), cls: 'ok' };
+        const d = dayDiff(today(), q.dueAt);
+        if (d < 0) return { txt: 'Plazo vencido hace ' + (-d) + ' día' + (d === -1 ? '' : 's') + ' (' + fday(q.dueAt) + ')', cls: 'late' };
+        if (d === 0) return { txt: 'Vence hoy', cls: 'late' };
+        return { txt: 'Responder antes del ' + fday(q.dueAt) + ' · ' + d + ' día' + (d === 1 ? '' : 's'), cls: d <= 5 ? 'soon' : 'ok2' };
+    }
+
+    /* ---------- vista principal ---------- */
+    let fSt = '', fTy = '', fQ = '';
+    function render() {
+        ensureView(); const v = $('consultas-view'); if (!v) return;
+        const all = list().sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+        const adm = isAdmin();
+        const open = all.filter((q) => !closed(q));
+        const late = open.filter((q) => q.type === 'derecho' && dayDiff(today(), q.dueAt) < 0).length;
+        const soon = open.filter((q) => q.type === 'derecho' && dayDiff(today(), q.dueAt) >= 0 && dayDiff(today(), q.dueAt) <= 5).length;
+        let rows = all.filter((q) => (!fSt || (fSt === 'abiertas' ? !closed(q) : q.status === fSt)) && (!fTy || q.type === fTy) && (!fQ || (q.no + ' ' + q.subject + ' ' + q.userName).toLowerCase().includes(fQ.toLowerCase())));
+        if (adm) rows.sort((a, b) => (closed(a) - closed(b)) || String(a.dueAt || '9999').localeCompare(String(b.dueAt || '9999')) || String(b.createdAt).localeCompare(String(a.createdAt)));
+        v.innerHTML = `<div class="cq-head"><div><h2 class="text-2xl font-bold text-slate-800">Consultas</h2><p class="cq-sub">${adm ? 'Consultas y solicitudes de docentes y coordinadores. Responde aquí mismo: queda registrado con fecha.' : 'Escribe al equipo administrativo. La respuesta aparecerá en esta misma página.'}</p></div><button type="button" class="dv-btn" id="cq-new"><i class="fas fa-pen-to-square"></i> Nueva consulta</button></div>
+            <div class="cq-law"><i class="fas fa-scale-balanced"></i><div><b>Tus datos personales, tus derechos (Ley N° 21.719)</b>Puedes pedir <b>acceso, rectificación, supresión, oposición, portabilidad o bloqueo</b> de tus datos. Respondemos en un máximo de <b>30 días corridos</b> (prorrogables una sola vez, con motivo). Si no podemos acceder a tu solicitud, te explicaremos el motivo y podrás reclamar ante la <b>Agencia de Protección de Datos Personales</b> dentro de 30 días hábiles.</div></div>
+            ${adm ? `<div class="cq-kpis"><div class="cq-k" style="background:linear-gradient(135deg,#0F4C9A,#2B86DD)"><b>${open.length}</b><span>abiertas</span></div><div class="cq-k" style="background:linear-gradient(135deg,#E87A12,#F5A04A)"><b>${soon}</b><span>por vencer (≤ 5 días)</span></div><div class="cq-k" style="background:linear-gradient(135deg,#B42318,#E5383B)"><b>${late}</b><span>con plazo vencido</span></div><div class="cq-k" style="background:linear-gradient(135deg,#067647,#12B76A)"><b>${all.length - open.length}</b><span>cerradas</span></div></div>` : ''}
+            <div class="cq-filters"><select id="cq-st"><option value="">Todos los estados</option><option value="abiertas">Abiertas</option>${Object.keys(ST).map((k) => `<option value="${k}">${ST[k][0]}</option>`).join('')}</select><select id="cq-ty"><option value="">Todos los tipos</option><option value="derecho">Derechos sobre mis datos</option><option value="general">Consultas generales</option></select><input id="cq-q" type="search" placeholder="${adm ? 'Buscar por N°, asunto o persona…' : 'Buscar…'}" autocomplete="off"></div>
+            <div class="cq-list">${rows.length ? rows.map((q) => card(q, adm)).join('') : `<div class="cq-empty"><i class="fas fa-comments"></i><p>${all.length ? 'No hay consultas con esos filtros.' : adm ? 'Aún no hay consultas.' : 'Aún no has enviado consultas. Pulsa «Nueva consulta» para escribir al equipo administrativo.'}</p></div>`}</div>`;
+        $('cq-st').value = fSt; $('cq-ty').value = fTy; $('cq-q').value = fQ;
+        $('cq-new').onclick = openNew;
+        $('cq-st').onchange = (e) => { fSt = e.target.value; render(); }; $('cq-ty').onchange = (e) => { fTy = e.target.value; render(); };
+        $('cq-q').oninput = (e) => { fQ = e.target.value; clearTimeout(render._t); render._t = setTimeout(() => { render(); const i = $('cq-q'); if (i) { i.focus(); i.setSelectionRange(i.value.length, i.value.length); } }, 350); };
+        v.querySelectorAll('[data-q]').forEach((el) => { el.onclick = () => openThread(el.dataset.q); });
+        paintBadge();
+    }
+    function card(q, adm) {
+        const s = ST[q.status] || ST.pendiente, d = dueInfo(q), unread = adm ? q.unreadAdmin : q.unreadUser;
+        return `<div class="cq-card ${unread ? 'unread' : ''}" data-q="${esc(q.id)}" tabindex="0" role="button">
+            <div class="cq-top"><span class="cq-no">${esc(q.no)}</span><span class="cq-st" style="background:${s[1]};color:${s[2]}">${s[0]}</span>${q.type === 'derecho' ? `<span class="cq-ty"><i class="fas fa-shield-halved"></i> ${esc((RIGHTS[q.right] || '').split(' (')[0] || 'Derechos')}</span>` : '<span class="cq-ty gen">Consulta general</span>'}${unread ? '<span class="cq-new">Nuevo</span>' : ''}</div>
+            <div class="cq-subj">${esc(q.subject)}</div>
+            <div class="cq-meta">${adm ? `<span><i class="fas fa-user"></i> ${esc(nice(q.userName))}${q.department ? ' · ' + esc(q.department) : ''}</span>` : ''}<span><i class="far fa-calendar"></i> ${fdate(q.createdAt)}</span><span><i class="far fa-comment-dots"></i> ${(q.thread || []).filter((m) => m.by !== 'sistema').length} mensaje${(q.thread || []).filter((m) => m.by !== 'sistema').length === 1 ? '' : 's'}</span>${d ? `<span class="cq-due ${d.cls}"><i class="far fa-clock"></i> ${esc(d.txt)}</span>` : ''}</div></div>`;
+    }
+
+    /* ---------- nueva consulta ---------- */
+    function openNew() {
+        const { close } = modal('cq-new-m', `<div class="sm-ic" style="background:#E0F2FE;color:#0369A1"><i class="fas fa-pen-to-square"></i></div><div class="sm-ti">Nueva consulta</div>
+            <p class="sm-tx">Tu mensaje llegará al equipo administrativo. Recibirás un acuse de recibo con número y fecha.</p>
+            <div class="cq-seg" id="cq-type"><button type="button" class="on" data-t="general"><i class="fas fa-comments"></i> Consulta general</button><button type="button" data-t="derecho"><i class="fas fa-shield-halved"></i> Derechos sobre mis datos</button></div>
+            <div id="cq-right-box" class="hidden"><label class="cq-l">¿Qué derecho quieres ejercer?</label><select id="cq-right" class="cq-in"><option value="">— elegir —</option>${Object.keys(RIGHTS).map((k) => `<option value="${k}">${RIGHTS[k]}</option>`).join('')}</select>
+            <p class="cq-note"><i class="fas fa-scale-balanced"></i> Plazo legal de respuesta: 30 días corridos desde hoy (Ley N° 21.719, art. 11).</p></div>
+            <label class="cq-l">Asunto</label><input id="cq-subj" class="cq-in" maxlength="140" placeholder="Resumen breve de tu consulta">
+            <label class="cq-l">Mensaje</label><textarea id="cq-msg" class="cq-in" rows="6" maxlength="3000" placeholder="Cuéntanos con detalle qué necesitas. No incluyas contraseñas."></textarea>
+            <div class="sm-ft"><button type="button" class="sm-btn ghost" id="cq-cancel">Cancelar</button><button type="button" class="sm-btn" id="cq-send"><i class="fas fa-paper-plane"></i> Enviar consulta</button></div>`);
+        let type = 'general';
+        $('cq-type').addEventListener('click', (e) => { const b = e.target.closest('[data-t]'); if (!b) return; type = b.dataset.t; $('cq-type').querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b)); $('cq-right-box').classList.toggle('hidden', type !== 'derecho'); });
+        $('cq-cancel').onclick = close;
+        $('cq-send').onclick = async () => {
+            const b = $('cq-send'); b.disabled = true; b.textContent = 'Enviando…';
+            try {
+                const r = await window.AppDB.call('queryCreate', { type, right: $('cq-right').value, subject: $('cq-subj').value, message: $('cq-msg').value });
+                await window.AppDB.refresh(); close(); render();
+                info('Consulta enviada. Tu número es ' + r.no + '.' + (r.dueAt ? ' Tienes derecho a respuesta a más tardar el ' + fday(r.dueAt) + '.' : ''));
+            } catch (e) { b.disabled = false; b.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar consulta'; info(e.message + (/Acción desconocida/.test(e.message) ? ' (actualiza Code.gs en Apps Script y crea una nueva versión).' : '')); }
+        };
+    }
+
+    /* ---------- conversación ---------- */
+    const KIND = { acuse: ['Acuse de recibo', '#64748b'], prorroga: ['Prórroga de plazo', '#B54708'], denegacion: ['Solicitud rechazada', '#B42318'], respuesta: ['Respuesta', '#067647'], seguimiento: ['', ''], consulta: ['', ''] };
+    function openThread(id) {
+        const q = list().find((x) => x.id === id); if (!q) return;
+        const adm = isAdmin(), s = ST[q.status] || ST.pendiente, d = dueInfo(q);
+        const msgs = (q.thread || []).map((m) => { const k = KIND[m.kind] || ['', '']; return `<div class="cq-msg ${m.by}"><div class="cq-mh"><b>${esc(m.by === 'sistema' ? 'Plataforma' : nice(m.name))}</b><span>${fdt(m.at)}</span></div>${k[0] ? `<div class="cq-kind" style="color:${k[1]}">${k[0]}</div>` : ''}<div class="cq-mt">${esc(m.text)}</div></div>`; }).join('');
+        const canReply = adm || q.userId === currentUser.id;
+        const { ov, close } = modal('cq-thread-m', `<div class="cq-th-head"><span class="cq-no">${esc(q.no)}</span><span class="cq-st" style="background:${s[1]};color:${s[2]}">${s[0]}</span>${q.type === 'derecho' ? `<span class="cq-ty"><i class="fas fa-shield-halved"></i> ${esc(RIGHTS[q.right] || 'Derechos')}</span>` : ''}</div>
+            <div class="sm-ti" style="margin-top:6px">${esc(q.subject)}</div>
+            <div class="cq-meta" style="margin-bottom:8px">${adm ? `<span><i class="fas fa-user"></i> ${esc(nice(q.userName))}${q.department ? ' · ' + esc(q.department) : ''}</span>` : ''}<span><i class="far fa-calendar"></i> ${fdt(q.createdAt)}</span>${d ? `<span class="cq-due ${d.cls}"><i class="far fa-clock"></i> ${esc(d.txt)}${q.extended ? ' · prorrogado' : ''}</span>` : ''}</div>
+            <div class="cq-thread">${msgs}</div>
+            ${canReply ? (adm ? `<label class="cq-l">Tu respuesta</label><textarea id="cq-reply" class="cq-in" rows="4" maxlength="3000" placeholder="Escribe la respuesta. Quedará registrada con fecha y hora."></textarea>
+                <label class="cq-l">¿Cómo queda esta consulta?</label><select id="cq-res" class="cq-in"><option value="respondida">Responder y dar por respondida</option><option value="en_proceso">Aviso de avance (sigue en proceso)</option>${q.type === 'derecho' && !q.extended && !closed(q) ? '<option value="prorroga">Prorrogar el plazo 30 días (indica el motivo)</option>' : ''}${q.type === 'derecho' ? '<option value="denegada">Rechazar la solicitud (indica el motivo)</option>' : ''}<option value="cerrada">Responder y cerrar</option></select>
+                <p class="cq-note" id="cq-hint"></p>` : `<label class="cq-l">${closed(q) ? 'Si necesitas algo más, escribe aquí (se reabrirá la consulta)' : 'Agregar un mensaje'}</label><textarea id="cq-reply" class="cq-in" rows="3" maxlength="3000" placeholder="Tu mensaje…"></textarea>`) : ''}
+            <div class="sm-ft"><button type="button" class="sm-btn ghost" id="cq-pdf"><i class="fas fa-file-pdf"></i> Constancia (PDF)</button>${canReply ? '<button type="button" class="sm-btn" id="cq-go"><i class="fas fa-paper-plane"></i> Enviar</button>' : ''}</div>`, true);
+        try { if ((adm && q.unreadAdmin) || (!adm && q.userId === currentUser.id && q.unreadUser)) window.AppDB.call('queryRead', { id }).then(() => window.AppDB.refresh()).catch(() => {}); } catch (_) {}
+        const hints = { prorroga: 'La ley permite prorrogar una sola vez, por otros 30 días corridos, y exige explicar el motivo.', denegada: 'Una respuesta de rechazo debe ser fundada. Se informará a la persona que puede reclamar ante la Agencia de Protección de Datos Personales dentro de 30 días hábiles.', respondida: '', en_proceso: '', cerrada: '' };
+        if ($('cq-res')) { $('cq-res').onchange = (e) => { $('cq-hint').textContent = hints[e.target.value] || ''; $('cq-hint').style.display = hints[e.target.value] ? '' : 'none'; }; $('cq-hint').style.display = 'none'; }
+        const box = ov.querySelector('.cq-thread'); if (box) box.scrollTop = box.scrollHeight;
+        if ($('cq-go')) $('cq-go').onclick = async () => {
+            const b = $('cq-go'); b.disabled = true; b.textContent = 'Enviando…';
+            try {
+                await window.AppDB.call('queryReply', { id, text: $('cq-reply').value, resolution: adm ? $('cq-res').value : undefined });
+                await window.AppDB.refresh(); close(); render(); openThread(id);
+            } catch (e) { b.disabled = false; b.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar'; info(e.message); }
+        };
+        $('cq-pdf').onclick = async () => {
+            try {
+                const blocks = [K.banner('💬', 'Consulta N° ' + q.no, q.subject)];
+                blocks.push({ html: `<div data-keep="1" style="border:1px solid #e1ecf8;border-radius:12px;padding:10px 14px;font-size:12.5px;line-height:1.6"><b>Solicitante:</b> ${esc(nice(q.userName))}${q.department ? ' · ' + esc(q.department) : ''}<br><b>Tipo:</b> ${q.type === 'derecho' ? 'Derechos sobre datos personales · ' + esc(RIGHTS[q.right] || '') : 'Consulta general'}<br><b>Fecha de recepción:</b> ${fdt(q.createdAt)}${q.type === 'derecho' ? '<br><b>Plazo legal de respuesta:</b> ' + fday(q.dueAt) + (q.extended ? ' (prorrogado una vez)' : '') + ' · Ley N° 21.719, art. 11' : ''}<br><b>Estado:</b> ${esc(s[0])}</div>` });
+                (q.thread || []).forEach((m) => blocks.push({ html: `<div data-keep="1" style="border-left:5px solid ${m.by === 'admin' ? '#12B76A' : m.by === 'user' ? '#0F69C4' : '#94a3b8'};background:#f8fbff;border-radius:10px;padding:9px 14px;margin-top:6px"><div style="font-size:11px;color:#64748b"><b>${esc(m.by === 'sistema' ? 'Plataforma' : nice(m.name))}</b> · ${fdt(m.at)}${(KIND[m.kind] || [''])[0] ? ' · ' + KIND[m.kind][0] : ''}</div><div style="white-space:pre-wrap;font-size:12.5px;margin-top:3px">${esc(m.text)}</div></div>` }));
+                await K.buildPdf({ title: 'CONSTANCIA DE CONSULTA ' + q.no, subtitle: q.subject, blocks, fileName: 'Constancia_' + q.no + '.pdf' });
+            } catch (e) { K.failPdf ? K.failPdf(e) : info('No se pudo generar el PDF: ' + e.message); }
+        };
+    }
+
+    /* ---------- aviso de novedades en el menú ---------- */
+    function paintBadge() {
+        if (!currentUser || !currentUser.id) return;
+        const n = list().filter((q) => (isAdmin() ? q.unreadAdmin : q.unreadUser)).length;
+        document.querySelectorAll('[data-view="consultas-view"]').forEach((a) => {
+            let b = a.querySelector('.cq-badge');
+            if (!n) { if (b) b.remove(); return; }
+            if (!b) { b = document.createElement('b'); b.className = 'cq-badge'; a.appendChild(b); }
+            b.textContent = n > 9 ? '9+' : n;
+        });
+    }
+    setInterval(() => { try { paintBadge(); } catch (_) {} }, 2500);
+
+    /* ---------- enganches ---------- */
+    ensureView();
+    const _cv = window.changeView;
+    window.changeView = function (id) { const r = _cv.apply(this, arguments); try { if (id === 'consultas-view') render(); } catch (e) { console.error(e); } return r; };
+    window.renderConsultas = render;
 })();
 </script>
 </body>
