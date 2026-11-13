@@ -730,6 +730,20 @@ table.fit-w { table-layout:auto; width:100% !important; }
   body.kb-open #mobile-nav { display:none !important; }
   body.kb-open main#main-container { padding-bottom:16px !important; }
 }
+
+/* ===== PRO17 · reprogramar/programar y perfil Sostenedor ===== */
+.rs-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:8px 12px; }
+.rs-chk { display:flex; gap:9px; align-items:flex-start; margin-top:12px; font-size:.84rem; color:#334155; line-height:1.4; cursor:pointer; } .rs-chk input { margin-top:3px; }
+.ag-btn.soft { background:#fff4e5; color:#B54708; border:1px solid #f6d7a5; box-shadow:none; } .ag-btn.sm { padding:5px 10px; font-size:.7rem; margin-left:8px; }
+.ag-moved { display:block; margin-top:2px; font-size:.68rem; font-weight:800; color:#B54708; } .ag-moved i { margin-right:3px; }
+.ag-head .ag-btn { flex:none; align-self:center; }
+@media (max-width:640px) { .ag-head { flex-wrap:wrap; } .ag-head .ag-btn { width:100%; text-align:center; } }
+/* Sostenedor: solo lectura (la plataforma además lo impide en el servidor) */
+body.role-sost #create-plan-btn, body.role-sost .sost-hide, body.role-sost #wi-card, body.role-sost [data-ag-new], body.role-sost [data-ag-resch], body.role-sost [data-ag-reschacc], body.role-sost [data-ag-fill], body.role-sost [data-import-sched],
+body.role-sost [onclick*="accompaniment-form-view"], body.role-sost [onclick*="openQuickAccModal"], body.role-sost [onclick*="openUserModal"], body.role-sost [onclick*="deleteUser"], body.role-sost [onclick*="deleteAccompaniment"], body.role-sost [onclick*="saveTeacherFocos"],
+body.role-sost [onclick*="editFocoInDominio"], body.role-sost [onclick*="addFocoToDominio"], body.role-sost [onclick*="deleteFocoFromDominio"], body.role-sost [onclick*="openAddPlanModal"], body.role-sost [onclick*="addDepartment"], body.role-sost [onclick*="deleteDepartment"],
+body.role-sost [onclick*="addSigner"], body.role-sost [onclick*="deleteSigner"], body.role-sost [onclick*="updateConfig"], body.role-sost [onclick*="updateStatsGoal"], body.role-sost [onclick*="importAllData"], body.role-sost [onclick*="openResched"], body.role-sost [onclick*="improveText"], body.role-sost [onclick*="suggestMBE"], body.role-sost [onclick*="removeAccFocus"], body.role-sost [onclick*="removePlanFocus"] { display:none !important; }
+body.role-sost #teacher-detail-view select, body.role-sost #teacher-detail-view textarea { pointer-events:none; opacity:.8; }
 </style>
 </head>
 <body class="text-slate-800 flex flex-col h-screen overflow-hidden">
@@ -815,12 +829,11 @@ table.fit-w { table-layout:auto; width:100% !important; }
                                     <option value="">-- Selecciona tu Perfil --</option>
                                     <option value="admin">Directivo / Administrador</option>
                                     <option value="coordinator">Coordinador / UTP</option>
-                                    <option value="teacher">Docente</option>
-                                </select>
+                                    <option value="teacher">Docente</option><option value="sostenedor">Sostenedor / SLEP</option></select>
                                 <div class="lg-roles" id="role-cards">
                                     <button type="button" class="lg-role" data-role="admin"><i class="fas fa-user-tie"></i><b>Directivo</b><small>Administrador/a</small></button>
                                     <button type="button" class="lg-role" data-role="coordinator"><i class="fas fa-people-group"></i><b>Coordinador/a</b><small>UTP · Departamentos</small></button>
-                                    <button type="button" class="lg-role" data-role="teacher"><i class="fas fa-chalkboard-user"></i><b>Docente</b><small>Aula y asignaturas</small></button>
+                                    <button type="button" class="lg-role" data-role="teacher"><i class="fas fa-chalkboard-user"></i><b>Docente</b><small>Aula y asignaturas</small></button><button type="button" class="lg-role" data-role="sostenedor"><i class="fas fa-landmark"></i><b>Sostenedor</b><small>SLEP · Solo lectura</small></button>
                                 </div>
                             </div>
                             <div>
@@ -1149,7 +1162,7 @@ table.fit-w { table-layout:auto; width:100% !important; }
 
     <input type="password" id="user-password" class="w-full border p-2 rounded" placeholder="Nueva Contraseña (dejar en blanco para no cambiar)">
 
-    <select id="user-role" class="w-full border p-2 rounded" onchange="document.getElementById('alternative-role-group').classList.toggle('hidden', this.value !== 'admin')"><option value="teacher">Docente</option><option value="coordinator">Coordinador/a</option><option value="admin">Administrador/a</option></select><div id="alternative-role-group" class="hidden">
+    <select id="user-role" class="w-full border p-2 rounded" onchange="document.getElementById('alternative-role-group').classList.toggle('hidden', this.value !== 'admin')"><option value="teacher">Docente</option><option value="coordinator">Coordinador/a</option><option value="admin">Administrador/a</option><option value="sostenedor">Sostenedor/a (solo lectura)</option></select><div id="alternative-role-group" class="hidden">
         <select id="user-alternative-role" class="w-full border p-2 rounded">
             <option value="">(Solo Admin) Rol en Firma (Ej: UTP)</option>
             <option value="Director/a">Director/a</option>
@@ -1555,8 +1568,9 @@ window.APP_CONFIG = { WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbzQjc
         const ROL_MAP = {
             admin: 'Administrador/a',
             coordinator: 'Coordinador/a',
-            teacher: 'Docente'
-        };
+            teacher: 'Docente',
+    sostenedor: 'Sostenedor/a'
+};
 
         // TRANSFORMADO EN VARIABLE "let" PARA QUE SEA MODIFICABLE
         let FOCOS_DOMINIOS = {
@@ -1761,10 +1775,10 @@ window.APP_CONFIG = { WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbzQjc
             const l=[
                 {id:'dashboard-view', t:'Inicio', i:'fa-home', r:['all']},
                 {id:'calendar-view', t:'Calendario', i:'fa-calendar-alt', r:['all']}, // <-- NUEVO: Pestaña de Calendario
-                {id:'teachers-view', t:'Docentes', i:'fa-users', r:['admin','coordinator']},
+                {id:'teachers-view', t:'Docentes', i:'fa-users', r:['admin','coordinator','sostenedor']},
                 {id:'plans-view', t:'Planes', i:'fa-clipboard-list', r:['all']},
-                {id:'stats-view', t:'Reportes', i:'fa-chart-pie', r:['admin','coordinator']},
-                {id:'consultas-view', t:'Consultas', i:'fa-comments', r:['all']},
+                {id:'stats-view', t:'Reportes', i:'fa-chart-pie', r:['admin','coordinator','sostenedor']},
+                {id:'consultas-view', t:'Consultas', i:'fa-comments', r:['admin','coordinator','teacher']},
                 {id:'settings-view', t:'Config', i:'fa-cog', r:['admin']}
             ];
 
@@ -2200,7 +2214,7 @@ window.APP_CONFIG = { WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbzQjc
 
                             return `<div class="bg-white p-3 rounded border ${isToday ? 'border-red-300' : 'border-orange-200'} text-sm text-orange-900 flex justify-between items-center shadow-sm">
                                         <span><i class="fas fa-arrow-right mr-2 ${isToday ? 'text-red-500' : 'text-orange-400'}"></i> ${roleText}</span>
-                                        ${dateBadge}
+                                        ${dateBadge}${window.__reschBtn ? window.__reschBtn(a) : ""}
                                     </div>`;
                         }).join('');
                         alertBanner.classList.remove('hidden');
@@ -2506,7 +2520,9 @@ function cleanText(text) {
             let userContext = "";
             let teacherCycleContext = "";
 
-            if (currentUser.role === 'admin') {
+            if (currentUser.role === 'sostenedor') {
+                userContext = `Estás asistiendo al Sostenedor (Servicio Local de Educación Pública). Tus respuestas deben ser estratégicas y de política educativa local: calidad de la gestión pedagógica, uso de resultados y evidencia, monitoreo del acompañamiento al aula, apoyo y recursos a los establecimientos, normativa vigente y mejora continua del territorio. Habla del establecimiento en términos generales y evita bajar a detalles de aula que no se te hayan entregado.`;
+            } else if (currentUser.role === 'admin') {
                 const specificRole = currentUser.alternativeRole || 'Jefe UTP/Director';
                 userContext = `Estás asistiendo a un perfil directivo (${specificRole}). Tus respuestas deben ser estratégicas, normativas y orientadas al liderazgo pedagógico.`;
             } else if (currentUser.role === 'coordinator') {
@@ -2706,7 +2722,7 @@ function cleanText(text) {
                         ${canEditUTP ? `
                         <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-200">
                             <h3 class="font-bold text-indigo-900 mb-2 flex items-center gap-2"><i class="fas fa-robot"></i> Análisis Asistido por IA (MBE & Aprendizaje Profundo)</h3>
-                            <p class="text-xs text-indigo-700 mb-3">Describe lo que observaste para que el sistema genere un borrador de análisis formal.</p>
+                            <p class="text-xs text-indigo-700 mb-3">Describe lo que observaste y el sistema sugerirá <b>solo</b> las fortalezas y las brechas. Las demás secciones las completas tú; para las habilidades MBE usa «Sugerir Habilidades (IA)».</p>
                             <label class="compact-label">Registro de lo observado (insumo para análisis)</label>
                             <textarea id="acc-observation-raw" rows="6" class="w-full p-3 border border-indigo-200 rounded-lg text-sm mb-3 focus:ring-2 focus:ring-indigo-400 outline-none" placeholder="Escribe aquí tus notas de la clase...">${acc?.observationRaw||''}</textarea>
                             <button type="button" id="btn-generate-draft" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold text-sm shadow hover:bg-indigo-700 flex items-center gap-2"><i class="fas fa-magic"></i> Generar Borrador de Análisis</button>
@@ -2877,11 +2893,7 @@ function cleanText(text) {
                     Formato JSON requerido:
                     {
                         "strengths": "Fortalezas (Cita observación + Descriptores exactos del MBE o Aprendizaje Profundo)",
-                        "weaknesses": "Brecha/Mejora (Debe ser la contraparte exacta y coherente de lo que falta en la observación + Cita MBE)",
-                        "mbe_skills": "Habilidades MBE a desarrollar (Cita Descriptor y Criterio MBE específico)",
-                        "student_goals": "Impacto esperado en estudiantes (Relaciona con Aprendizaje Profundo)",
-                        "support": "Apoyos sugeridos UTP",
-                        "auth_eval": "Análisis Evaluación Auténtica (Cita qué elementos se observaron)"
+                        "weaknesses": "Brecha/Mejora (Debe ser la contraparte exacta y coherente de lo que falta en la observación + Cita MBE)"
                     }`;
 
                     try {
@@ -2890,10 +2902,7 @@ function cleanText(text) {
                         // El "|| ''" evita que se escriba la palabra "undefined"
                         document.getElementById('acc-strengths').value = j.strengths || '';
                         document.getElementById('acc-improvements').value = j.weaknesses || '';
-                        document.getElementById('acc-mbe-skills').value = j.mbe_skills ? `(${mbeName}) ${j.mbe_skills}` : '';
-                        document.getElementById('acc-student-goals').value = j.student_goals || '';
-                        document.getElementById('acc-support').value = j.support || '';
-                        document.getElementById('acc-auth-eval').value = j.auth_eval || '';
+                        // Solo se sugieren fortalezas y brechas: las demás secciones las completa la persona (las habilidades MBE, con «Sugerir Habilidades (IA)»).
                         if(typeof window.updateAccProgress === 'function') window.updateAccProgress();
                                         } catch(e) { console.error('Detalle del fallo IA:', e); window.showConfirm('No se pudo generar el borrador. ' + (e.message || e), () => {}); } finally { document.getElementById('ai-loading').classList.add('hidden'); }
                 };
@@ -5797,17 +5806,31 @@ window.applyLogo(logoUrl);
                 const t0 = todayS();
                 const mineObs = self ? rowsFor(A().filter((s) => s.observerId === uid)) : [];
                 const mineT = rowsFor(A().filter((s) => involves(s, uid)));
+                const meName = String(((uById(uid) || {}).name) || '').toUpperCase();
+                // fichas creadas directamente (sin pasar por la agenda) con fecha futura: también son parte de mi nómina
+                const directs = self ? accompaniments.filter((a) => a.date && a.date >= t0 && a.status !== 'licencia' && a.teacherId !== uid && (String(a.responsable || '').toUpperCase() === meName || String(a.responsableExtra || '').toUpperCase() === meName)
+                    && !A().some((s) => s.observerId === uid && s.teacherId === a.teacherId && s.date === a.date)).sort((x, y) => (x.date + (x.time || '')).localeCompare(y.date + (y.time || ''))) : [];
+                const canProgram = currentUser && (currentUser.role === 'admin' || currentUser.role === 'coordinator');
                 let out = '';
-                if (mineObs.length) {
+                if (self && (mineObs.length || directs.length || canProgram)) {
                     const pend = mineObs.filter((s) => s.date >= t0 || !hasFicha(s, s.teacherId));
-                    out += `<div class="ag-card"><div class="ag-head"><div class="ag-ic"><i class="fas fa-clipboard-user"></i></div><div><div class="ag-ti">Mi nómina de acompañamientos</div><div class="ag-su">Estas son las clases que debes acompañar (${mineObs.length}). La ficha se abre con fecha, horario, asignatura y curso ya completados.</div></div></div>
-                    <div class="ag-list">${pend.map((s) => {
+                    const chip = (ds) => { const n = daysTo(ds); return n === 0 ? '<em>HOY</em>' : n > 0 ? `<em class="in">en ${n} ${n === 1 ? 'día' : 'días'}</em>` : ''; };
+                    const rowS = (s) => {
                         const isToday = s.date === t0, done = hasFicha(s, s.teacherId);
                         const people = [{ id: s.teacherId, name: s.teacherName, pie: false }].concat((s.pie || []).map((p) => ({ id: p.id, name: p.name, pie: true })));
-                        return `<div class="ag-row${isToday ? ' today' : ''}"><div class="ag-when"><b>${esc(longDate(s.date))}</b><span>${esc(timeTxt(s))}${s.block ? ' · ' + esc(s.block) : ''}</span>${isToday ? '<em>HOY</em>' : (daysTo(s.date) > 0 ? `<em class="in">en ${daysTo(s.date)} ${daysTo(s.date) === 1 ? 'día' : 'días'}</em>` : '')}</div>
+                        return { k: s.date + (s.start || ''), html: `<div class="ag-row${isToday ? ' today' : ''}"><div class="ag-when"><b>${esc(longDate(s.date))}</b><span>${esc(timeTxt(s))}${s.block ? ' · ' + esc(s.block) : ''}</span>${chip(s.date)}${(s.moves || []).length ? '<span class="ag-moved"><i class="fas fa-rotate"></i> reprogramado</span>' : ''}</div>
                             <div class="ag-who"><b>${esc(nm(s.teacherName))}</b><span>${esc(s.course || '')}</span>${(s.pie || []).length ? `<span class="ag-pie">+ PIE: ${(s.pie || []).map((p) => esc(nm(p.name))).join(' / ')}</span>` : ''}</div>
-                            <div class="ag-act">${people.map((p) => { const f = p.id ? hasFicha(s, p.id) : null; return f ? `<button type="button" class="ag-btn ok" data-ag-view="${esc(f.id)}"><i class="fas fa-circle-check"></i> ${p.pie ? 'Ficha PIE' : 'Ficha lista'}</button>` : (p.id ? `<button type="button" class="ag-btn" data-ag-fill="${esc(s.id)}" data-for="${esc(p.id)}"><i class="fas fa-pen-to-square"></i> ${p.pie ? 'Ficha PIE' : 'Completar ficha'}</button>` : `<span class="ag-nolink" title="No está vinculada a un usuario">${p.pie ? 'PIE sin usuario' : 'Sin usuario'}</span>`); }).join('')}</div></div>`;
-                    }).join('') || '<div class="ag-empty">No tienes acompañamientos pendientes.</div>'}</div></div>`;
+                            <div class="ag-act">${people.map((p) => { const f = p.id ? hasFicha(s, p.id) : null; return f ? `<button type="button" class="ag-btn ok" data-ag-view="${esc(f.id)}"><i class="fas fa-circle-check"></i> ${p.pie ? 'Ficha PIE' : 'Ficha lista'}</button>` : (p.id ? `<button type="button" class="ag-btn" data-ag-fill="${esc(s.id)}" data-for="${esc(p.id)}"><i class="fas fa-pen-to-square"></i> ${p.pie ? 'Ficha PIE' : 'Completar ficha'}</button>` : `<span class="ag-nolink" title="No está vinculada a un usuario">${p.pie ? 'PIE sin usuario' : 'Sin usuario'}</span>`); }).join('')}${!done ? `<button type="button" class="ag-btn soft" data-ag-resch="${esc(s.id)}"><i class="fas fa-calendar-day"></i> Reprogramar</button>` : ''}</div></div>` };
+                    };
+                    const rowA = (a) => {
+                        const t = uById(a.teacherId), isToday = a.date === t0;
+                        return { k: a.date + (a.time || ''), html: `<div class="ag-row${isToday ? ' today' : ''}"><div class="ag-when"><b>${esc(longDate(a.date))}</b><span>${esc(a.time || 'Hora por confirmar')} · ficha creada directamente</span>${chip(a.date)}</div>
+                            <div class="ag-who"><b>${esc(nm(t ? t.name : 'Docente'))}</b><span>${esc(a.course || '')}</span></div>
+                            <div class="ag-act"><button type="button" class="ag-btn" data-ag-view="${esc(a.id)}"><i class="fas fa-file-pen"></i> Abrir ficha</button><button type="button" class="ag-btn soft" data-ag-reschacc="${esc(a.id)}"><i class="fas fa-calendar-day"></i> Reprogramar</button></div></div>` };
+                    };
+                    const rows = pend.map(rowS).concat(directs.map(rowA)).sort((x, y) => x.k.localeCompare(y.k));
+                    out += `<div class="ag-card"><div class="ag-head"><div class="ag-ic"><i class="fas fa-clipboard-user"></i></div><div style="flex:1"><div class="ag-ti">Mi nómina de acompañamientos</div><div class="ag-su">Estas son las clases que debes acompañar (${rows.length}). La ficha se abre con fecha, horario, asignatura y curso ya completados.</div></div>${canProgram ? '<button type="button" class="ag-btn" data-ag-new><i class="fas fa-calendar-plus"></i> Programar acompañamiento</button>' : ''}</div>
+                    <div class="ag-list">${rows.map((x) => x.html).join('') || '<div class="ag-empty">No tienes acompañamientos pendientes. Usa «Programar acompañamiento» para agendar uno.</div>'}</div></div>`;
                 }
                 const up = mineT.filter((s) => s.date >= t0);
                 if (up.length) {
@@ -5837,6 +5860,9 @@ window.applyLogo(logoUrl);
                 if (root._agBound) return; root._agBound = true;
                 root.addEventListener('click', (e) => {
                     const f = e.target.closest('[data-ag-fill]'); if (f) return window.schedFicha(f.dataset.agFill, f.dataset.for);
+                    const rs = e.target.closest('[data-ag-resch]'); if (rs && window.openResched) return window.openResched('s', rs.dataset.agResch);
+                    const ra = e.target.closest('[data-ag-reschacc]'); if (ra && window.openResched) return window.openResched('a', ra.dataset.agReschacc);
+                    const nw = e.target.closest('[data-ag-new]'); if (nw && window.openProgram) return window.openProgram();
                     const v = e.target.closest('[data-ag-view]'); if (v) window.viewAccompaniment(v.dataset.agView);
                 });
             }
@@ -5902,10 +5928,12 @@ window.applyLogo(logoUrl);
                         ${(s.pie || []).length ? `<div class="full"><span>Docente PIE</span><b>${(s.pie || []).map((p) => esc(nm(p.name))).join(' / ')}</b></div>` : ''}
                     </div>
                     <div class="sm-ft">${canFill ? people.map((p) => p.id ? (hasFicha(s, p.id) ? `<button type="button" class="sm-btn ghost" data-view="${esc(hasFicha(s, p.id).id)}">Ver ficha${p.pie ? ' PIE' : ''}</button>` : `<button type="button" class="sm-btn" data-fill="${esc(p.id)}"><i class="fas fa-pen-to-square"></i> Completar ficha${p.pie ? ' PIE' : ''}</button>`) : '').join('') : ''}
+                    ${canFill && s.date >= todayS() ? '<button type="button" class="sm-btn ghost" data-resch><i class="fas fa-calendar-day"></i> Reprogramar</button>' : ''}
                     ${me.role === 'admin' ? '<button type="button" class="sm-btn danger" data-del><i class="fas fa-trash-can"></i> Quitar de la agenda</button>' : ''}</div>`);
                 ov.addEventListener('click', async (e) => {
                     const f = e.target.closest('[data-fill]'); if (f) { close(); return window.schedFicha(s.id, f.dataset.fill); }
                     const v = e.target.closest('[data-view]'); if (v) { close(); return window.viewAccompaniment(v.dataset.view); }
+                    if (e.target.closest('[data-resch]') && window.openResched) { close(); return window.openResched('s', s.id); }
                     if (e.target.closest('[data-del]')) window.showConfirm('¿Eliminar este acompañamiento de la agenda? Esta acción no se puede deshacer.', async () => { try { await window.AppDB.call('delete', { col: 'schedule', id: s.id }); await window.AppDB.refresh(); close(); } catch (er) { info('No se pudo eliminar: ' + er.message); } });
                 });
             };
@@ -7078,6 +7106,125 @@ window.__invite = async (id, quiet) => {
 })();
 
 /* ===== PRO16 · asistente pedagógico: ejemplos y pasos acordes a la asignatura en general ===== */
+
+/* ===== PRO17 · reprogramar y programar acompañamientos, focos que se mantienen y perfil Sostenedor ===== */
+(function () {
+    const $ = (id) => document.getElementById(id);
+    const K = window.__kit || {};
+    const esc = K.esc || ((s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])));
+    const nice = K.niceName || ((s) => String(s || ''));
+    const info = (m) => window.showConfirm(m, () => {});
+    const pad = (n) => String(n).padStart(2, '0');
+    const todayS = () => { const d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); };
+    const MESL = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    const DOWL = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+    const longDate = (ds) => { const p = String(ds || '').split('-').map(Number); if (p.length < 3 || !p[0]) return '—'; const d = new Date(p[0], p[1] - 1, p[2]); return DOWL[d.getDay()] + ' ' + d.getDate() + ' de ' + MESL[d.getMonth()]; };
+    const addMin = (hhmm, m) => { const [h, mi] = String(hhmm).split(':').map(Number); if (isNaN(h)) return ''; const t = h * 60 + (mi || 0) + m; return pad(Math.floor(t / 60) % 24) + ':' + pad(t % 60); };
+    const isSost = () => !!(currentUser && currentUser.role === 'sostenedor');
+    function modal(id, inner, wide) {
+        const old = $(id); if (old) old.remove();
+        const ov = document.createElement('div'); ov.id = id;
+        ov.style.cssText = 'position:fixed;inset:0;z-index:95;display:flex;align-items:flex-start;justify-content:center;padding:18px 12px;background:rgba(10,42,85,.5);backdrop-filter:blur(3px);overflow:auto';
+        ov.innerHTML = `<div class="sm-dlg${wide ? ' wide' : ''}"><button type="button" class="sm-x" aria-label="Cerrar"><i class="fas fa-xmark"></i></button>${inner}</div>`;
+        document.body.appendChild(ov);
+        const close = () => ov.remove(); ov.querySelector('.sm-x').onclick = close; ov.addEventListener('mousedown', (e) => { if (e.target === ov) close(); });
+        return { ov, close };
+    }
+
+    /* ---------- 1) Reprogramar (cambiar la fecha de un acompañamiento que se posterga) ---------- */
+    window.openResched = (kind, id) => {
+        const isS = kind === 's';
+        const item = isS ? (window.__agenda || []).find((x) => x.id === id) : accompaniments.find((x) => x.id === id);
+        if (!item) return info('No se encontró el acompañamiento.');
+        const t = users.find((u) => u.id === item.teacherId);
+        const date0 = item.date, time0 = isS ? (item.start || '') : (item.time || ''), end0 = isS ? (item.end || '') : '';
+        const { close } = modal('resch-m', `<div class="sm-ic" style="background:#FFF4E5;color:#B54708"><i class="fas fa-calendar-day"></i></div>
+            <div class="sm-ti">Reprogramar acompañamiento</div>
+            <p class="sm-tx"><b>${esc(nice(t ? t.name : item.teacherName || 'Docente'))}</b>${item.course ? ' · ' + esc(item.course) : ''}<br>Fecha actual: <b>${esc(longDate(date0))}${time0 ? ' · ' + esc(time0) + (end0 ? ' – ' + esc(end0) : '') : ''}</b></p>
+            <div class="rs-grid"><div><label class="cq-l">Nueva fecha</label><input type="date" id="rs-date" class="cq-in" value="${esc(date0)}"></div><div><label class="cq-l">Hora de inicio</label><input type="time" id="rs-start" class="cq-in" value="${esc(time0)}"></div>${isS ? `<div><label class="cq-l">Hora de término</label><input type="time" id="rs-end" class="cq-in" value="${esc(end0)}"></div>` : ''}</div>
+            <label class="cq-l">Motivo (opcional)</label><input type="text" id="rs-reason" class="cq-in" maxlength="200" placeholder="Ej.: el docente no estará, actividad del colegio…">
+            ${isS ? '<label class="rs-chk"><input type="checkbox" id="rs-notify" checked> Avisar por correo al docente del cambio de fecha</label>' : ''}
+            <div class="sm-ft"><button type="button" class="sm-btn ghost" id="rs-cancel">Cancelar</button><button type="button" class="sm-btn" id="rs-go"><i class="fas fa-circle-check"></i> Guardar nueva fecha</button></div>`);
+        if (isS) $('rs-start').addEventListener('change', () => { const s = $('rs-start').value; if (s && (!$('rs-end').value || $('rs-end').value <= s)) $('rs-end').value = addMin(s, 90); });
+        $('rs-cancel').onclick = close;
+        $('rs-go').onclick = async () => {
+            const nd = $('rs-date').value, ns = $('rs-start').value; if (!nd) return info('Elige la nueva fecha.');
+            const b = $('rs-go'); b.disabled = true; b.textContent = 'Guardando…';
+            try {
+                if (isS) await window.AppDB.call('scheduleMove', { id, date: nd, start: ns, end: $('rs-end').value, reason: $('rs-reason').value, notify: $('rs-notify').checked });
+                else {
+                    if (nd === date0 && ns === time0) throw new Error('No hay cambios: la fecha y la hora son las mismas.');
+                    await window.AppDB.call('upsert', { col: 'accompaniments', id, merge: true, data: { date: nd, time: ns || item.time || '', rescheduledFrom: date0, rescheduleReason: $('rs-reason').value.slice(0, 200), updatedAt: new Date().toISOString() } });
+                }
+                await window.AppDB.refresh(); close();
+                info('Listo: el acompañamiento quedó para el ' + longDate(nd) + (ns ? ' a las ' + ns : '') + '.' + (isS && $('rs-notify') ? '' : ''));
+            } catch (e) { b.disabled = false; b.innerHTML = '<i class="fas fa-circle-check"></i> Guardar nueva fecha'; info('No se pudo reprogramar: ' + e.message + (/Acción desconocida/.test(e.message) ? ' (actualiza Code.gs en Apps Script y crea una nueva versión).' : '')); }
+        };
+    };
+    // botón "Reprogramar" en el aviso naranja de próximos acompañamientos
+    window.__reschBtn = (a) => {
+        if (!currentUser || !a || !a.id || isSost()) return '';
+        const me = String(currentUser.name || '').toUpperCase();
+        const mine = currentUser.role === 'admin' || String(a.responsable || '').toUpperCase() === me || String(a.responsableExtra || '').toUpperCase() === me;
+        const t = users.find((u) => u.id === a.teacherId);
+        const dept = currentUser.role === 'coordinator' && t && t.department === currentUser.department;
+        return (mine || dept) && a.date >= todayS() ? ` <button type="button" class="ag-btn soft sm" onclick="window.openResched('a','${esc(a.id)}')"><i class="fas fa-calendar-day"></i> Reprogramar</button>` : '';
+    };
+
+    /* ---------- 2) Programar un acompañamiento nuevo (queda en la nómina, el calendario y los correos) ---------- */
+    window.openProgram = () => {
+        if (!currentUser || (currentUser.role !== 'admin' && currentUser.role !== 'coordinator')) return info('Solo el equipo directivo y los coordinadores pueden programar acompañamientos.');
+        const key = window.__sortKey || ((n) => String(n).toLowerCase());
+        let staff = users.filter((u) => (u.role === 'teacher' || u.role === 'coordinator') && u.name);
+        if (currentUser.role === 'coordinator') staff = staff.filter((u) => u.department === currentUser.department || u.id === currentUser.id);
+        staff.sort((a, b) => key(a.name).localeCompare(key(b.name), 'es'));
+        const observers = users.filter((u) => (u.role === 'admin' || u.role === 'coordinator') && u.name).sort((a, b) => key(a.name).localeCompare(key(b.name), 'es'));
+        const { close } = modal('prog-m', `<div class="sm-ic" style="background:#E0F2FE;color:#0369A1"><i class="fas fa-calendar-plus"></i></div>
+            <div class="sm-ti">Programar acompañamiento</div>
+            <p class="sm-tx">El acompañamiento quedará en tu nómina y en el calendario, y la ficha se abrirá con estos datos ya completados.</p>
+            <label class="cq-l">Docente a acompañar</label><select id="pg-t" class="cq-in"><option value="">— elegir —</option>${staff.map((u) => `<option value="${esc(u.id)}">${esc(nice(u.name))}${u.department ? ' · ' + esc(u.department) : ''}</option>`).join('')}</select>
+            <div class="rs-grid"><div><label class="cq-l">Fecha</label><input type="date" id="pg-date" class="cq-in" min="${todayS()}" value="${todayS()}"></div><div><label class="cq-l">Hora de inicio</label><input type="time" id="pg-start" class="cq-in" value="08:00"></div><div><label class="cq-l">Hora de término</label><input type="time" id="pg-end" class="cq-in" value="09:30"></div></div>
+            <div class="rs-grid"><div><label class="cq-l">Curso</label><input type="text" id="pg-course" class="cq-in" maxlength="60" placeholder="Ej.: 7° Básico B"></div><div><label class="cq-l">Ciclo</label><select id="pg-cycle" class="cq-in"><option value="">—</option>${CICLOS_LIST.map((c) => `<option>${esc(c)}</option>`).join('')}</select></div></div>
+            ${currentUser.role === 'admin' ? `<label class="cq-l">Quién acompaña</label><select id="pg-obs" class="cq-in">${observers.map((u) => `<option value="${esc(u.id)}" ${u.id === currentUser.id ? 'selected' : ''}>${esc(nice(u.name))}</option>`).join('')}</select>` : ''}
+            <label class="rs-chk"><input type="checkbox" id="pg-notify"> Avisar ahora por correo al docente (igual recibirá los recordatorios automáticos)</label>
+            <div class="sm-ft"><button type="button" class="sm-btn ghost" id="pg-cancel">Cancelar</button><button type="button" class="sm-btn" id="pg-go"><i class="fas fa-calendar-check"></i> Programar</button></div>`);
+        $('pg-start').addEventListener('change', () => { const s = $('pg-start').value; if (s && (!$('pg-end').value || $('pg-end').value <= s)) $('pg-end').value = addMin(s, 90); });
+        $('pg-t').addEventListener('change', () => { const u = users.find((x) => x.id === $('pg-t').value); if (!u) return; const last = accompaniments.filter((a) => a.teacherId === u.id && a.course).sort((a, b) => String(b.date).localeCompare(String(a.date)))[0]; if (last && !$('pg-course').value) { $('pg-course').value = last.course || ''; if (last.cycle) $('pg-cycle').value = last.cycle; } });
+        $('pg-cancel').onclick = close;
+        $('pg-go').onclick = async () => {
+            const b = $('pg-go'); b.disabled = true; b.textContent = 'Programando…';
+            try {
+                const r = await window.AppDB.call('scheduleCreate', { teacherId: $('pg-t').value, date: $('pg-date').value, start: $('pg-start').value, end: $('pg-end').value, course: $('pg-course').value, cycle: $('pg-cycle').value, observerId: $('pg-obs') ? $('pg-obs').value : '', notify: $('pg-notify').checked });
+                await window.AppDB.refresh(); close();
+                info('Acompañamiento programado para el ' + longDate(r.doc.date) + ' a las ' + r.doc.start + '. Ya aparece en tu nómina y en el calendario.');
+            } catch (e) { b.disabled = false; b.innerHTML = '<i class="fas fa-calendar-check"></i> Programar'; info(e.message + (/Acción desconocida/.test(e.message) ? ' (actualiza Code.gs en Apps Script y crea una nueva versión).' : '')); }
+        };
+    };
+
+    /* ---------- 3) Los focos del docente siguen apareciendo en cada nuevo acompañamiento ---------- */
+    function focosFallback(tid) {
+        try {
+            if (accSelectedFoci.length || !$('acc-selected-foci-display')) return;
+            const last = accompaniments.filter((a) => a.teacherId === tid && a.focus).sort((x, y) => String(y.date).localeCompare(String(x.date)))[0]; if (!last) return;
+            const foc = String(last.focus).split('; ').map((s) => s.trim()).filter(Boolean); if (!foc.length) return;
+            accSelectedFoci = foc;
+            const canEdit = !!$('btn-add-acc-focus');
+            $('acc-selected-foci-display').innerHTML = foc.map((f, i) => `<div class="bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded flex items-center gap-2 border border-indigo-200"><span class="truncate max-w-[300px]" title="${esc(f)}">${esc(f)}</span>${canEdit ? `<button type="button" onclick="window.removeAccFocus(${i})" class="text-indigo-500 hover:text-indigo-800 font-bold">&times;</button>` : ''}</div>`).join('') + '<div class="w-full text-[11px] text-slate-500 mt-1">Focos tomados del último acompañamiento de este docente.</div>';
+            if (typeof window.updateAccProgress === 'function') window.updateAccProgress();
+        } catch (_) {}
+    }
+    const _raf = window.renderAccompanimentForm;
+    if (_raf) window.renderAccompanimentForm = function (teacherId, accId) { const r = _raf.apply(this, arguments); if (!accId) focosFallback(teacherId); return r; };
+
+    /* ---------- 4) Perfil Sostenedor: ve todo, no crea ni edita ---------- */
+    function paintRole() { document.body.classList.toggle('role-sost', isSost()); }
+    const _cv = window.changeView;
+    window.changeView = function (id, p) {
+        if (isSost() && id === 'accompaniment-form-view' && !(p && p.accompanimentId)) { info('El perfil de Sostenedor es de solo lectura: puede consultar toda la información, pero no crear ni editar.'); return; }
+        const r = _cv.apply(this, arguments); try { paintRole(); } catch (_) {} return r;
+    };
+    setInterval(paintRole, 1500); paintRole();
+})();
 </script>
 </body>
 </html>
