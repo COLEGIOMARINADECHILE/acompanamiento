@@ -773,6 +773,31 @@ body.on-login.on-login.role-picked .lg-role { padding-top:6px; padding-bottom:6p
 body.on-login.on-login .lg-list .lg-empty { min-height:60px; display:flex; align-items:center; justify-content:center; }
 body.on-login.on-login .lg-card > *, body.on-login.on-login #login-form, body.on-login.on-login #login-form > *, body.on-login.on-login .pv-chip, body.on-login.on-login .cr-card { flex-shrink:0 !important; }
 body.on-login.on-login .lg-card { justify-content:flex-start; }
+
+/* ===== SOLO COMPUTADOR: la portada completa (incluida la franja de la ley) cabe sin bajar ===== */
+@media (min-width:821px) {
+  body.on-login.on-login .lg-card { overflow:visible; zoom:1; }
+  body.on-login.on-login .lg-list { min-height:clamp(100px,22vh,260px) !important; max-height:clamp(100px,22vh,260px) !important; }
+  body.on-login.on-login .lg-item { min-height:46px; padding-top:6px; padding-bottom:6px; }
+  body.on-login.on-login .lg-form { padding-top:8px; padding-bottom:8px; }
+}
+@media (min-width:821px) and (max-height:820px) { body.on-login.on-login .lg-card { zoom:.92; } }
+@media (min-width:821px) and (max-height:760px) { body.on-login.on-login .lg-card { zoom:.84; } body.on-login.on-login .cr-card { display:none; } }
+@media (min-width:821px) and (max-height:680px) { body.on-login.on-login .lg-card { zoom:.74; } }
+@media (min-width:821px) and (max-height:600px) { body.on-login.on-login .lg-card { zoom:.64; } }
+
+/* SOLO COMPUTADOR: la ventana de la ley se ve completa, sin bajar */
+@media (min-width:821px) {
+  .pv-dlg { max-width:1040px; }
+  .pv-hd { padding:16px 24px 14px; } .pv-hd .pv-ic { display:none; } .pv-hd h2 { font-size:1.25rem; } .pv-hd p { margin-top:3px; font-size:.82rem; }
+  .pv-bd { display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)) !important; gap:10px !important; padding:14px 18px !important; }
+  .pv-bd .pv-it { padding:10px 12px !important; } .pv-bd .pv-it.full { grid-column:1 / -1 !important; }
+  .pv-bd .pv-it h3 { font-size:.88rem !important; } .pv-bd .pv-it p { font-size:.76rem !important; line-height:1.38 !important; }
+  .pv-ft { padding:10px 18px !important; }
+}
+@media (min-width:821px) and (max-height:800px) { .pv-dlg { zoom:.9; } }
+@media (min-width:821px) and (max-height:720px) { .pv-dlg { zoom:.8; } }
+@media (min-width:821px) and (max-height:640px) { .pv-dlg { zoom:.7; } }
 </style>
 </head>
 <body class="text-slate-800 flex flex-col h-screen overflow-hidden">
@@ -6207,7 +6232,7 @@ window.__invite = async (id, quiet) => {
         document.addEventListener('keydown', onKey);
         ov.querySelector('.pv-x').onclick = close; ov.querySelector('.pv-ok').onclick = close;
         ov.addEventListener('mousedown', (e) => { if (e.target === ov) close(); });
-        ov.querySelector('.pv-ok').focus();
+        ov.scrollTop = 0; ov.querySelector('.pv-ok').focus({ preventScroll: true }); setTimeout(() => { ov.scrollTop = 0; const b = ov.querySelector('.pv-bd'); if (b) b.scrollTop = 0; }, 30);
     }
     window.openPrivacy = open;
     document.addEventListener('click', (e) => { if (e.target.closest('[data-priv]')) { e.preventDefault(); open(); } });
