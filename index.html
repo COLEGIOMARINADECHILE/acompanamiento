@@ -738,6 +738,11 @@ table.fit-w { table-layout:auto; width:100% !important; }
 .ag-moved { display:block; margin-top:2px; font-size:.68rem; font-weight:800; color:#B54708; } .ag-moved i { margin-right:3px; }
 .ag-head .ag-btn { flex:none; align-self:center; }
 @media (max-width:640px) { .ag-head { flex-wrap:wrap; } .ag-head .ag-btn { width:100%; text-align:center; } }
+/* Tarjeta del perfil Sostenedor en la portada: ícono con color propio y cuatro perfiles en una fila */
+.lg-role[data-role="sostenedor"] i { background:linear-gradient(135deg,#C2410C,#F59E0B) !important; color:#fff !important; }
+.lg-roles { grid-template-columns:repeat(4,1fr) !important; gap:8px !important; }
+.lg-role b { font-size:.74rem; } .lg-role small { font-size:.6rem; }
+@media (max-width:560px) { .lg-roles { gap:5px !important; } .lg-role { padding:10px 2px 8px !important; } .lg-role b { font-size:.66rem; } .lg-role i { width:34px !important; height:34px !important; font-size:15px !important; } }
 /* Sostenedor: solo lectura (la plataforma además lo impide en el servidor) */
 body.role-sost #create-plan-btn, body.role-sost .sost-hide, body.role-sost #wi-card, body.role-sost [data-ag-new], body.role-sost [data-ag-resch], body.role-sost [data-ag-reschacc], body.role-sost [data-ag-fill], body.role-sost [data-import-sched],
 body.role-sost [onclick*="accompaniment-form-view"], body.role-sost [onclick*="openQuickAccModal"], body.role-sost [onclick*="openUserModal"], body.role-sost [onclick*="deleteUser"], body.role-sost [onclick*="deleteAccompaniment"], body.role-sost [onclick*="saveTeacherFocos"],
@@ -1778,7 +1783,7 @@ window.APP_CONFIG = { WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbzQjc
                 {id:'teachers-view', t:'Docentes', i:'fa-users', r:['admin','coordinator','sostenedor']},
                 {id:'plans-view', t:'Planes', i:'fa-clipboard-list', r:['all']},
                 {id:'stats-view', t:'Reportes', i:'fa-chart-pie', r:['admin','coordinator','sostenedor']},
-                {id:'consultas-view', t:'Consultas', i:'fa-comments', r:['admin','coordinator','teacher']},
+                {id:'consultas-view', t:'Consultas', i:'fa-comments', r:['admin','coordinator','teacher','sostenedor']},
                 {id:'settings-view', t:'Config', i:'fa-cog', r:['admin']}
             ];
 
@@ -6886,6 +6891,7 @@ window.__invite = async (id, quiet) => {
     const RIGHTS = { acceso: 'Acceso a mis datos', rectificacion: 'Rectificación (corregir datos)', supresion: 'Supresión (eliminar datos)', oposicion: 'Oposición (no usar mis datos)', portabilidad: 'Portabilidad (recibir mis datos)', bloqueo: 'Bloqueo temporal' };
     const ST = { pendiente: ['Pendiente', '#FFF4E5', '#B54708'], en_proceso: ['En proceso', '#E0F2FE', '#0369A1'], respondida: ['Respondida', '#E8F7EF', '#067647'], denegada: ['Rechazada', '#FEF3F2', '#B42318'], cerrada: ['Cerrada', '#F1F5F9', '#475569'] };
     const isAdmin = () => currentUser && currentUser.role === 'admin';
+    const isSost = () => !!(currentUser && currentUser.role === 'sostenedor');   // solo lectura: ve todas las consultas, no responde ni crea
     const list = () => (window.__queries || []).slice();
     const today = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
     const dayDiff = (a, b) => Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 86400000);
@@ -6923,19 +6929,19 @@ window.__invite = async (id, quiet) => {
     function render() {
         ensureView(); const v = $('consultas-view'); if (!v) return;
         const all = list().sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
-        const adm = isAdmin();
+        const adm = isAdmin() || isSost(), sost = isSost();
         const open = all.filter((q) => !closed(q));
         const late = open.filter((q) => q.type === 'derecho' && dayDiff(today(), q.dueAt) < 0).length;
         const soon = open.filter((q) => q.type === 'derecho' && dayDiff(today(), q.dueAt) >= 0 && dayDiff(today(), q.dueAt) <= 5).length;
         let rows = all.filter((q) => (!fSt || (fSt === 'abiertas' ? !closed(q) : q.status === fSt)) && (!fTy || q.type === fTy) && (!fQ || (q.no + ' ' + q.subject + ' ' + q.userName).toLowerCase().includes(fQ.toLowerCase())));
         if (adm) rows.sort((a, b) => (closed(a) - closed(b)) || String(a.dueAt || '9999').localeCompare(String(b.dueAt || '9999')) || String(b.createdAt).localeCompare(String(a.createdAt)));
-        v.innerHTML = `<div class="cq-head"><div><h2 class="text-2xl font-bold text-slate-800">Consultas</h2><p class="cq-sub">${adm ? 'Consultas y solicitudes de docentes y coordinadores. Responde aquí mismo: queda registrado con fecha.' : 'Escribe al equipo administrativo. La respuesta aparecerá en esta misma página.'}</p></div><button type="button" class="dv-btn" id="cq-new"><i class="fas fa-pen-to-square"></i> Nueva consulta</button></div>
+        v.innerHTML = `<div class="cq-head"><div><h2 class="text-2xl font-bold text-slate-800">Consultas</h2><p class="cq-sub">${sost ? 'Consultas y solicitudes de docentes y coordinadores, con sus respuestas y plazos. Perfil de solo lectura: puedes revisar todo, pero no responder.' : adm ? 'Consultas y solicitudes de docentes y coordinadores. Responde aquí mismo: queda registrado con fecha.' : 'Escribe al equipo administrativo. La respuesta aparecerá en esta misma página.'}</p></div>${sost ? '' : '<button type="button" class="dv-btn" id="cq-new"><i class="fas fa-pen-to-square"></i> Nueva consulta</button>'}</div>
             <div class="cq-law"><i class="fas fa-scale-balanced"></i><div><b>Tus datos personales, tus derechos (Ley N° 21.719)</b>Puedes pedir <b>acceso, rectificación, supresión, oposición, portabilidad o bloqueo</b> de tus datos. Respondemos en un máximo de <b>30 días corridos</b> (prorrogables una sola vez, con motivo). Si no podemos acceder a tu solicitud, te explicaremos el motivo y podrás reclamar ante la <b>Agencia de Protección de Datos Personales</b> dentro de 30 días hábiles.</div></div>
             ${adm ? `<div class="cq-kpis"><div class="cq-k" style="background:linear-gradient(135deg,#0F4C9A,#2B86DD)"><b>${open.length}</b><span>abiertas</span></div><div class="cq-k" style="background:linear-gradient(135deg,#E87A12,#F5A04A)"><b>${soon}</b><span>por vencer (≤ 5 días)</span></div><div class="cq-k" style="background:linear-gradient(135deg,#B42318,#E5383B)"><b>${late}</b><span>con plazo vencido</span></div><div class="cq-k" style="background:linear-gradient(135deg,#067647,#12B76A)"><b>${all.length - open.length}</b><span>cerradas</span></div></div>` : ''}
             <div class="cq-filters"><select id="cq-st"><option value="">Todos los estados</option><option value="abiertas">Abiertas</option>${Object.keys(ST).map((k) => `<option value="${k}">${ST[k][0]}</option>`).join('')}</select><select id="cq-ty"><option value="">Todos los tipos</option><option value="derecho">Derechos sobre mis datos</option><option value="general">Consultas generales</option></select><input id="cq-q" type="search" placeholder="${adm ? 'Buscar por N°, asunto o persona…' : 'Buscar…'}" autocomplete="off"></div>
             <div class="cq-list">${rows.length ? rows.map((q) => card(q, adm)).join('') : `<div class="cq-empty"><i class="fas fa-comments"></i><p>${all.length ? 'No hay consultas con esos filtros.' : adm ? 'Aún no hay consultas.' : 'Aún no has enviado consultas. Pulsa «Nueva consulta» para escribir al equipo administrativo.'}</p></div>`}</div>`;
         $('cq-st').value = fSt; $('cq-ty').value = fTy; $('cq-q').value = fQ;
-        $('cq-new').onclick = openNew;
+        if ($('cq-new')) $('cq-new').onclick = openNew;
         $('cq-st').onchange = (e) => { fSt = e.target.value; render(); }; $('cq-ty').onchange = (e) => { fTy = e.target.value; render(); };
         $('cq-q').oninput = (e) => { fQ = e.target.value; clearTimeout(render._t); render._t = setTimeout(() => { render(); const i = $('cq-q'); if (i) { i.focus(); i.setSelectionRange(i.value.length, i.value.length); } }, 350); };
         v.querySelectorAll('[data-q]').forEach((el) => { el.onclick = () => openThread(el.dataset.q); });
@@ -6976,9 +6982,9 @@ window.__invite = async (id, quiet) => {
     const KIND = { acuse: ['Acuse de recibo', '#64748b'], prorroga: ['Prórroga de plazo', '#B54708'], denegacion: ['Solicitud rechazada', '#B42318'], respuesta: ['Respuesta', '#067647'], seguimiento: ['', ''], consulta: ['', ''] };
     function openThread(id) {
         const q = list().find((x) => x.id === id); if (!q) return;
-        const adm = isAdmin(), s = ST[q.status] || ST.pendiente, d = dueInfo(q);
+        const adm = isAdmin() || isSost(), s = ST[q.status] || ST.pendiente, d = dueInfo(q);
         const msgs = (q.thread || []).map((m) => { const k = KIND[m.kind] || ['', '']; return `<div class="cq-msg ${m.by}"><div class="cq-mh"><b>${esc(m.by === 'sistema' ? 'Plataforma' : nice(m.name))}</b><span>${fdt(m.at)}</span></div>${k[0] ? `<div class="cq-kind" style="color:${k[1]}">${k[0]}</div>` : ''}<div class="cq-mt">${esc(m.text)}</div></div>`; }).join('');
-        const canReply = adm || q.userId === currentUser.id;
+        const canReply = isAdmin() || (!isSost() && q.userId === currentUser.id);
         const { ov, close } = modal('cq-thread-m', `<div class="cq-th-head"><span class="cq-no">${esc(q.no)}</span><span class="cq-st" style="background:${s[1]};color:${s[2]}">${s[0]}</span>${q.type === 'derecho' ? `<span class="cq-ty"><i class="fas fa-shield-halved"></i> ${esc(RIGHTS[q.right] || 'Derechos')}</span>` : ''}</div>
             <div class="sm-ti" style="margin-top:6px">${esc(q.subject)}</div>
             <div class="cq-meta" style="margin-bottom:8px">${adm ? `<span><i class="fas fa-user"></i> ${esc(nice(q.userName))}${q.department ? ' · ' + esc(q.department) : ''}</span>` : ''}<span><i class="far fa-calendar"></i> ${fdt(q.createdAt)}</span>${d ? `<span class="cq-due ${d.cls}"><i class="far fa-clock"></i> ${esc(d.txt)}${q.extended ? ' · prorrogado' : ''}</span>` : ''}</div>
@@ -6987,7 +6993,7 @@ window.__invite = async (id, quiet) => {
                 <label class="cq-l">¿Cómo queda esta consulta?</label><select id="cq-res" class="cq-in"><option value="respondida">Responder y dar por respondida</option><option value="en_proceso">Aviso de avance (sigue en proceso)</option>${q.type === 'derecho' && !q.extended && !closed(q) ? '<option value="prorroga">Prorrogar el plazo 30 días (indica el motivo)</option>' : ''}${q.type === 'derecho' ? '<option value="denegada">Rechazar la solicitud (indica el motivo)</option>' : ''}<option value="cerrada">Responder y cerrar</option></select>
                 <p class="cq-note" id="cq-hint"></p>` : `<label class="cq-l">${closed(q) ? 'Si necesitas algo más, escribe aquí (se reabrirá la consulta)' : 'Agregar un mensaje'}</label><textarea id="cq-reply" class="cq-in" rows="3" maxlength="3000" placeholder="Tu mensaje…"></textarea>`) : ''}
             <div class="sm-ft"><button type="button" class="sm-btn ghost" id="cq-pdf"><i class="fas fa-file-pdf"></i> Constancia (PDF)</button>${canReply ? '<button type="button" class="sm-btn" id="cq-go"><i class="fas fa-paper-plane"></i> Enviar</button>' : ''}</div>`, true);
-        try { if ((adm && q.unreadAdmin) || (!adm && q.userId === currentUser.id && q.unreadUser)) window.AppDB.call('queryRead', { id }).then(() => window.AppDB.refresh()).catch(() => {}); } catch (_) {}
+        try { if ((isAdmin() && q.unreadAdmin) || (!adm && q.userId === currentUser.id && q.unreadUser)) window.AppDB.call('queryRead', { id }).then(() => window.AppDB.refresh()).catch(() => {}); } catch (_) {}
         const hints = { prorroga: 'La ley permite prorrogar una sola vez, por otros 30 días corridos, y exige explicar el motivo.', denegada: 'Una respuesta de rechazo debe ser fundada. Se informará a la persona que puede reclamar ante la Agencia de Protección de Datos Personales dentro de 30 días hábiles.', respondida: '', en_proceso: '', cerrada: '' };
         if ($('cq-res')) { $('cq-res').onchange = (e) => { $('cq-hint').textContent = hints[e.target.value] || ''; $('cq-hint').style.display = hints[e.target.value] ? '' : 'none'; }; $('cq-hint').style.display = 'none'; }
         const box = ov.querySelector('.cq-thread'); if (box) box.scrollTop = box.scrollHeight;
@@ -7011,7 +7017,7 @@ window.__invite = async (id, quiet) => {
     /* ---------- aviso de novedades en el menú ---------- */
     function paintBadge() {
         if (!currentUser || !currentUser.id) return;
-        const n = list().filter((q) => (isAdmin() ? q.unreadAdmin : q.unreadUser)).length;
+        const n = isSost() ? 0 : list().filter((q) => (isAdmin() ? q.unreadAdmin : q.unreadUser)).length;
         document.querySelectorAll('[data-view="consultas-view"]').forEach((a) => {
             let b = a.querySelector('.cq-badge');
             if (!n) { if (b) b.remove(); return; }
