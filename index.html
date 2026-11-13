@@ -749,6 +749,20 @@ body.role-sost [onclick*="accompaniment-form-view"], body.role-sost [onclick*="o
 body.role-sost [onclick*="editFocoInDominio"], body.role-sost [onclick*="addFocoToDominio"], body.role-sost [onclick*="deleteFocoFromDominio"], body.role-sost [onclick*="openAddPlanModal"], body.role-sost [onclick*="addDepartment"], body.role-sost [onclick*="deleteDepartment"],
 body.role-sost [onclick*="addSigner"], body.role-sost [onclick*="deleteSigner"], body.role-sost [onclick*="updateConfig"], body.role-sost [onclick*="updateStatsGoal"], body.role-sost [onclick*="importAllData"], body.role-sost [onclick*="openResched"], body.role-sost [onclick*="improveText"], body.role-sost [onclick*="suggestMBE"], body.role-sost [onclick*="removeAccFocus"], body.role-sost [onclick*="removePlanFocus"] { display:none !important; }
 body.role-sost #teacher-detail-view select, body.role-sost #teacher-detail-view textarea { pointer-events:none; opacity:.8; }
+
+/* ===== PRO18 · selector de nombres más fácil ===== */
+.lg-dept-row { display:flex; align-items:center; gap:9px; padding:9px 12px; background:#eef6ff; border-bottom:1px solid #dbe9f8; }
+.lg-dept-row > i { color:#0F69C4; font-size:15px; }
+.lg-dept-row select { flex:1; min-width:0; border:1.5px solid #bcd6f3; border-radius:10px; padding:8px 10px; font:700 .88rem Lato,Arial,sans-serif; color:#0A2A55; background:#fff; }
+.lg-list, body.on-login.on-login .lg-list { max-height:clamp(150px,34vh,300px) !important; overflow-y:auto; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; scrollbar-width:auto; scrollbar-color:#7fb0e6 #eef4fb; }
+.lg-list::-webkit-scrollbar { width:12px; } .lg-list::-webkit-scrollbar-track { background:#eef4fb; } .lg-list::-webkit-scrollbar-thumb { background:#7fb0e6; border-radius:8px; border:2px solid #eef4fb; }
+.lg-item { min-height:52px; }
+.lg-scroll { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:6px 10px; background:#f8fafc; border-top:1px solid #eef2f7; }
+.lg-scroll button { border:1.5px solid #bcd6f3; background:#fff; color:#0F69C4; font:800 .76rem Lato,Arial,sans-serif; padding:6px 12px; border-radius:10px; cursor:pointer; }
+.lg-scroll button:active { background:#e8f1fc; } .lg-scroll span { font-size:.72rem; color:#64748b; font-weight:700; }
+.lg-scroll.hidden, .lg-dept-row.hidden { display:none; }
+.sost-an-note { margin-top:10px; padding:10px 12px; border-radius:10px; background:#fff4e5; color:#B54708; font-size:.8rem; font-weight:700; line-height:1.4; }
+body.role-sost #btn-analyze-teacher { display:none !important; }
 </style>
 </head>
 <body class="text-slate-800 flex flex-col h-screen overflow-hidden">
@@ -7230,6 +7244,78 @@ window.__invite = async (id, quiet) => {
         const r = _cv.apply(this, arguments); try { paintRole(); } catch (_) {} return r;
     };
     setInterval(paintRole, 1500); paintRole();
+})();
+
+/* ===== PRO18 · acceso más fácil (departamento → nombre) y Sostenedor sin análisis IA individual ===== */
+(function () {
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const picker = document.querySelector('.lg-picker'), list = $('user-list');
+    if (picker && list) {
+        picker.insertAdjacentHTML('afterbegin', '<div id="lg-dept-row" class="lg-dept-row hidden"><i class="fas fa-building-columns"></i><select id="lg-dept" aria-label="Departamento"></select></div>');
+        list.insertAdjacentHTML('afterend', '<div id="lg-scroll" class="lg-scroll hidden"><button type="button" data-d="-1"><i class="fas fa-chevron-up"></i> Subir</button><span id="lg-count"></span><button type="button" data-d="1">Bajar <i class="fas fa-chevron-down"></i></button></div>');
+        const row = $('lg-dept-row'), sel = $('lg-dept'), bar = $('lg-scroll'), cnt = $('lg-count');
+        let busy = false;
+        const roleNow = () => { const o = document.querySelector('#role-cards .lg-role.on'); return o ? o.dataset.role : ''; };
+        const query = () => (($('user-search') || {}).value || '').trim();
+        function build(r) {
+            const us = (typeof users !== 'undefined' ? users : []).filter((u) => u.role === r);
+            const ds = [...new Set(us.map((u) => u.department || '').filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es'));
+            const sinDept = us.some((u) => !u.department);
+            const show = r === 'teacher' && (ds.length + (sinDept ? 1 : 0)) > 1;
+            row.classList.toggle('hidden', !show);
+            const sig = r + '|' + ds.join(',') + '|' + sinDept;
+            if (sel.dataset.sig !== sig) {
+                const cur = sel.value; sel.dataset.sig = sig;
+                sel.innerHTML = '<option value="">1) Elige tu departamento…</option>' + ds.map((d) => `<option value="${esc(d)}">${esc(d)}</option>`).join('') + (sinDept ? '<option value="__none">Sin departamento</option>' : '');
+                sel.value = [...sel.options].some((o) => o.value === cur) ? cur : '';
+            }
+            return show;
+        }
+        function apply() {
+            if (busy) return; busy = true;
+            try {
+                const r = roleNow(), show = build(r), q = query(), d = sel.value;
+                const items = [...list.querySelectorAll('.lg-item')];
+                let vis = 0;
+                items.forEach((it) => {
+                    const dp = (it.querySelector('.lg-dp') || {}).textContent || '';
+                    let ok = true;
+                    if (show && d) ok = d === '__none' ? dp === 'Sin departamento' : dp === d;
+                    else if (show && !q) ok = false;      // docentes: primero el departamento (o escribir el nombre)
+                    it.style.display = ok ? '' : 'none'; if (ok) vis++;
+                });
+                let m = $('lg-msg');
+                const txt = !r ? '' : (items.length && !vis) ? ((show && !d && !q) ? '<i class="fas fa-arrow-up"></i> Elige primero tu departamento, o escribe tu nombre arriba.' : 'No hay coincidencias.') : '';
+                if (txt) { if (!m) { m = document.createElement('div'); m.id = 'lg-msg'; m.className = 'lg-empty'; list.appendChild(m); } m.innerHTML = txt; } else if (m) m.remove();
+                const many = vis > 3;
+                bar.classList.toggle('hidden', !many);
+                cnt.textContent = vis + ' nombre' + (vis === 1 ? '' : 's');
+            } finally { setTimeout(() => { busy = false; }, 0); }
+        }
+        new MutationObserver(apply).observe(list, { childList: true });
+        sel.addEventListener('change', () => { list.scrollTop = 0; apply(); });
+        const us = $('user-search'); if (us) us.addEventListener('input', () => setTimeout(apply, 0));
+        const rc = $('role-cards');
+        if (rc) rc.addEventListener('click', () => { sel.value = ''; setTimeout(apply, 0); });
+        bar.addEventListener('click', (e) => { const b = e.target.closest('[data-d]'); if (!b) return; list.scrollBy({ top: Number(b.dataset.d) * Math.max(90, list.clientHeight * 0.8), behavior: 'smooth' }); });
+        setInterval(apply, 1500); apply();
+    }
+
+    /* ---------- Sostenedor: el análisis con IA por docente no está disponible (sí el general, por ciclo y por departamento) ---------- */
+    const isSost = () => !!(currentUser && currentUser.role === 'sostenedor');
+    const _an = window.analyzeSelectedTeacher;
+    if (_an) window.analyzeSelectedTeacher = function () {
+        if (isSost()) { window.showConfirm('El perfil de Sostenedor no genera análisis con IA por docente. Puedes generar el diagnóstico institucional (general, por ciclo o por departamento) y consultar los análisis ya existentes.', () => {}); return; }
+        return _an.apply(this, arguments);
+    };
+    function sostNote() {
+        const b = $('btn-analyze-teacher'); if (!b) return;
+        let n = $('sost-an-note');
+        if (isSost()) { if (!n) { b.insertAdjacentHTML('afterend', '<p id="sost-an-note" class="sost-an-note"><i class="fas fa-circle-info"></i> El análisis con IA por docente no está disponible en el perfil Sostenedor. Usa el diagnóstico general, por ciclo o por departamento.</p>'); } }
+        else if (n) n.remove();
+    }
+    setInterval(sostNote, 1500);
 })();
 </script>
 </body>
