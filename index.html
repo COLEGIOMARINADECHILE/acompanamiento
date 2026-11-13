@@ -763,6 +763,16 @@ body.role-sost #teacher-detail-view select, body.role-sost #teacher-detail-view 
 .lg-scroll.hidden, .lg-dept-row.hidden { display:none; }
 .sost-an-note { margin-top:10px; padding:10px 12px; border-radius:10px; background:#fff4e5; color:#B54708; font-size:.8rem; font-weight:700; line-height:1.4; }
 body.role-sost #btn-analyze-teacher { display:none !important; }
+
+/* La lista de nombres nunca se aplasta: tiene alto propio y, si falta espacio, baja toda la tarjeta de acceso */
+body.on-login.on-login .lg-card { overflow-y:auto; overflow-x:hidden; }
+body.on-login.on-login .lg-picker, body.on-login.on-login #login-form > div:nth-child(2) { flex-shrink:0 !important; }
+body.on-login.on-login .lg-list { min-height:clamp(190px,32vh,300px) !important; max-height:clamp(190px,32vh,300px) !important; }
+body.on-login.on-login.role-picked .lg-hint, body.on-login.on-login.role-picked .lg-sub, body.on-login.on-login.role-picked .lg-role small { display:none !important; }
+body.on-login.on-login.role-picked .lg-role { padding-top:6px; padding-bottom:6px; }
+body.on-login.on-login .lg-list .lg-empty { min-height:60px; display:flex; align-items:center; justify-content:center; }
+body.on-login.on-login .lg-card > *, body.on-login.on-login #login-form, body.on-login.on-login #login-form > *, body.on-login.on-login .pv-chip, body.on-login.on-login .cr-card { flex-shrink:0 !important; }
+body.on-login.on-login .lg-card { justify-content:flex-start; }
 </style>
 </head>
 <body class="text-slate-800 flex flex-col h-screen overflow-hidden">
